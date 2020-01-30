@@ -8,7 +8,7 @@ function writeResponse(responseCode, response, customMessage) {
     console.log("responseCode is %s", responseCode);
 
     if (customMessage === 0)
-        response.write(responseMessage);
+        response.write(JSON.stringify({ message: responseMessage }, null, 3));
     
     response.status(responseCode).end();
 }
