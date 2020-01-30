@@ -26,7 +26,7 @@ router.post('/api/quickregistration', (request, response) => {
                     helper.writeResponse(responseCode, response, 0);
                 }
                 else {
-                    responseCode = 200;
+                    responseCode = 204;
                     helper.writeResponse(responseCode, response, 0);
                 }
             });

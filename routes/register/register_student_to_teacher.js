@@ -25,12 +25,12 @@ router.post('/api/register', (request, response) => {
         // Check if it is teacher registering to a bunch of students
         // OR student registering to a bunch of teachers
         if (teacherType === "string" && studentType === "string") {
-            responseCode = 400;
+            responseCode = 500;
             response.write("Both cannot be Strings!");
             helper.writeResponse(responseCode, response, 1);
         }
         else if (teacherType === "object" && studentType === "object") {
-            responseCode = 400;
+            responseCode = 500;
             response.write("Both cannot be Objects!")
             helper.writeResponse(responseCode, response, 1);
         }
@@ -48,7 +48,7 @@ router.post('/api/register', (request, response) => {
                     helper.writeResponse(responseCode, response, 0);
                 }
                 else {
-                    responseCode = 200;
+                    responseCode = 204;
                     helper.writeResponse(responseCode, response, 0);
                 }
             });
@@ -67,7 +67,7 @@ router.post('/api/register', (request, response) => {
                     helper.writeResponse(responseCode, response, 0);
                 }
                 else {
-                    responseCode = 200;
+                    responseCode = 204;
                     helper.writeResponse(responseCode, response, 0);
                 }
             });
