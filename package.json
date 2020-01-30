@@ -1,0 +1,19 @@
+{
+  "name": "schoolapi",
+  "version": "1.0.0",
+  "description": "Teachers need a system where they can perform administrative functions for their students. Teachers and students are identified by their email addresses.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "author": "Jefferson Woon",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
