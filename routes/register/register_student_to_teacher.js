@@ -2,53 +2,75 @@ const express = require('express')
 const router = express.Router()
 const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
+const helper = require('../../utils/helper.js');
 
 router.post('/api/register', (request, response) => {
     var requestBody = request.body;
+    var responseCode;
 
     if (Object.keys(request.body).length === 0) {
-        response.write("An error has encountered").status(500).end();
+        responseCode = 500;
+        helper.writeResponse(responseCode, response, 0);
     }
     else {
-        var teacher = requestBody.teacher;
-        var students = requestBody.students;
+        
+        const teacher = requestBody.teacher;
+        const students = requestBody.students;
+
         var teacherType = typeof(teacher);
         var studentType = typeof(students);
         console.log("teacherType: %s", teacherType);
         console.log("studentType: %s", studentType);
-    
+
         // Check if it is teacher registering to a bunch of students
         // OR student registering to a bunch of teachers
         if (teacherType === "string" && studentType === "string") {
-            response.write("Both cannot be Strings!")
-            response.status(400).end();
+            responseCode = 400;
+            response.write("Both cannot be Strings!");
+            helper.writeResponse(responseCode, response, 1);
         }
         else if (teacherType === "object" && studentType === "object") {
+            responseCode = 400;
             response.write("Both cannot be Objects!")
-            response.status(400).end();
+            helper.writeResponse(responseCode, response, 1);
         }
         else if (teacherType === "object" && studentType === "string") {
-            con.query("UPDATE school.schoolinformation SET connection_to = ? WHERE email IN (?)", [students, teacher] , function (err) {
+            var teachersArray =  [];
+            
+            teacher.forEach(element => {
+                teachersArray.push([element, students]);
+            });
+
+            console.log(teachersArray);
+            con.query("INSERT INTO school.registration_relationship (teacher_email, student_email) VALUES ?", [teachersArray] , function (err) {
                 if (err) {
-                    response.status(500).end();
-                    console.log(err)
-                }
-                else { 
-                    response.status(200).end();
-                }
-            }); 
-        }
-        else if (teacherType === "string" && studentType === "object") {
-            con.query("UPDATE school.schoolinformation SET connection_to = ? WHERE email IN (?)", [teacher, students] , function (err) {
-                if (err) {
-                    response.write({ "message": err });
-                    response.status(500).end();
-                    console.log(err)
+                    responseCode = 500;
+                    helper.writeResponse(responseCode, response, 0);
                 }
                 else {
-                    response.status(200).end();
+                    responseCode = 200;
+                    helper.writeResponse(responseCode, response, 0);
                 }
-            });            
+            });
+        }
+        else if (teacherType === "string" && studentType === "object") {
+            var studentsArray =  [];
+            
+            students.forEach(element => {
+                studentsArray.push([teacher, element]);
+            });
+
+            console.log(studentsArray);
+            con.query("INSERT INTO school.registration_relationship (teacher_email, student_email) VALUES ?", [studentsArray] , function (err) {
+                if (err) {
+                    responseCode = 500;
+                    helper.writeResponse(responseCode, response, 0);
+                }
+                else {
+                    responseCode = 200;
+                    helper.writeResponse(responseCode, response, 0);
+                }
+            });
         }
     }
 

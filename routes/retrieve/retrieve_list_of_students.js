@@ -2,19 +2,22 @@ const express = require('express')
 const router = express.Router()
 const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
+const helper = require('../../utils/helper.js');
 
 router.get('/api/commonstudents', (request, response) => {
-
     var requestQuery = request.query.teacher;
+    var responseCode;
+
     console.log("requestQuery: %s", requestQuery);
 
     con.query("SELECT email FROM school.schoolinformation WHERE connection_to IN (?)",
     [requestQuery] , function (err, result, fields) {
         if (err) {
-            response.status(500).end();
-            console.log(err)
+            responseCode = 500;
+            helper.writeResponse(responseCode, response);
         }
         else {
+            responseCode = 200;
             console.log(result);
 
             // Declaring an array and pushing the values in from the result
@@ -24,7 +27,6 @@ router.get('/api/commonstudents', (request, response) => {
 
             Object.keys(result).forEach(function(key) {
                 var row = result[key];
-                console.log(row.email)
                 retrieveValues.students.push(row.email);
             });
 
@@ -33,7 +35,7 @@ router.get('/api/commonstudents', (request, response) => {
             console.log(json);
 
             response.write(json);
-            response.status(200).end();
+            helper.writeResponse(responseCode, response, 1);
         }
     });
     // }
