@@ -18,10 +18,10 @@ var pool = mysql.createPool({
   connectionLimit: 100 
 });
 
-con.connect(function (err) {
-  if (err) throw err;
-  console.log('MySQL connection established!');
-});
+// con.connect(function (err) {
+//   if (err) throw err;
+//   // console.log('MySQL connection established!');
+// });
 
 module.exports = con;
 module.exports.pool = pool;

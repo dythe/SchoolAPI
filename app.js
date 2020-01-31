@@ -1,8 +1,6 @@
-const port = 8081;
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-
 require('./config/db');
 
 // Routes mapping
@@ -23,8 +21,6 @@ app.use(retrieve_for_notification);
 
 app.get('/', function (req, res) {
     res.send('This is the landing page');
- });
- 
-var server = app.listen(port, function () {
-    console.log("NodeJS Server running on port %s", port)
- });
+});
+
+module.exports = app;
