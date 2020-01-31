@@ -1,16 +1,20 @@
 var mysql = require('mysql');
 
+var host = 'localhost';
+var user = 'root';
+var password = '';
+
 var con = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
+  host: host,
+  user: user,
+  password: password,
   multipleStatements: true
 });
 
 var pool = mysql.createPool({ 
-  host: 'localhost', 
-  user: 'root', 
-  password: '', 
+  host: host, 
+  user: user, 
+  password: password, 
   connectionLimit: 100 
 });
 
