@@ -6,10 +6,10 @@ var REGISTER_STUDENT_TO_MANY_TEACHERS = 'INSERT INTO school.registration_relatio
 var REGISTER_TEACHER_TO_MANY_STUDENTS = 'INSERT INTO school.registration_relationship (teacher_email, student_email) VALUES ?';
 
 // retrieve_list_of_students.js
-var RETRIEVE_LIST_OF_STUDENTS ='SELECT student_email FROM school.registration_relationship WHERE teacher_email IN (?)';
+var RETRIEVE_LIST_OF_STUDENTS = 'SELECT student_email FROM school.registration_relationship WHERE teacher_email IN (?)';
 
 // suspend_student.js
-var SUSPEND_STUDENT ='UPDATE school.schoolinformation SET user_status = ? WHERE email IN (?)';
+var SUSPEND_STUDENT = 'UPDATE school.schoolinformation SET user_status = (?) WHERE email IN (?) AND user_type = (SELECT user_status FROM school.schoolinformation WHERE email = (?) AND user_type = ?);';
 
 // retrieve_for_notification.js
 var CHECK_FOR_SUSPENDED_AND_VALID_STUDENT = 'SELECT COUNT(*) as count_value FROM school.schoolinformation WHERE email = ? AND user_status = ?';

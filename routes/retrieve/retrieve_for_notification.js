@@ -8,7 +8,6 @@ const queries = require('../../utils/queries.js');
 
 router.post('/api/retrievefornotifications', (request, response) => {
     var requestBody = request.body;
-    var responseCode;
     var teacher = requestBody.teacher;
     var notification = requestBody.notification;
 
@@ -69,7 +68,7 @@ router.post('/api/retrievefornotifications', (request, response) => {
 
     // Check the students of a teacher
     async function checkTeacherStudents() {
-        var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL = queries.RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED; 
+        var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL = queries.RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED;
         var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE = [teacher, 0];
 
         // check for teacher's registered students
@@ -79,7 +78,7 @@ router.post('/api/retrievefornotifications', (request, response) => {
 
             console.log(res4);
 
-            Object.keys(res4).forEach(function(key) {
+            Object.keys(res4).forEach(function (key) {
                 var row = res4[key];
                 console.log('test4 %s', row.student_email);
                 helper.addRecipients(row.student_email, retrieveValues);

@@ -4,31 +4,29 @@ const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
 const helper = require('../../utils/helper.js');
 const queries = require('../../utils/queries.js');
+const constants = require('../../utils/constants.js');
 
 router.get('/api/commonstudents', (request, response) => {
     var requestQuery = request.query.teacher;
-    var responseCode;
 
     console.log("requestQuery: %s", requestQuery);
 
     var RETRIEVE_LIST_OF_STUDENTS_SQL = queries.RETRIEVE_LIST_OF_STUDENTS;
     var RETRIEVE_LIST_OF_STUDENTS_VALUE = [requestQuery];
 
-    con.query(queries.RETRIEVE_LIST_OF_STUDENTS, RETRIEVE_LIST_OF_STUDENTS_VALUE , function (err, result, fields) {
+    con.query(RETRIEVE_LIST_OF_STUDENTS_SQL, RETRIEVE_LIST_OF_STUDENTS_VALUE, function (err, result, fields) {
         if (err) {
-            responseCode = 500;
-            helper.writeResponse(responseCode, response, 0);
+            helper.writeResponse(constants.GENERIC_ERROR, response);
         }
         else {
-            responseCode = 200;
             console.log(result);
 
             // Declaring an array and pushing the values in from the result
             var retrieveValues = {
                 students: []
-             };
+            };
 
-            Object.keys(result).forEach(function(key) {
+            Object.keys(result).forEach(function (key) {
                 var row = result[key];
                 helper.addStudents(row.student_email, retrieveValues);
             });
@@ -41,7 +39,7 @@ router.get('/api/commonstudents', (request, response) => {
             helper.writeResponse(responseCode, response, 1);
         }
     });
-    
+
 })
 
 module.exports = router;

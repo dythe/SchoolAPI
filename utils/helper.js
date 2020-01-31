@@ -1,19 +1,10 @@
-const response_messages = require('./response_messages.js');
 const con = require('../config/db.js');
 
-function writeResponse(responseCode, response, customMessage) {
-    var responseMessage = response_messages.retrieveResponseMessages(responseCode);
-
+function writeResponse(responseMessage, response) {
     console.log("responseMessage is %s", responseMessage);
-    console.log("responseCode is %s", responseCode);
     console.log("response is %s", response);
 
-    // customMessage == 0 - not a custom message
-    // customMessage == 1 - custom message
-    if (customMessage === 0)
-        response.write(JSON.stringify({ message: responseMessage }, null, 3));
-
-    response.status(responseCode);
+    response.write(JSON.stringify({ message: responseMessage }, null, 3));
     response.end();
 }
 
@@ -60,7 +51,6 @@ function getResult(sql, sqlvalues) {
         })
     })
 }
-
 
 module.exports.writeResponse = writeResponse;
 module.exports.findEmailAddresses = findEmailAddresses;
