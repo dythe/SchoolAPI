@@ -1,10 +1,10 @@
 const con = require('../config/db.js');
 
 function writeResponse(responseMessage, response) {
-    console.log("responseMessage is %s", responseMessage);
-    console.log("response is %s", response);
+    // console.log("responseMessage is %s", responseMessage);
+    // console.log("response is %s", response);
 
-    response.write(JSON.stringify({ message: responseMessage }, null, 3));
+    response.json({ message: responseMessage }, null, 3);
     response.end();
 }
 
@@ -24,16 +24,16 @@ function findEmailAddresses(StrObj) {
 }
 
 function addRecipients(currentValue, retrieveValues) {
-    console.log('addRecipients currentValue %s', currentValue);
-    console.log('addRecipients retrieveValues %s', retrieveValues);
+    // console.log('addRecipients currentValue %s', currentValue);
+    // console.log('addRecipients retrieveValues %s', retrieveValues);
     if (!retrieveValues.recipients.includes(currentValue)) {
         retrieveValues.recipients.push(currentValue);
     }
 }
 
 function addStudents(currentValue, retrieveValues) {
-    console.log('addStudents currentValue %s', currentValue);
-    console.log('addStudents retrieveValues %s', retrieveValues);
+    // console.log('addStudents currentValue %s', currentValue);
+    // console.log('addStudents retrieveValues %s', retrieveValues);
     if (!retrieveValues.students.includes(currentValue)) {
         retrieveValues.students.push(currentValue);
     }

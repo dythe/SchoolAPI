@@ -18,8 +18,8 @@ router.post('/api/register', (request, response) => {
 
         var teacherType = typeof (teacher);
         var studentType = typeof (students);
-        console.log("teacherType: %s", teacherType);
-        console.log("studentType: %s", studentType);
+        // console.log("teacherType: %s", teacherType);
+        // console.log("studentType: %s", studentType);
 
         // Check if it is teacher registering to a bunch of students
         // OR student registering to a bunch of teachers
@@ -40,7 +40,7 @@ router.post('/api/register', (request, response) => {
 
             con.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
                 if (err) {
-                    console.log(err);
+                    // console.log(err);
                     helper.writeResponse(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, response);
                 }
                 else {
@@ -57,10 +57,10 @@ router.post('/api/register', (request, response) => {
                 REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE.push([teacher, element]);
             });
 
-            console.log(REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE);
+            // console.log(REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE);
             con.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE], function (err) {
                 if (err) {
-                    console.log(err);
+                    // console.log(err);
                     helper.writeResponse(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, response);
                 }
                 else {
