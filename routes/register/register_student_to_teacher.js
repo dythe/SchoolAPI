@@ -10,7 +10,7 @@ router.post('/api/register', (request, response) => {
     var requestBody = request.body;
 
     if (Object.keys(request.body).length === 0) {
-        helper.writeResponse(constants.GENERIC_ERROR, response);
+        helper.writeResponse(constants.EMPTY_BODY, response);
     }
     else {
         const teacher = requestBody.teacher;

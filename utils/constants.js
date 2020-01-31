@@ -6,7 +6,9 @@ var ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS = 'One or more student-
 var STUDENT_TO_TEACHER_REGISTRATION_SUCCESS = 'The student and teacher registration is successfully!';
 var STUDENT_DOES_NOT_EXISTS = 'The student does not exists or he/she is not a student!';
 var STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
+var EMPTY_BODY = 'There was no data sent';
 
+module.exports.EMPTY_BODY = EMPTY_BODY;
 module.exports.GENERIC_ERROR = GENERIC_ERROR;
 module.exports.EMAIL_ALREADY_EXISTS = EMAIL_ALREADY_EXISTS;
 module.exports.EMAIL_SUCCESSFULLY_CREATED = EMAIL_SUCCESSFULLY_CREATED;
