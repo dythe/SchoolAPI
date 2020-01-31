@@ -38,7 +38,6 @@ router.get('/api/commonstudents', (request, response) => {
             helper.writeResponse(responseCode, response, 1);
         }
     });
-    // }
     
 })
 

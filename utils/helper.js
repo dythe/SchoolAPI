@@ -13,4 +13,21 @@ function writeResponse(responseCode, response, customMessage) {
     response.status(responseCode).end();
 }
 
+function findEmailAddresses(StrObj) {
+    var separateEmailsBy = " ";
+    var email = "<none>"; // if no match, use this
+    var emailsArray = StrObj.match(/(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/gi);
+    var emailsList = [];
+    if (emailsArray) {
+        email = "";
+        for (var i = 0; i < emailsArray.length; i++) {
+            if (i != 0) email += separateEmailsBy;
+                emailsList.push(emailsArray[i]);
+            // email += emailsArray[i];\
+        }
+    }
+    return emailsList;
+}
+
 module.exports.writeResponse = writeResponse;
+module.exports.findEmailAddresses = findEmailAddresses;
