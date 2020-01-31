@@ -3,6 +3,7 @@ const router = express.Router()
 const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
 const helper = require('../../utils/helper.js');
+const queries = require('../../utils/queries.js');
 
 router.get('/api/commonstudents', (request, response) => {
     var requestQuery = request.query.teacher;
@@ -10,8 +11,10 @@ router.get('/api/commonstudents', (request, response) => {
 
     console.log("requestQuery: %s", requestQuery);
 
-    con.query("SELECT student_email FROM school.registration_relationship WHERE teacher_email IN (?)",
-    [requestQuery] , function (err, result, fields) {
+    var RETRIEVE_LIST_OF_STUDENTS_SQL = queries.RETRIEVE_LIST_OF_STUDENTS;
+    var RETRIEVE_LIST_OF_STUDENTS_VALUE = [requestQuery];
+
+    con.query(queries.RETRIEVE_LIST_OF_STUDENTS, RETRIEVE_LIST_OF_STUDENTS_VALUE , function (err, result, fields) {
         if (err) {
             responseCode = 500;
             helper.writeResponse(responseCode, response, 0);
@@ -27,7 +30,7 @@ router.get('/api/commonstudents', (request, response) => {
 
             Object.keys(result).forEach(function(key) {
                 var row = result[key];
-                retrieveValues.students.push(row.student_email);
+                helper.addStudents(row.student_email, retrieveValues);
             });
 
             var json = JSON.stringify(retrieveValues, null, 4);

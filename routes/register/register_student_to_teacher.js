@@ -3,6 +3,7 @@ const router = express.Router()
 const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
 const helper = require('../../utils/helper.js');
+const queries = require('../../utils/queries.js');
 
 router.post('/api/register', (request, response) => {
     var requestBody = request.body;
@@ -13,7 +14,6 @@ router.post('/api/register', (request, response) => {
         helper.writeResponse(responseCode, response, 0);
     }
     else {
-        
         const teacher = requestBody.teacher;
         const students = requestBody.students;
 
@@ -35,15 +35,17 @@ router.post('/api/register', (request, response) => {
             helper.writeResponse(responseCode, response, 1);
         }
         else if (teacherType === "object" && studentType === "string") {
-            var teachersArray =  [];
+
+            var REGISTER_STUDENT_TO_MANY_TEACHERS_SQL = queries.REGISTER_STUDENT_TO_MANY_TEACHERS;
+            var REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE =  [];
             
             teacher.forEach(element => {
-                teachersArray.push([element, students]);
+                REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push([element, students]);
             });
 
-            console.log(teachersArray);
-            con.query("INSERT INTO school.registration_relationship (teacher_email, student_email) VALUES ?", [teachersArray] , function (err) {
+            con.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
                 if (err) {
+                    console.log(err);
                     responseCode = 500;
                     helper.writeResponse(responseCode, response, 0);
                 }
@@ -54,15 +56,18 @@ router.post('/api/register', (request, response) => {
             });
         }
         else if (teacherType === "string" && studentType === "object") {
-            var studentsArray =  [];
+
+            var REGISTER_TEACHER_TO_MANY_STUDENTS_SQL = queries.REGISTER_TEACHER_TO_MANY_STUDENTS;
+            var REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE =  [];
             
             students.forEach(element => {
-                studentsArray.push([teacher, element]);
+                REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE.push([teacher, element]);
             });
 
-            console.log(studentsArray);
-            con.query("INSERT INTO school.registration_relationship (teacher_email, student_email) VALUES ?", [studentsArray] , function (err) {
+            console.log(REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE);
+            con.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE] , function (err) {
                 if (err) {
+                    console.log(err);
                     responseCode = 500;
                     helper.writeResponse(responseCode, response, 0);
                 }
