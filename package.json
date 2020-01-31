@@ -9,6 +9,7 @@
   "author": "Jefferson Woon",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^25.1.0",
     "nodemon": "^2.0.2"
   },
   "dependencies": {
