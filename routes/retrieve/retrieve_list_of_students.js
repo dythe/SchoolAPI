@@ -10,7 +10,7 @@ router.get('/api/commonstudents', (request, response) => {
 
     console.log("requestQuery: %s", requestQuery);
 
-    con.query("SELECT email FROM school.schoolinformation WHERE connection_to IN (?)",
+    con.query("SELECT student_email FROM school.registration_relationship WHERE teacher_email IN (?)",
     [requestQuery] , function (err, result, fields) {
         if (err) {
             responseCode = 500;
@@ -27,7 +27,7 @@ router.get('/api/commonstudents', (request, response) => {
 
             Object.keys(result).forEach(function(key) {
                 var row = result[key];
-                retrieveValues.students.push(row.email);
+                retrieveValues.students.push(row.student_email);
             });
 
             var json = JSON.stringify(retrieveValues, null, 4);
