@@ -14,7 +14,7 @@ router.get('/api/commonstudents', (request, response) => {
     [requestQuery] , function (err, result, fields) {
         if (err) {
             responseCode = 500;
-            helper.writeResponse(responseCode, response);
+            helper.writeResponse(responseCode, response, 0);
         }
         else {
             responseCode = 200;

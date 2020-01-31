@@ -1,16 +1,19 @@
 const response_messages = require('./response_messages.js');
 
 function writeResponse(responseCode, response, customMessage) {
-
     var responseMessage = response_messages.retrieveResponseMessages(responseCode);
 
     console.log("responseMessage is %s", responseMessage);    
     console.log("responseCode is %s", responseCode);
+    console.log("response is %s", response);
 
+    // customMessage == 0 - not a custom message
+    // customMessage == 1 - custom message
     if (customMessage === 0)
         response.write(JSON.stringify({ message: responseMessage }, null, 3));
     
-    response.status(responseCode).end();
+    response.status(responseCode);
+    response.end();
 }
 
 function findEmailAddresses(StrObj) {
@@ -23,7 +26,6 @@ function findEmailAddresses(StrObj) {
         for (var i = 0; i < emailsArray.length; i++) {
             if (i != 0) email += separateEmailsBy;
                 emailsList.push(emailsArray[i]);
-            // email += emailsArray[i];\
         }
     }
     return emailsList;
