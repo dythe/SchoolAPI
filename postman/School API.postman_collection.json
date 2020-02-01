@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"students\": \"studentjon@gmail.com\",\r\n  \"teacher\":\r\n\t[\r\n\t  \"teacherjoe@gmail.com\",\r\n\t  \"teacherken@gmail.com\"\r\n\t]\r\n}",
+					"raw": "{\r\n  \"students\": \"studentjon@gmail.com\",\r\n  \"teacher\": [\r\n  \t\"teacherken@gmail.com\",\r\n  \t\"teacherpeter@gmail.com\"\r\n  ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -56,7 +56,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"teacher\": \"teacherken@gmail.com\",\r\n  \"students\": [\r\n  \t\"studentagnes@gmail.com\",\r\n  \t\"studentgionna@gmail.com\"\r\n  ]\r\n}",
+					"raw": "{\r\n  \"teacher\": \"teacherken@gmail.com\",\r\n  \"students\":\r\n    [\r\n      \"teacherjoe@gmail.com\"\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -93,7 +93,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"studentgiga@gmail.com\",\r\n  \"name\": \"Giga Tay\",\r\n  \"user_type\": 0,\r\n  \"user_status\": 0\r\n}",
+					"raw": "{\r\n  \"email\": \"studentgiga@gmail.com\",\r\n  \"name\": \"Giga Ma\",\r\n  \"user_type\": 0,\r\n  \"user_status\": 0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
