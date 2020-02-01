@@ -1,10 +1,13 @@
 const con = require('../config/db.js');
+const queries = require('./queries.js');
 
-function writeResponse(responseMessage, response) {
-    // console.log("responseMessage is %s", responseMessage);
-    // console.log("response is %s", response);
-
+function writeMessageResponse(responseMessage, response) {
     response.json({ message: responseMessage }, null, 3);
+    response.end();
+}
+
+function writeJSONResponse(responseMessage, response) {
+    response.json(responseMessage, null, 3);
     response.end();
 }
 
@@ -24,16 +27,14 @@ function findEmailAddresses(StrObj) {
 }
 
 function addRecipients(currentValue, retrieveValues) {
-    // console.log('addRecipients currentValue %s', currentValue);
-    // console.log('addRecipients retrieveValues %s', retrieveValues);
+    // check for duplicates while adding
     if (!retrieveValues.recipients.includes(currentValue)) {
         retrieveValues.recipients.push(currentValue);
     }
 }
 
 function addStudents(currentValue, retrieveValues) {
-    // console.log('addStudents currentValue %s', currentValue);
-    // console.log('addStudents retrieveValues %s', retrieveValues);
+    // check for duplicates while adding
     if (!retrieveValues.students.includes(currentValue)) {
         retrieveValues.students.push(currentValue);
     }
@@ -52,8 +53,19 @@ function getResult(sql, sqlvalues) {
     })
 }
 
-module.exports.writeResponse = writeResponse;
+// for unit tesitng
+function clearDatabase() {
+    con.pool.query(queries.DELETE_ALL_RECORDS, function (err, result) {
+        con.pool.end();
+        if (err) throw err;
+        // else console.log("Database cleared");
+    })
+}
+
+module.exports.writeMessageResponse = writeMessageResponse;
+module.exports.writeJSONResponse = writeJSONResponse;
 module.exports.findEmailAddresses = findEmailAddresses;
 module.exports.addRecipients = addRecipients;
 module.exports.addStudents = addStudents;
 module.exports.getResult = getResult;
+module.exports.clearDatabase = clearDatabase;

@@ -1,12 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
 const helper = require('../../utils/helper.js');
 const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
 
-router.get('/api/commonstudents', (request, response) => {
+function retrieveListofStudents(request, response) {
     var requestQuery = request.query.teacher;
 
     console.log("requestQuery: %s", requestQuery);
@@ -16,7 +13,7 @@ router.get('/api/commonstudents', (request, response) => {
 
     con.query(RETRIEVE_LIST_OF_STUDENTS_SQL, RETRIEVE_LIST_OF_STUDENTS_VALUE, function (err, result, fields) {
         if (err) {
-            helper.writeResponse(constants.GENERIC_ERROR, response);
+            helper.writeMessageResponse(constants.GENERIC_ERROR, response);
         }
         else {
             console.log(result);
@@ -31,15 +28,10 @@ router.get('/api/commonstudents', (request, response) => {
                 helper.addStudents(row.student_email, retrieveValues);
             });
 
-            var json = JSON.stringify(retrieveValues, null, 4);
-
-            console.log(json);
-
-            response.write(json);
-            helper.writeResponse(responseCode, response, 1);
+            helper.writeJSONResponse(retrieveValues, response);
         }
     });
 
-})
+};
 
-module.exports = router;
+module.exports.retrieveListofStudents = retrieveListofStudents;

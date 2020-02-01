@@ -1,12 +1,8 @@
-const express = require('express')
-const router = express.Router()
-const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
 const helper = require('../../utils/helper.js');
-const async = require('async');
 const queries = require('../../utils/queries.js');
 
-router.post('/api/retrievefornotifications', (request, response) => {
+function retrieveForNotification(request, response) {
     var requestBody = request.body;
     var teacher = requestBody.teacher;
     var notification = requestBody.notification;
@@ -111,7 +107,7 @@ router.post('/api/retrievefornotifications', (request, response) => {
         var p2 = Promise.resolve(recipientsList);
         p2.then(function (v) {
             // console.log(v);
-            response.write(JSON.stringify(v, null, 3));
+            response.json(v, null, 3);
             response.send.bind(response);
             response.end();
         }, function (e) {
@@ -120,6 +116,6 @@ router.post('/api/retrievefornotifications', (request, response) => {
     }
 
     main();
-})
+}
 
-module.exports = router;
+module.exports.retrieveForNotification = retrieveForNotification;

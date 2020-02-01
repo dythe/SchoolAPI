@@ -1,11 +1,15 @@
 const request = require('supertest');
-const app = require('../../../app')
-const register_student_to_teacher = require('../../../routes/register/register_student_to_teacher')
-const con = require('../../../config/db.js');
-const constants = require('../../../utils/constants.js');
-const jsonvalues = require('../../../utils/json.js');
+const app = require('../../app')
+const constants = require('../../utils/constants.js');
+const jsonvalues = require('../../utils/json.js');
+const helper = require('../../utils/helper.js');
+const con = require('../../config/db.js');
 
 describe("Registration of Student to Teacher", () => {
+
+    beforeAll(() => {
+        helper.clearDatabase();
+    });
 
     test("It should return a invalid teacher to student message due to two objects", function (done) {
         request(app)
@@ -19,7 +23,6 @@ describe("Registration of Student to Teacher", () => {
             });
     });
 
-    
     test("It should return a invalid teacher to student message due to two strings", function (done) {
         request(app)
             .post('/api/register')
@@ -31,7 +34,7 @@ describe("Registration of Student to Teacher", () => {
                 done();
             });
     });
-    
+
     test("It should register successfully", function (done) {
         request(app)
             .post('/api/register')
@@ -67,4 +70,11 @@ describe("Registration of Student to Teacher", () => {
                 done();
             });
     });
+
+    afterAll((done) => {
+        con.con.end();
+        con.pool.end();
+        done();
+    });
+
 });

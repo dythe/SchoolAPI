@@ -4,7 +4,7 @@ var EMAIL_SUCCESSFULLY_CREATED = 'This email address has been successfully creat
 var INVALID_TEACHER_TO_STUDENT_DATA = 'Invalid student to teacher value, please check your input.';
 var ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS = 'One or more student-teacher registration pair already exists.';
 var STUDENT_TO_TEACHER_REGISTRATION_SUCCESS = 'The student and teacher registration is successfully!';
-var STUDENT_DOES_NOT_EXISTS = 'The student does not exists or he/she is not a student!';
+var STUDENT_DOES_NOT_EXISTS = 'The student does not exists, he/she is not a student or is already suspended!';
 var STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
 var EMPTY_BODY = 'There was no data sent';
 

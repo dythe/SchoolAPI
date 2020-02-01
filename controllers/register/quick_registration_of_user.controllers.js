@@ -1,16 +1,13 @@
-const express = require('express')
-const router = express.Router()
-const bodyParser = require('body-parser');
 const con = require('../../config/db.js');
 const helper = require('../../utils/helper.js');
 const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
 
-router.post('/api/quickregistration', (request, response) => {
+function quickRegistrationofUser(request, response) {
     var requestBody = request.body;
 
     if (Object.keys(request.body).length === 0) {
-        helper.writeResponse(constants.GENERIC_ERROR, response);
+        helper.writeMessageResponse(constants.GENERIC_ERROR, response);
     }
     else {
         var email = requestBody.email;
@@ -24,13 +21,13 @@ router.post('/api/quickregistration', (request, response) => {
         con.query(QUICK_REGISTRATION_OF_USERS_SQL, QUICK_REGISTRATION_OF_USERS_VALUE, function (err) {
             if (err) {
                 console.log(err);
-                helper.writeResponse(constants.EMAIL_ALREADY_EXISTS, response);
+                helper.writeMessageResponse(constants.EMAIL_ALREADY_EXISTS, response);
             }
             else {
-                helper.writeResponse(constants.EMAIL_SUCCESSFULLY_CREATED, response);
+                helper.writeMessageResponse(constants.EMAIL_SUCCESSFULLY_CREATED, response);
             }
         });
     }
-})
+}
 
-module.exports = router;
+module.exports.quickRegistrationofUser = quickRegistrationofUser;
