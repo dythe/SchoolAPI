@@ -9,15 +9,6 @@ var REGISTER_STUDENT_TO_TEACHER_NORMAL = {
 };
 
 var REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT = {
-    students: "studentjon@gmail.com",
-    teacher:
-        [
-            "teacherjoe@gmail.com",
-            "teacherken@gmail.com"
-        ]
-};
-
-var REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT = {
     students: ["studentjon@gmail.com"],
     teacher:
         [
