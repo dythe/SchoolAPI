@@ -19,7 +19,19 @@ describe("Retrieve students for notification", () => {
         helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
     });
 
-    test("It should ", function (done) {
+    test("It should return an error due to empty body", function (done) {
+        request(app)
+            .post(apiURL)
+            .send(jsonvalues.EMPTY_BODY)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.message).toBe(constants.EMPTY_BODY);
+                expect(res.status).toBe(200);
+                done();
+            });
+    });
+    
+    test("It should return the students to be notified that meets the criteria", function (done) {
         request(app)
             .post(apiURL)
             .send(jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL)

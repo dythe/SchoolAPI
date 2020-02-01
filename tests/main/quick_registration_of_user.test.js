@@ -39,7 +39,7 @@ describe("Quick Registration of User", () => {
 
     test("It should return an error due to empty body", function (done) {
         request(app)
-            .post(constants.QUICK_REGISTRATION_API_URL)
+            .post(apiURL)
             .send(jsonvalues.EMPTY_BODY)
             .end(function (err, res) {
                 if (err) return done(err);

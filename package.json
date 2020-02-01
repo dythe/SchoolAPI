@@ -4,7 +4,7 @@
   "description": "Teachers need a system where they can perform administrative functions for their students. Teachers and students are identified by their email addresses.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "dev": "nodemon server.js"
   },
   "author": "Jefferson Woon",
