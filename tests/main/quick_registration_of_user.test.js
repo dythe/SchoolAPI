@@ -7,8 +7,49 @@ const con = require('../../config/db.js');
 
 describe("Quick Registration of User", () => {
 
+    beforeEach(() => {
+        helper.setDatabase();
+    });
+
+
     beforeAll(() => {
-        helper.setUpAndClearDatabase();
+        helper.clearDatabase();
+    });
+
+    test("Email should be created successfully", function (done) {
+        request(app)
+            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
+            .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_NORMAL)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.message).toBe(constants.EMAIL_SUCCESSFULLY_CREATED);
+                expect(res.status).toBe(200);
+                done();
+            });
+    });
+
+    test("Email should not be created as it already exists", function (done) {
+        request(app)
+            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
+            .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_NORMAL)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.message).toBe(constants.EMAIL_ALREADY_EXISTS);
+                expect(res.status).toBe(200);
+                done();
+            });
+    });
+
+    test("It should return an error due to empty body", function (done) {
+        request(app)
+            .post(constants.QUICK_REGISTRATION_API_URL)
+            .send(jsonvalues.EMPTY_BODY)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.message).toBe(constants.EMPTY_BODY);
+                expect(res.status).toBe(200);
+                done();
+            });
     });
 
     afterAll((done) => {

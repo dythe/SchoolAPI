@@ -7,7 +7,7 @@ function quickRegistrationofUser(request, response) {
     var requestBody = request.body;
 
     if (Object.keys(request.body).length === 0) {
-        helper.writeMessageResponse(constants.GENERIC_ERROR, response);
+        helper.writeMessageResponse(constants.EMPTY_BODY, response);
     }
     else {
         var email = requestBody.email;

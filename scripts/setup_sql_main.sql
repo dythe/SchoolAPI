@@ -17,8 +17,16 @@ CREATE TABLE `school_information` (
 CREATE TABLE `student_to_teacher_registration` (
   `teacher_email` varchar(50) NOT NULL,
   `student_email` varchar(50) NOT NULL,
-  PRIMARY KEY (`teacher_email`,`student_email`),
-  KEY `student_email` (`student_email`),
-  CONSTRAINT `student_to_teacher_registration_ibfk_1` FOREIGN KEY (`teacher_email`) REFERENCES `school_information` (`email`),
-  CONSTRAINT `student_to_teacher_registration_ibfk_2` FOREIGN KEY (`student_email`) REFERENCES `school_information` (`email`)
+  PRIMARY KEY (`teacher_email`, `student_email`),
+  FOREIGN KEY (`teacher_email`) REFERENCES `school_information` (`email`),
+  FOREIGN KEY (`student_email`) REFERENCES `school_information` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studenthon@gmail.com','Hon Liu',0,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentjon@gmail.com','Jon Goh',0,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentamy@gmail.com','Amy Quek',0,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentagnes@gmail.com','Agnes Lee',0,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentshawn@gmail.com','Shawn Tan',0,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherken@gmail.com','Ken Lim',1,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherpeter@gmail.com','Peter Tan',1,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherpauline@gmail.com','Pauline Heng',1,0);

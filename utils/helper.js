@@ -1,5 +1,6 @@
 const con = require('../config/db.js');
 const queries = require('./queries.js');
+const constants = require('./constants.js');
 
 function writeMessageResponse(responseMessage, response) {
     response.json({ message: responseMessage }, null, 3);
@@ -53,18 +54,47 @@ function getResult(sql, sqlvalues) {
     })
 }
 
-// for unit tesitng
-function setUpAndClearDatabase() {
+function setDatabase() {
     con.CURRENT_DATABASE = constants.MOCK_SCHOOL;
-    if (con.CURRENT_DATABASE = constants.MOCK_SCHOOL) {
-        console.log("Current DB: " + con.CURRENT_DATABASE)
-        con.pool.query(queries.DELETE_ALL_RECORDS, function (err, result) {
-            con.pool.end();
+}
+
+// for unit tesitng
+function clearDatabase(databaseName) {
+
+    var querytable;
+
+    if (databaseName == constants.SCHOOL_INFORMATION) {
+        querytable = queries.DELETE_ALL_RECORDS_STUDENT_INFORMATION;
+        console.log('clear1');
+    }
+    else if (databaseName == constants.STUDENT_TO_TEACHER_REGISTRATION) {
+        querytable = queries.DELETE_ALL_RECORDS_FROM_STUDENT_TO_TEACHER;
+        console.log('clear2');
+    }
+
+    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
+        // console.log("Current DB: " + con.CURRENT_DATABASE)
+        con.pool.query(querytable, function (err, result) {
+            // con.pool.end();
             if (err) throw err;
-            console.log("DB Cleared");
         })
     } else {
         console.log("Something went wrong. Please contact the administrator.");
+    }
+}
+
+// SQL error code resolver
+function errorCodeResolver(errno, response) {
+    switch (errno) {
+        case constants.FOREIGN_KEY_CONSTRAINT:
+            writeMessageResponse(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST, response);
+            break;
+        case constants.DUPLICATE_ENTRY:
+            writeMessageResponse(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, response);
+            break;
+        default:
+            writeMessageResponse(constants.GENERIC_ERROR, response);
+            break;
     }
 }
 
@@ -74,4 +104,6 @@ module.exports.findEmailAddresses = findEmailAddresses;
 module.exports.addRecipients = addRecipients;
 module.exports.addStudents = addStudents;
 module.exports.getResult = getResult;
-module.exports.setUpAndClearDatabase = setUpAndClearDatabase;
+module.exports.clearDatabase = clearDatabase;
+module.exports.setDatabase = setDatabase;
+module.exports.errorCodeResolver = errorCodeResolver;

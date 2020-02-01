@@ -38,8 +38,7 @@ function registerStudentToTeacher(request, response) {
 
             con.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
                 if (err) {
-                    // console.log(err);
-                    helper.writeMessageResponse(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, response);
+                    helper.errorCodeResolver(err.errno, response);
                 }
                 else {
                     helper.writeMessageResponse(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS, response);
@@ -59,7 +58,7 @@ function registerStudentToTeacher(request, response) {
             con.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE], function (err) {
                 if (err) {
                     // console.log(err);
-                    helper.writeMessageResponse(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, response);
+                    helper.errorCodeResolver(err.errno, response);
                 }
                 else {
                     helper.writeMessageResponse(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS, response);
