@@ -30,14 +30,19 @@ describe("Retrieve students for notification", () => {
                 done();
             });
     });
-    
+
     test("It should return the students to be notified that meets the criteria", function (done) {
         request(app)
             .post(apiURL)
             .send(jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL)
             .end(function (err, res) {
                 if (err) return done(err);
-                // expect(res.body.message).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
+                const finalresult = [
+                    'studentagnes@gmail.com',
+                    'studentmiche@gmail.com',
+                    'studentbob@gmail.com'
+                ];
+                expect(res.body.recipients).toStrictEqual(finalresult);
                 expect(res.status).toBe(200);
                 done();
             });

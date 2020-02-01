@@ -203,7 +203,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"teacher\":  \"teacherken@gmail.com\",\r\n  \"notification\": \"Hello students! @studentagnes@gmail.com @studentmiche@gmail.com @studentathena@gmail.com @studentmute@gmail.com\"\r\n}",
+					"raw": "{\r\n  \"teacher\":  \"teacherken@gmail.com\",\r\n  \"notification\": \"Hello students! @studentagnes@gmail.com @studentmiche@gmail.com @studentshawn@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
