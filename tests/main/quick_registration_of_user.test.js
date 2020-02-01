@@ -4,6 +4,7 @@ const constants = require('../../utils/constants.js');
 const jsonvalues = require('../../utils/json.js');
 const helper = require('../../utils/helper.js');
 const con = require('../../config/db.js');
+const apiURL = constants.QUICK_REGISTRATION_API_URL;
 
 describe("Quick Registration of User", () => {
 
@@ -16,10 +17,22 @@ describe("Quick Registration of User", () => {
         helper.clearDatabase();
     });
 
+    test("It should return an error due to empty body", function (done) {
+        request(app)
+            .post(constants.QUICK_REGISTRATION_API_URL)
+            .send(jsonvalues.EMPTY_BODY)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.message).toBe(constants.EMPTY_BODY);
+                expect(res.status).toBe(200);
+                done();
+            });
+    });
+    
     test("Email should be created successfully", function (done) {
         request(app)
-            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
-            .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_NORMAL)
+            .post(apiURL)
+            .send(jsonvalues.QUICK_REGISTRATION)
             .end(function (err, res) {
                 if (err) return done(err);
                 expect(res.body.message).toBe(constants.EMAIL_SUCCESSFULLY_CREATED);
@@ -30,23 +43,11 @@ describe("Quick Registration of User", () => {
 
     test("Email should not be created as it already exists", function (done) {
         request(app)
-            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
-            .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_NORMAL)
+            .post(apiURL)
+            .send(jsonvalues.QUICK_REGISTRATION)
             .end(function (err, res) {
                 if (err) return done(err);
                 expect(res.body.message).toBe(constants.EMAIL_ALREADY_EXISTS);
-                expect(res.status).toBe(200);
-                done();
-            });
-    });
-
-    test("It should return an error due to empty body", function (done) {
-        request(app)
-            .post(constants.QUICK_REGISTRATION_API_URL)
-            .send(jsonvalues.EMPTY_BODY)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.message).toBe(constants.EMPTY_BODY);
                 expect(res.status).toBe(200);
                 done();
             });
