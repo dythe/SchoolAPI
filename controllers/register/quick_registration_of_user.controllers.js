@@ -20,7 +20,7 @@ function quickRegistrationofUser(request, response) {
         var QUICK_REGISTRATION_OF_USERS_VALUE = [email, name, user_type, user_status];
         con.query(QUICK_REGISTRATION_OF_USERS_SQL, QUICK_REGISTRATION_OF_USERS_VALUE, function (err) {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 helper.writeMessageResponse(constants.EMAIL_ALREADY_EXISTS, response);
             }
             else {

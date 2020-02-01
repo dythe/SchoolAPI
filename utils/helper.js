@@ -54,35 +54,6 @@ function getResult(sql, sqlvalues) {
     })
 }
 
-function setDatabase() {
-    con.CURRENT_DATABASE = constants.MOCK_SCHOOL;
-}
-
-// for unit tesitng
-function clearDatabase(databaseName) {
-
-    var querytable;
-
-    if (databaseName == constants.SCHOOL_INFORMATION) {
-        querytable = queries.DELETE_ALL_RECORDS_STUDENT_INFORMATION;
-        console.log('clear1');
-    }
-    else if (databaseName == constants.STUDENT_TO_TEACHER_REGISTRATION) {
-        querytable = queries.DELETE_ALL_RECORDS_FROM_STUDENT_TO_TEACHER;
-        console.log('clear2');
-    }
-
-    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
-        // console.log("Current DB: " + con.CURRENT_DATABASE)
-        con.pool.query(querytable, function (err, result) {
-            // con.pool.end();
-            if (err) throw err;
-        })
-    } else {
-        console.log("Something went wrong. Please contact the administrator.");
-    }
-}
-
 // SQL error code resolver
 function errorCodeResolver(errno, response) {
     switch (errno) {
@@ -98,6 +69,62 @@ function errorCodeResolver(errno, response) {
     }
 }
 
+function setDatabase() {
+    con.CURRENT_DATABASE = constants.MOCK_SCHOOL;
+}
+
+function deleteFromDatabase(valuesToDelete) {
+    var SQL_QUERY = queries.DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS;
+    var DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE = valuesToDelete;
+
+    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
+        con.pool.query(SQL_QUERY, DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE, function (err, result) {
+            if (err) throw err;
+        })
+    } else {
+        console.log("Something went wrong. Please contact the administrator.");
+    }
+}
+
+
+function insertDatabase(valuesToInsert) {
+    var SQL_QUERY = queries.REGISTER_STUDENT_TO_MANY_TEACHERS;
+    var REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE = valuesToInsert;
+
+    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
+        con.pool.query(SQL_QUERY, REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE, function (err, result) {
+            if (err) throw err;
+        })
+    } else {
+        console.log("Something went wrong. Please contact the administrator.");
+    }
+}
+
+// for unit tesitng
+function clearDatabase(databaseName) {
+
+    var querytable;
+
+    if (databaseName == constants.SCHOOL_INFORMATION) {
+        querytable = queries.DELETE_ALL_RECORDS_STUDENT_INFORMATION;
+    }
+    else if (databaseName == constants.STUDENT_TO_TEACHER_REGISTRATION) {
+        querytable = queries.DELETE_ALL_RECORDS_FROM_STUDENT_TO_TEACHER;
+    }
+
+    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
+        // console.log("Current DB: " + con.CURRENT_DATABASE)
+        con.pool.query(querytable, function (err, result) {
+            // con.pool.end();
+            if (err) throw err;
+        })
+    } else {
+        console.log("Something went wrong. Please contact the administrator.");
+    }
+}
+
+module.exports.insertDatabase = insertDatabase;
+module.exports.deleteFromDatabase = deleteFromDatabase;
 module.exports.writeMessageResponse = writeMessageResponse;
 module.exports.writeJSONResponse = writeJSONResponse;
 module.exports.findEmailAddresses = findEmailAddresses;

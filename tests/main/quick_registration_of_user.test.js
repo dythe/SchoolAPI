@@ -10,11 +10,31 @@ describe("Quick Registration of User", () => {
 
     beforeEach(() => {
         helper.setDatabase();
+        helper.deleteFromDatabase('studentgiga@gmail.com');
     });
 
+    test("Email should be created successfully", function (done) {
+        request(app)
+            .post(apiURL)
+            .send(jsonvalues.QUICK_REGISTRATION_GIGA)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.message).toBe(constants.EMAIL_SUCCESSFULLY_CREATED);
+                expect(res.status).toBe(200);
+                done();
+            });
+    });
 
-    beforeAll(() => {
-        helper.clearDatabase();
+    test("Email should not be created as it already exists", function (done) {
+        request(app)
+            .post(apiURL)
+            .send(jsonvalues.QUICK_REGISTRATION_BOB)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.message).toBe(constants.EMAIL_ALREADY_EXISTS);
+                expect(res.status).toBe(200);
+                done();
+            });
     });
 
     test("It should return an error due to empty body", function (done) {
@@ -29,30 +49,6 @@ describe("Quick Registration of User", () => {
             });
     });
     
-    test("Email should be created successfully", function (done) {
-        request(app)
-            .post(apiURL)
-            .send(jsonvalues.QUICK_REGISTRATION)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.message).toBe(constants.EMAIL_SUCCESSFULLY_CREATED);
-                expect(res.status).toBe(200);
-                done();
-            });
-    });
-
-    test("Email should not be created as it already exists", function (done) {
-        request(app)
-            .post(apiURL)
-            .send(jsonvalues.QUICK_REGISTRATION)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.message).toBe(constants.EMAIL_ALREADY_EXISTS);
-                expect(res.status).toBe(200);
-                done();
-            });
-    });
-
     afterAll((done) => {
         con.con.end();
         con.pool.end();
