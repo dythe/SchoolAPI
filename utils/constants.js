@@ -8,6 +8,10 @@ var STUDENT_DOES_NOT_EXISTS = 'The student does not exists, he/she is not a stud
 var STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
 var EMPTY_BODY = 'There was no data sent';
 
+// Databases
+var MOCK_SCHOOL = 'mock_school';
+var NORMAL_SCHOOL = 'school';
+
 module.exports.EMPTY_BODY = EMPTY_BODY;
 module.exports.GENERIC_ERROR = GENERIC_ERROR;
 module.exports.EMAIL_ALREADY_EXISTS = EMAIL_ALREADY_EXISTS;
@@ -17,3 +21,6 @@ module.exports.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS = ONE_OR_MOR
 module.exports.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS = STUDENT_TO_TEACHER_REGISTRATION_SUCCESS;
 module.exports.STUDENT_DOES_NOT_EXISTS = STUDENT_DOES_NOT_EXISTS;
 module.exports.STUDENT_IS_NOW_SUSPENDED = STUDENT_IS_NOW_SUSPENDED;
+
+module.exports.MOCK_SCHOOL = MOCK_SCHOOL;
+module.exports.NORMAL_SCHOOL = NORMAL_SCHOOL;

@@ -1,5 +1,16 @@
-var SCHOOL_DATABASE = 'school.schoolinformation';
-var STUDENT_TO_TEACHER_DATABASE = 'school.registration_relationship';
+var CURRENT_DATABASE = {
+    database: 'school',
+    get currentDatabase() {
+        return database;
+    },
+    set currentDatabase (name) {
+        this.database = name;
+    }
+}
+
+console.log('CURRENT_DATABASE VALUE IS %s', CURRENT_DATABASE.database);
+var SCHOOL_DATABASE = `${CURRENT_DATABASE.database}.school_information`;
+var STUDENT_TO_TEACHER_DATABASE = `${CURRENT_DATABASE.database}.student_to_teacher_registration`;
 
 // quick_registration_of_user.js
 var QUICK_REGISTRATION_OF_USERS = `INSERT INTO ${SCHOOL_DATABASE} (email, name, user_type, user_status) VALUES (?, ?, ?, ?)`;
@@ -22,6 +33,7 @@ var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED = `SELECT student_email 
 // unit testing
 var DELETE_ALL_RECORDS = `DELETE FROM ${STUDENT_TO_TEACHER_DATABASE}`;
 
+module.exports.CURRENT_DATABASE = CURRENT_DATABASE;
 module.exports.QUICK_REGISTRATION_OF_USERS = QUICK_REGISTRATION_OF_USERS;
 module.exports.REGISTER_STUDENT_TO_MANY_TEACHERS = REGISTER_STUDENT_TO_MANY_TEACHERS;
 module.exports.REGISTER_TEACHER_TO_MANY_STUDENTS = REGISTER_TEACHER_TO_MANY_STUDENTS;
