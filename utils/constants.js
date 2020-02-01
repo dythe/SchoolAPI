@@ -6,7 +6,7 @@ var ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS = 'One or more student-
 var STUDENT_TO_TEACHER_REGISTRATION_SUCCESS = 'The student and teacher registration is successfully!';
 var STUDENT_DOES_NOT_EXISTS = 'The student does not exists, he/she is not a student or is already suspended!';
 var STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
-var EMPTY_BODY = 'There was no data sent';
+var EMPTY_BODY = 'There was no data sent.';
 
 // Databases
 var MOCK_SCHOOL = 'mock_school';

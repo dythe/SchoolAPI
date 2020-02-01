@@ -54,12 +54,18 @@ function getResult(sql, sqlvalues) {
 }
 
 // for unit tesitng
-function clearDatabase() {
-    con.pool.query(queries.DELETE_ALL_RECORDS, function (err, result) {
-        con.pool.end();
-        if (err) throw err;
-        // else console.log("Database cleared");
-    })
+function setUpAndClearDatabase() {
+    con.CURRENT_DATABASE = constants.MOCK_SCHOOL;
+    if (con.CURRENT_DATABASE = constants.MOCK_SCHOOL) {
+        console.log("Current DB: " + con.CURRENT_DATABASE)
+        con.pool.query(queries.DELETE_ALL_RECORDS, function (err, result) {
+            con.pool.end();
+            if (err) throw err;
+            console.log("DB Cleared");
+        })
+    } else {
+        console.log("Something went wrong. Please contact the administrator.");
+    }
 }
 
 module.exports.writeMessageResponse = writeMessageResponse;
@@ -68,4 +74,4 @@ module.exports.findEmailAddresses = findEmailAddresses;
 module.exports.addRecipients = addRecipients;
 module.exports.addStudents = addStudents;
 module.exports.getResult = getResult;
-module.exports.clearDatabase = clearDatabase;
+module.exports.setUpAndClearDatabase = setUpAndClearDatabase;

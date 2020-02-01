@@ -8,7 +8,7 @@ const con = require('../../config/db.js');
 describe("Registration of Student to Teacher", () => {
 
     beforeAll(() => {
-        helper.clearDatabase();
+        helper.setUpAndClearDatabase();
     });
 
     test("It should return a invalid teacher to student message due to two objects", function (done) {
