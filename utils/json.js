@@ -1,5 +1,16 @@
 var EMPTY_BODY = {};
 
+// retrieve_for_notification.test.js (It should return the students to be notified that meets the criteria when there are students that are mentioned)
+var EXPECTED_RESULT_FOR_TEST_CASE_2 = [
+    'studentagnes@gmail.com',
+    'studentmiche@gmail.com',
+    'studentbob@gmail.com'
+];
+
+var EXPECTED_RESULT_FOR_TEST_CASE_3 = [
+    // add expected result here
+];
+
 var QUICK_REGISTRATION_GIGA = {
     email: "studentgiga@gmail.com",
     name: "Giga Ma",
@@ -74,6 +85,8 @@ var REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING = {
 };
 
 module.exports.EMPTY_BODY = EMPTY_BODY;
+module.exports.EXPECTED_RESULT_FOR_TEST_CASE_2 = EXPECTED_RESULT_FOR_TEST_CASE_2;
+module.exports.EXPECTED_RESULT_FOR_TEST_CASE_3 = EXPECTED_RESULT_FOR_TEST_CASE_3;
 module.exports.QUICK_REGISTRATION_GIGA = QUICK_REGISTRATION_GIGA;
 module.exports.QUICK_REGISTRATION_BOB = QUICK_REGISTRATION_BOB;
 module.exports.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL = INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL;

@@ -31,20 +31,28 @@ describe("Retrieve students for notification", () => {
             });
     });
 
-    test("It should return the students to be notified that meets the criteria", function (done) {
+    test("It should return the students to be notified that meets the criteria when there are students that are mentioned", function (done) {
         request(app)
             .post(apiURL)
             .send(jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL)
             .end(function (err, res) {
                 if (err) return done(err);
-                const finalresult = [
-                    'studentagnes@gmail.com',
-                    'studentmiche@gmail.com',
-                    'studentbob@gmail.com'
-                ];
-                expect(res.body.recipients).toStrictEqual(finalresult);
+                expect(res.body.recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_FOR_TEST_CASE_2);
                 expect(res.status).toBe(200);
                 done();
             });
     });
+
+    // to do only placeholder
+    // test("It should return the students to be notified that meets the criteria when there are no students mentioned", function (done) {
+    //     request(app)
+    //         .post(apiURL)
+    //         .send(jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL)
+    //         .end(function (err, res) {
+    //             if (err) return done(err);
+    //             expect(res.body.recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_FOR_TEST_CASE_3);
+    //             expect(res.status).toBe(200);
+    //             done();
+    //         });
+    // });
 });
