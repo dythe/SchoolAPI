@@ -1,23 +1,26 @@
+var SCHOOL_DATABASE = 'school.schoolinformation';
+var STUDENT_TO_TEACHER_DATABASE = 'school.registration_relationship';
+
 // quick_registration_of_user.js
-var QUICK_REGISTRATION_OF_USERS = 'INSERT INTO school.schoolinformation (email, name, user_type, user_status) VALUES (?, ?, ?, ?)';
+var QUICK_REGISTRATION_OF_USERS = `INSERT INTO ${SCHOOL_DATABASE} (email, name, user_type, user_status) VALUES (?, ?, ?, ?)`;
 
 // register_student_to_teacher.js
-var REGISTER_STUDENT_TO_MANY_TEACHERS = 'INSERT INTO school.registration_relationship (teacher_email, student_email) VALUES ?';
-var REGISTER_TEACHER_TO_MANY_STUDENTS = 'INSERT INTO school.registration_relationship (teacher_email, student_email) VALUES ?';
+var REGISTER_STUDENT_TO_MANY_TEACHERS = `INSERT INTO ${STUDENT_TO_TEACHER_DATABASE} (teacher_email, student_email) VALUES ?`;
+var REGISTER_TEACHER_TO_MANY_STUDENTS = `INSERT INTO ${STUDENT_TO_TEACHER_DATABASE} (teacher_email, student_email) VALUES ?`;
 
 // retrieve_list_of_students.js
-var RETRIEVE_LIST_OF_STUDENTS = 'SELECT student_email FROM school.registration_relationship WHERE teacher_email IN (?)';
+var RETRIEVE_LIST_OF_STUDENTS = `SELECT student_email FROM ${STUDENT_TO_TEACHER_DATABASE} WHERE teacher_email IN (?)`;
 
 // suspend_student.js
-var SUSPEND_STUDENT = 'UPDATE school.schoolinformation SET user_status = (?) WHERE email IN (?) AND user_type = (SELECT user_status FROM school.schoolinformation WHERE email = (?) AND user_type = ?)';
+var SUSPEND_STUDENT = `UPDATE ${SCHOOL_DATABASE} SET user_status = (?) WHERE email IN (?) AND user_type = (SELECT user_status FROM ${SCHOOL_DATABASE} WHERE email = (?) AND user_type = ?)`;
 
 // retrieve_for_notification.js
-var CHECK_FOR_SUSPENDED_AND_VALID_STUDENT = 'SELECT COUNT(*) as count_value FROM school.schoolinformation WHERE email = ? AND user_status = ?';
-var CHECK_TEACHER_STUDENT_REGISTRATION_PAIR = 'SELECT COUNT(*) as count_value2 FROM school.registration_relationship WHERE teacher_email = ? AND student_email = ?';
-var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED = 'SELECT student_email FROM school.registration_relationship r INNER JOIN school.schoolinformation db ON r.student_email = db.email WHERE teacher_email IN (?) AND user_status = ?';
+var CHECK_FOR_SUSPENDED_AND_VALID_STUDENT = `SELECT COUNT(*) as count_value FROM ${SCHOOL_DATABASE} WHERE email = ? AND user_status = ?`;
+var CHECK_TEACHER_STUDENT_REGISTRATION_PAIR = `SELECT COUNT(*) as count_value2 FROM ${STUDENT_TO_TEACHER_DATABASE} WHERE teacher_email = ? AND student_email = ?`;
+var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED = `SELECT student_email FROM ${STUDENT_TO_TEACHER_DATABASE} r INNER JOIN ${SCHOOL_DATABASE} db ON r.student_email = db.email WHERE teacher_email IN (?) AND user_status = ?`;
 
 // unit testing
-var DELETE_ALL_RECORDS = 'DELETE FROM school.registration_relationship';
+var DELETE_ALL_RECORDS = `DELETE FROM ${STUDENT_TO_TEACHER_DATABASE}`;
 
 module.exports.QUICK_REGISTRATION_OF_USERS = QUICK_REGISTRATION_OF_USERS;
 module.exports.REGISTER_STUDENT_TO_MANY_TEACHERS = REGISTER_STUDENT_TO_MANY_TEACHERS;
