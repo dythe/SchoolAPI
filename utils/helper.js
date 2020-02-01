@@ -69,10 +69,12 @@ function errorCodeResolver(errno, response) {
     }
 }
 
+// for unit tesitng
 function setDatabase() {
     con.CURRENT_DATABASE = constants.MOCK_SCHOOL;
 }
 
+// for unit tesitng
 function deleteFromDatabase(valuesToDelete) {
     var SQL_QUERY = queries.DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS;
     var DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE = valuesToDelete;
@@ -87,6 +89,7 @@ function deleteFromDatabase(valuesToDelete) {
 }
 
 
+// for unit tesitng
 function insertDatabase(valuesToInsert) {
     var SQL_QUERY = queries.REGISTER_STUDENT_TO_MANY_TEACHERS;
     var REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE = valuesToInsert;
