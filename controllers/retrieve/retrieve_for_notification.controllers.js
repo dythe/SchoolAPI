@@ -103,7 +103,6 @@ function retrieveForNotification(request, response) {
         }
 
         console.log(recipientsList);
-        // Resolve promise and response send, not using helper for this
         var p2 = Promise.resolve(recipientsList);
         p2.then(function (v) {
             // console.log(v);

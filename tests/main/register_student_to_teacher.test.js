@@ -13,7 +13,7 @@ describe("Registration of Student to Teacher", () => {
 
     test("It should return a invalid teacher to student message due to two objects", function (done) {
         request(app)
-            .post('/api/register')
+            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT)
             .end(function (err, res) {
                 if (err) return done(err);
@@ -25,7 +25,7 @@ describe("Registration of Student to Teacher", () => {
 
     test("It should return a invalid teacher to student message due to two strings", function (done) {
         request(app)
-            .post('/api/register')
+            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING)
             .end(function (err, res) {
                 if (err) return done(err);
@@ -37,7 +37,7 @@ describe("Registration of Student to Teacher", () => {
 
     test("It should register successfully", function (done) {
         request(app)
-            .post('/api/register')
+            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_NORMAL)
             .end(function (err, res) {
                 if (err) return done(err);
@@ -49,7 +49,7 @@ describe("Registration of Student to Teacher", () => {
 
     test("It should not be able to register successfully", function (done) {
         request(app)
-            .post('/api/register')
+            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_NORMAL)
             .end(function (err, res) {
                 if (err) return done(err);
@@ -61,7 +61,7 @@ describe("Registration of Student to Teacher", () => {
 
     test("It should return an error due to empty body", function (done) {
         request(app)
-            .post('/api/register')
+            .post(constants.REGISTER_STUDENT_TO_TEACHER_API_URL)
             .send(jsonvalues.EMPTY_BODY)
             .end(function (err, res) {
                 if (err) return done(err);
