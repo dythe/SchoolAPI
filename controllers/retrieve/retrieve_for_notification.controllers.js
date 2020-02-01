@@ -107,9 +107,10 @@ function retrieveForNotification(request, response) {
         var p2 = Promise.resolve(recipientsList);
         p2.then(function (v) {
             // console.log(v);
-            response.json(v, null, 3);
-            response.send.bind(response);
-            response.end();
+            // response.json(v, null, 3);
+            // response.send.bind(response);
+            // response.end();
+            helper.writeJSONResponse(v, response);
         }, function (e) {
             console.error(e); // TypeError: Throwing
         });
