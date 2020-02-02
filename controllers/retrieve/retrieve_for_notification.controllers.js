@@ -10,12 +10,12 @@ function retrieveForNotification(request, response) {
         helper.writeMessageResponse(constants.EMPTY_BODY, response);
     }
     else {
-        var teacher = requestBody.teacher;
-        var notification = requestBody.notification;
+        const teacher = requestBody.teacher;
+        const notification = requestBody.notification;
 
-        var findEmails = helper.findEmailAddresses(notification);
+        let findEmails = helper.findEmailAddresses(notification);
 
-        var retrieveValues = {
+        const retrieveValues = {
             recipients: []
         };
 
@@ -26,13 +26,13 @@ function retrieveForNotification(request, response) {
             // res0 - check for valid student
             // res1 - check for suspended and whether he/she is a student in the school
             // res2 - check whether teacher and student pair is registered
-            var CHECK_FOR_VALID_STUDENT_SQL = queries.CHECK_FOR_VALID_STUDENT;
-            var CHECK_FOR_SUSPENDED_STUDENT_SQL = queries.CHECK_FOR_SUSPENDED_STUDENT;
-            var CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL = queries.CHECK_TEACHER_STUDENT_REGISTRATION_PAIR;
+            const CHECK_FOR_VALID_STUDENT_SQL = queries.CHECK_FOR_VALID_STUDENT;
+            const CHECK_FOR_SUSPENDED_STUDENT_SQL = queries.CHECK_FOR_SUSPENDED_STUDENT;
+            const CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL = queries.CHECK_TEACHER_STUDENT_REGISTRATION_PAIR;
 
-            var CHECK_FOR_VALID_STUDENT_VALUE = [emails];
-            var CHECK_FOR_SUSPENDED_STUDENT_VALUE = [emails, 1];
-            var CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE = [teacher, emails];
+            const CHECK_FOR_VALID_STUDENT_VALUE = [emails];
+            const CHECK_FOR_SUSPENDED_STUDENT_VALUE = [emails, 1];
+            const CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE = [teacher, emails];
 
             // check whether student is valid in the school
             con.pool.query(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, async function (err0, result0) {
@@ -84,18 +84,18 @@ function retrieveForNotification(request, response) {
 
         // Check the students of a teacher
         async function checkTeacherStudents() {
-            var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL = queries.RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED;
-            var RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE = [teacher, 0];
+            let RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL = queries.RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED;
+            let RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE = [teacher, 0];
 
             // check for teacher's registered students
             con.pool.query(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE, async function (err4, result4) {
                 if (err4) throw err4;
-                var res4 = await helper.getResult(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE)
+                let res4 = await helper.getResult(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE)
 
                 console.log(res4);
 
                 Object.keys(res4).forEach(function (key) {
-                    var row = res4[key];
+                    let row = res4[key];
                     console.log('test4 %s', row.student_email);
                     helper.addRecipients(row.student_email, retrieveValues);
                 });

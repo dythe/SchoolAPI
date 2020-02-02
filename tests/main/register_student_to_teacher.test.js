@@ -1,133 +1,125 @@
-const request = require('supertest');
 const app = require('../../app')
 const constants = require('../../utils/constants.js');
 const jsonvalues = require('../../utils/json.js');
 const helper = require('../../utils/helper.js');
 const con = require('../../config/db.js');
-const apiURL = constants.REGISTER_STUDENT_TO_TEACHER_API_URL;
+const apiURL = constants.QUICK_REGISTRATION_API_URL;
+const axios = require('axios');
+const register_student_to_teacher = require('../../controllers/register/register_student_to_teacher.controllers');
 
-describe("Registration of Student to Teacher - Invalid cases", () => {
+jest.mock('axios');
+
+describe("Registration of Student to Teacher", () => {
 
     beforeAll(async (done) => {
-        // await helper.setDatabase();
-        await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION);
-        var REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
+        helper.setDatabase();
+        helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION);
+        // var REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
         // REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentshawn@gmail.com']);
-        REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentmas@gmail.com']);
-        await helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
+        // REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentmas@gmail.com']);
+        // helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
         done();
     });
 
-//     test("It should return a invalid teacher to student message due to two objects", function (done) {
-//         request(app)
-//             .post(apiURL)
-//             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT)
-//             .end(function (err, res) {
-//                 if (err) return done(err);
-//                 expect(res.body.message).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
-//                 expect(res.status).toBe(200);
-//                 done();
-//             });
-//     });
-
-//     test("It should return a invalid teacher to student message due to two strings", function (done) {
-//         request(app)
-//             .post(apiURL)
-//             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING)
-//             .end(function (err, res) {
-//                 if (err) return done(err);
-//                 expect(res.body.message).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
-//                 expect(res.status).toBe(200);
-//                 done();
-//             });
-//     });
-
-    test("It should return an error due to empty body", function (done) {
-        request(app)
-            .post(apiURL)
-            .send(jsonvalues.EMPTY_BODY)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.message).toBe(constants.EMPTY_BODY);
-                expect(res.status).toBe(200);
-                done();
-            });
-    }, 30000);
-
-//     test("It should return an error as student/teacher does not exist - one teacher to many students", function (done) {
-//         request(app)
-//             .post(apiURL)
-//             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID)
-//             .end(function (err, res) {
-//                 if (err) return done(err);
-//                 expect(res.body.message).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
-//                 expect(res.status).toBe(200);
-//                 done();
-//             });
-//     });
-
-//     test("It should return an error as student/teacher does not exist - one student to many teachers", function (done) {
-//         request(app)
-//             .post(apiURL)
-//             .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID)
-//             .end(function (err, res) {
-//                 if (err) return done(err);
-//                 expect(res.body.message).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
-//                 expect(res.status).toBe(200);
-//                 done();
-//             });
-//     });
-
-    // test("It should not register successfully as this student to teacher registration already exists", function (done) {
-    //     request(app)
-    //         .post(apiURL)
-    //         .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID)
-    //         .end(function (err, res) {
-    //             if (err) return done(err);
-    //             expect(res.body.message).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
-    //             expect(res.status).toBe(200);
-    //             done();
-    //         });
-    // });
-});
-
-describe("Registration of Student to Teacher - student-teacher and teacher-student", () => {
-
-    // beforeEach(() => {
-    //     helper.setDatabase();
-    // });
-
-    // beforeAll(async (done) => {
-    //     await helper.setDatabase();
-    //     await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION);
-    //     var REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
-    //     REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentmiche@gmail.com']);
-    //     REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentmas@gmail.com']);
-    //     await helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
-    //     done();
-    // });
-
-    test("It should register successfully one-student-to-many-teachers", function (done) {
-        request(app)
-            .post(apiURL)
-            .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.message).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
-                expect(res.status).toBe(200);
-                done();
-            });
+    it('It should return an error due to empty body', async (done) => {
+        const req = jsonvalues.EMPTY_BODY;
+        const resp = helper.createJSON(constants.EMPTY_BODY);
+        axios.get.mockResolvedValue(resp);
+        
+        return register_student_to_teacher.validateResponse(req, null, null, "string", "string")
+        .then(data => {
+            expect(data).toBe(constants.EMPTY_BODY);
+            done();
+        })
     });
 
-    test("It should register successfully one-teacher-to-many-students", function (done) {
-        request(app)
-            .post(apiURL)
-            .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.message).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
-                expect(res.status).toBe(200);
-                done();
-            });
+    it('It should return a invalid teacher to student message due to two strings', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING;
+        const resp = helper.createJSON(constants.INVALID_TEACHER_TO_STUDENT_DATA);
+        axios.get.mockResolvedValue(resp);
+        
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "object")
+        .then(data => {
+            expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
+            done();
+        })
     });
+
+    it('It should return a invalid teacher to student message due to two objects', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT;
+        const resp = helper.createJSON(constants.INVALID_TEACHER_TO_STUDENT_DATA);
+        axios.get.mockResolvedValue(resp);
+        
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "string")
+        .then(data => {
+            expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
+            done();
+        })
+    });
+
+    it('It should register successfully one-teacher-to-many-students', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS;
+        const resp = helper.createJSON(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+        axios.get.mockResolvedValue(resp);
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "object")
+        .then(data => {
+            expect(data).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+            done();
+        })
+    });
+
+    it('It should not register successfully one-teacher-to-many-students', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS;
+        const resp = helper.createJSON(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
+        axios.get.mockResolvedValue(resp);
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "object")
+        .then(data => {
+            expect(data).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
+            done();
+        })
+    });
+
+    it('It should register successfully one-student-to-many-teachers', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS;
+        const resp = helper.createJSON(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+        axios.get.mockResolvedValue(resp);
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
+        .then(data => {
+            expect(data).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+            done();
+        })
+    });
+
+    it('It should not register successfully one-student-to-many-teachers', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS;
+        const resp = helper.createJSON(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
+        axios.get.mockResolvedValue(resp);
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
+        .then(data => {
+            expect(data).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
+            done();
+        })
+    });
+
+    it('It should return an error as student/teacher does not exist - one teacher to many students', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID;
+        const resp = helper.createJSON(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+        axios.get.mockResolvedValue(resp);
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "object")
+        .then(data => {
+            expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+            done();
+        })
+    });
+
+    // it('It should return an error as student/teacher does not exist - one student to many teachers', async (done) => {
+    //     const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID;
+    //     const resp = helper.createJSON(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+    //     axios.get.mockResolvedValue(resp);
+    //     return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
+    //     .then(data => {
+    //         expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+    //         done();
+    //     })
+    // });
 });

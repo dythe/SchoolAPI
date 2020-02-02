@@ -4,12 +4,12 @@ const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
 
 function suspendStudent(request, response) {
-    var requestBody = request.body;
+    const requestBody = request.body;
 
-    var studentToSuspend = requestBody.student;
+    const studentToSuspend = requestBody.student;
 
-    var SUSPEND_STUDENT_SQL = queries.SUSPEND_STUDENT;
-    var SUSPEND_STUDENT_VALUE = [1, studentToSuspend, studentToSuspend, 0];
+    const SUSPEND_STUDENT_SQL = queries.SUSPEND_STUDENT;
+    const SUSPEND_STUDENT_VALUE = [1, studentToSuspend, studentToSuspend, 0];
 
     con.query(SUSPEND_STUDENT_SQL, SUSPEND_STUDENT_VALUE, function (err, result) {
         numRows = result.affectedRows;

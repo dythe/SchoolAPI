@@ -5,20 +5,20 @@ const constants = require('../../utils/constants.js');
 
 function retrieveListofStudents(request, response) {
 
-    var requestQuery = request.query.teacher;
+    const requestQuery = request.query.teacher;
 
     if (requestQuery == undefined) {
         helper.errorCodeResolver(response.errno, response);
 
     } else {
         console.log(request.query.teacher);
-        var teacherType = typeof (request.query.teacher);
-        var RETRIEVE_LIST_OF_STUDENTS_SQL;
-        var RETRIEVE_LIST_OF_STUDENTS_VALUE;
+        const teacherType = typeof (request.query.teacher);
+        let RETRIEVE_LIST_OF_STUDENTS_SQL;
+        let RETRIEVE_LIST_OF_STUDENTS_VALUE;
 
-        var i = 0;
-        var currentLetter = 'a';
-        var previousLetter = 'a';
+        let i = 0;
+        let currentLetter = 'a';
+        let previousLetter = 'a';
 
         // single parameter
         if (teacherType === "string") {
@@ -32,7 +32,7 @@ function retrieveListofStudents(request, response) {
             console.log('object param');
 
             Object.keys(requestQuery).forEach(function (key) {
-                var teacherEmail = requestQuery[key];
+                let teacherEmail = requestQuery[key];
                 console.log('teacherEmail %s', teacherEmail);
                 
                 if (i == 0) {
@@ -56,12 +56,12 @@ function retrieveListofStudents(request, response) {
             }
             else {
                 // Declaring an array and pushing the values in from the result
-                var retrieveValues = {
+                let retrieveValues = {
                     students: []
                 };
 
                 Object.keys(result).forEach(function (key) {
-                    var row = result[key];
+                    let row = result[key];
                     helper.addStudents(row.student_email, retrieveValues);
                 });
 

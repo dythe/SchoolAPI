@@ -1,34 +1,33 @@
-var GENERIC_ERROR = 'Generic error, please contact us for assistance.';
-var TEACHER_DATA_NOT_REQUESTED = 'There were no teacher data requested, please try again!';
-var EMAIL_ALREADY_EXISTS = 'This email address has already been registered!';
-var EMAIL_SUCCESSFULLY_CREATED = 'This email address has been successfully created!';
-var INVALID_TEACHER_TO_STUDENT_DATA = 'Invalid student to teacher value, please check your input.';
-var ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS = 'One or more student-teacher registration pair already exists.';
-var STUDENT_TO_TEACHER_REGISTRATION_SUCCESS = 'The student and teacher registration is successful!';
-var STUDENT_DOES_NOT_EXISTS = 'The student does not exists, he/she is not a student or is already suspended!';
-var STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
-var EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST = 'Either the student or teacher does not exist!';
+const GENERIC_ERROR = 'Generic error, please contact us for assistance.';
+const TEACHER_DATA_NOT_REQUESTED = 'There were no teacher data requested, please try again!';
+const EMAIL_ALREADY_EXISTS = 'This email address has already been registered!';
+const EMAIL_SUCCESSFULLY_CREATED = 'This email address has been successfully created!';
+const INVALID_TEACHER_TO_STUDENT_DATA = 'Invalid student to teacher value, please check your input.';
+const ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS = 'One or more student-teacher registration pair already exists.';
+const STUDENT_TO_TEACHER_REGISTRATION_SUCCESS = 'The student and teacher registration is successful!';
+const STUDENT_DOES_NOT_EXISTS = 'The student does not exists, he/she is not a student or is already suspended!';
+const STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
+const EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST = 'Either the student or teacher does not exist!';
 
-var EMPTY_BODY = 'There was no data sent.';
+const EMPTY_BODY = 'There was no data sent.';
 
 // sql state
-var DUPLICATE_ENTRY = 1062;
-var FOREIGN_KEY_CONSTRAINT = 1452; // does not exist
-var FOREIGN_KEY_CONSTRAINT = 1065; // does not exist
+const DUPLICATE_ENTRY = 1062;
+const FOREIGN_KEY_CONSTRAINT = 1452; // does not exist
 
 // Databases
-var MOCK_SCHOOL = 'mock_school';
-var NORMAL_SCHOOL = 'school';
+const MOCK_SCHOOL = 'mock_school';
+const NORMAL_SCHOOL = 'school';
 
-var SCHOOL_INFORMATION = 'school_information';
-var STUDENT_TO_TEACHER_REGISTRATION = 'student_to_teacher_registration';
+const SCHOOL_INFORMATION = 'school_information';
+const STUDENT_TO_TEACHER_REGISTRATION = 'student_to_teacher_registration';
 
 // API URLs
-var QUICK_REGISTRATION_API_URL = '/api/quickregistration';
-var REGISTER_STUDENT_TO_TEACHER_API_URL = '/api/register';
-var RETRIEVE_FOR_NOTIFICATION_API_URL = '/api/retrievefornotifications';
-var RETRIEVE_LIST_OF_STUDENTS_API_URL = '/api/commonstudents';
-var SUSPEND_STUDENT_API_URL = '/api/suspend';
+const QUICK_REGISTRATION_API_URL = '/api/quickregistration';
+const REGISTER_STUDENT_TO_TEACHER_API_URL = '/api/register';
+const RETRIEVE_FOR_NOTIFICATION_API_URL = '/api/retrievefornotifications';
+const RETRIEVE_LIST_OF_STUDENTS_API_URL = '/api/commonstudents';
+const SUSPEND_STUDENT_API_URL = '/api/suspend';
 
 module.exports.EMPTY_BODY = EMPTY_BODY;
 module.exports.TEACHER_DATA_NOT_REQUESTED = TEACHER_DATA_NOT_REQUESTED;

@@ -51,15 +51,6 @@ var INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_NO_MENTIONS = {
 };
 
 var REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID = {
-    students: "studentabc@gmail.com",
-    teacher:
-        [
-            "teacherpeter@gmail.com",
-            "teacherken@gmail.com"
-        ]
-};
-
-var REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID = {
     teacher: "teacherpauline@gmail.com",
     students:
         [
@@ -68,7 +59,16 @@ var REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID = {
         ]
 };
 
-var REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS = {
+const REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID = {
+    teacher: "teacherpauline@gmail.com",
+    students:
+        [
+            "studentdef@gmail.com",
+            "studentamy@gmail.com"
+        ]
+};
+
+const REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS = {
     students: "studentjon@gmail.com",
     teacher:
         [
@@ -77,7 +77,7 @@ var REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS = {
         ]
 };
 
-var REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS = {
+const REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS = {
     teacher: "teacherpauline@gmail.com",
     students:
         [
@@ -86,16 +86,7 @@ var REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS = {
         ]
 };
 
-var REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS = {
-    teacher: "teacherpauline@gmail.com",
-    students:
-        [
-            "studenthon@gmail.com",
-            "studentamy@gmail.com"
-        ]
-};
-
-var REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS_INVALID_CASE = {
+const REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS_INVALID_CASE = {
     teacher: "teacherpauline@gmail.com",
     students:
         [
@@ -105,7 +96,7 @@ var REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS_INVALID_CASE = {
 };
 
 
-var REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT = {
+const REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT = {
     students: ["studentjon@gmail.com"],
     teacher:
         [
@@ -114,7 +105,7 @@ var REGISTER_STUDENT_TO_TEACHER_OBJECT_AND_OBJECT = {
         ]
 };
 
-var REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING = {
+const REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING = {
     students: "studentjon@gmail.com",
     teacher: "teacherjoe@gmail.com"
 };

@@ -4,20 +4,20 @@ const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
 
 function quickRegistrationofUser(request, response) {
-    var requestBody = request.body;
+    const requestBody = request.body;
 
     if (Object.keys(request.body).length === 0) {
         helper.writeMessageResponse(constants.EMPTY_BODY, response);
     }
     else {
-        var email = requestBody.email;
-        var name = requestBody.name;
-        var user_type = requestBody.user_type;
-        var user_status = requestBody.user_status;
+        const email = requestBody.email;
+        const name = requestBody.name;
+        const user_type = requestBody.user_type;
+        const user_status = requestBody.user_status;
         // console.log(requestBody);
 
-        var QUICK_REGISTRATION_OF_USERS_SQL = queries.QUICK_REGISTRATION_OF_USERS;
-        var QUICK_REGISTRATION_OF_USERS_VALUE = [email, name, user_type, user_status];
+        const QUICK_REGISTRATION_OF_USERS_SQL = queries.QUICK_REGISTRATION_OF_USERS;
+        const QUICK_REGISTRATION_OF_USERS_VALUE = [email, name, user_type, user_status];
         con.query(QUICK_REGISTRATION_OF_USERS_SQL, QUICK_REGISTRATION_OF_USERS_VALUE, function (err) {
             if (err) {
                 // console.log(err);
