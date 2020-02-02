@@ -6,7 +6,7 @@ const user = 'root';
 const password = '';
 
 // Set database to normal db
-var CURRENT_DATABASE = constants.NORMAL_SCHOOL;
+var CURRENT_DATABASE = constants.MOCK_SCHOOL;
 
 const con = mysql.createConnection({
   host: host,

@@ -138,7 +138,6 @@ function clearDatabase(databaseName) {
     if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
         // console.log("Current DB: " + con.CURRENT_DATABASE)
         con.pool.query(querytable, function (err, result) {
-            // con.pool.end();
             if (err) throw err;
         })
     } else {
