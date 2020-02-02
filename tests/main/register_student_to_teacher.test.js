@@ -1,9 +1,6 @@
-const app = require('../../app')
 const constants = require('../../utils/constants.js');
 const jsonvalues = require('../../utils/json.js');
 const helper = require('../../utils/helper.js');
-const con = require('../../config/db.js');
-const apiURL = constants.QUICK_REGISTRATION_API_URL;
 const axios = require('axios');
 const register_student_to_teacher = require('../../controllers/register/register_student_to_teacher.controllers');
 

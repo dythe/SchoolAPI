@@ -14,7 +14,7 @@ async function registerStudentToTeacher(request, response) {
     const teacherType = typeof (teacher);
     const studentType = typeof (students);
 
-    var message = await validateResponse(requestBody, teacher, students, teacherType, studentType);
+    const message = await validateResponse(requestBody, teacher, students, teacherType, studentType);
     // console.log("teacherType: %s", teacherType);
     // console.log("studentType: %s", studentType);
     console.log("message is %s", message);
@@ -26,10 +26,9 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
     let returnValue = "";
 
     if (Object.keys(requestBody).length === 0) {
-        console.log("empty body");
+        // console.log("empty body");
         returnValue = constants.EMPTY_BODY
         return returnValue;
-        // helper.writeMessageResponse(constants.EMPTY_BODY, response);
     }
     else {
         // Check if it is teacher registering to a bunch of students
@@ -37,12 +36,10 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
         if (teacherType === "string" && studentType === "string") {
             returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
             return returnValue;
-            // helper.writeMessageResponse(constants.INVALID_TEACHER_TO_STUDENT_DATA, response);
         }
         else if (teacherType === "object" && studentType === "object") {
             returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
             return returnValue;
-            // helper.writeMessageResponse(constants.INVALID_TEACHER_TO_STUDENT_DATA, response);
         }
         else if (teacherType === "object" && studentType === "string") {
 
@@ -55,7 +52,7 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
 
             con.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
                 if (err) {
-                    console.log(err);
+                    // console.log(err);
                     let errMessage = helper.errorCodeResolver(err.errno);
                     returnValue = errMessage;
                     return returnValue;
@@ -63,7 +60,6 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                 else {
                     returnValue = constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS
                     return returnValue;
-                    // helper.writeMessageResponse(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS, response);
                 }
             });
         }
@@ -79,7 +75,7 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
             // console.log(REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE);
             con.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE], function (err) {
                 if (err) {
-                    console.log(err);
+                    // console.log(err);
                     let errMessage = helper.errorCodeResolver(err.errno);
                     returnValue = errMessage;
                     return returnValue;
@@ -88,7 +84,6 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                     console.log("success registration %s", constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
                     returnValue = constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS
                     return returnValue;
-                    // helper.writeMessageResponse(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS, response);
                 }
             });
         }

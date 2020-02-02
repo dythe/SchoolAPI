@@ -1,13 +1,13 @@
 var EMPTY_BODY = {};
 
 // retrieve_for_notification.test.js (It should return the students to be notified that meets the criteria when there are students that are mentioned)
-var EXPECTED_RESULT_FOR_TEST_CASE_2 = [
+var EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
     'studentagnes@gmail.com',
     'studentmiche@gmail.com',
     'studentbob@gmail.com'
 ];
 
-var EXPECTED_RESULT_FOR_TEST_CASE_3 = [
+var EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
     'studentbob@gmail.com'
 ];
 
@@ -51,11 +51,11 @@ var INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_NO_MENTIONS = {
 };
 
 var REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID = {
-    teacher: "teacherpauline@gmail.com",
-    students:
+    students: "studentabc@gmail.com",
+    teacher:
         [
-            "studentdef@gmail.com",
-            "studentamy@gmail.com"
+            "teacherpeter@gmail.com",
+            "teacherken@gmail.com"
         ]
 };
 
@@ -111,8 +111,8 @@ const REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING = {
 };
 
 module.exports.EMPTY_BODY = EMPTY_BODY;
-module.exports.EXPECTED_RESULT_FOR_TEST_CASE_2 = EXPECTED_RESULT_FOR_TEST_CASE_2;
-module.exports.EXPECTED_RESULT_FOR_TEST_CASE_3 = EXPECTED_RESULT_FOR_TEST_CASE_3;
+module.exports.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
+module.exports.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
 module.exports.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT;
 
 module.exports.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS = INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS;
