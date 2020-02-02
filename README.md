@@ -28,13 +28,18 @@ var CURRENT_DATABASE = constants.MOCK_SCHOOL;
 
 2. Once this are all setup, run the database scripts located at **SchoolAPI/scripts** in **MySQL** to create the initial schema and tables
 
-
 ### **Node**
 
-To run this for the first time, install it locally using npm:
+To run this project, install it locally using npm:
 
 ```
 $ cd SchoolAPI
 $ npm install
 $ node server.js
+```
+
+To run unit test, ensure that CURRENT_DATABASE value is changed to **constants.MOCK_SCHOOL** before doing the following:
+
+```
+$ npm test
 ```
