@@ -14,7 +14,7 @@ function quickRegistrationofUser(request, response) {
         var name = requestBody.name;
         var user_type = requestBody.user_type;
         var user_status = requestBody.user_status;
-        console.log(requestBody);
+        // console.log(requestBody);
 
         var QUICK_REGISTRATION_OF_USERS_SQL = queries.QUICK_REGISTRATION_OF_USERS;
         var QUICK_REGISTRATION_OF_USERS_VALUE = [email, name, user_type, user_status];

@@ -10,6 +10,11 @@ describe("Registration of Student to Teacher - Invalid cases", () => {
 
     beforeEach(() => {
         helper.setDatabase();
+        // var REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
+        // REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentmas@gmail.com']);
+        // REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentmas@gmail.com']);
+        // helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
+
     });
 
     test("It should return a invalid teacher to student message due to two objects", function (done) {
@@ -71,6 +76,18 @@ describe("Registration of Student to Teacher - Invalid cases", () => {
                 done();
             });
     });
+
+    // test("It should not register successfully as this student to teacher registration already exists", function (done) {
+    //     request(app)
+    //         .post(apiURL)
+    //         .send(jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID)
+    //         .end(function (err, res) {
+    //             if (err) return done(err);
+    //             expect(res.body.message).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
+    //             expect(res.status).toBe(200);
+    //             done();
+    //         });
+    // });
 });
 
 describe("Registration of Student to Teacher - student-teacher and teacher-student", () => {

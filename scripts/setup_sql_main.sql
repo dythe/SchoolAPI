@@ -29,6 +29,11 @@ INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALU
 INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentbob@gmail.com','Bob Poon',0,0);
 INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentmiche@gmail.com','Miche Tay',0,0);
 INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentshawn@gmail.com','Shawn Tan',0,1);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentlami@gmail.com','Lami Li',0,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('studentmas@gmail.com','Mas Ho',0,0);
+
 INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherken@gmail.com','Ken Lim',1,0);
 INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherpeter@gmail.com','Peter Tan',1,0);
 INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherpauline@gmail.com','Pauline Heng',1,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherannie@gmail.com','Annie Teo',1,0);
+INSERT INTO `school_information` (`email`,`name`,`user_type`,`user_status`) VALUES ('teacherjoe@gmail.com','Joe De',1,0);
