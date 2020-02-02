@@ -1,6 +1,6 @@
 # School API
 
-This is an API that allows the school systen to retrieve information that they require.
+This is an API that allows the school system to retrieve information that they require.
 	
 ## Technologies/Prerequisities
 
