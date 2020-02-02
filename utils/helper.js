@@ -63,10 +63,17 @@ function errorCodeResolver(errno, response) {
         case constants.DUPLICATE_ENTRY:
             writeMessageResponse(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, response);
             break;
+        case constants.QUERY_WAS_EMPTY:
+            writeMessageResponse(constants.TEACHER_DATA_NOT_REQUESTED, response);
+            break;
         default:
             writeMessageResponse(constants.GENERIC_ERROR, response);
             break;
     }
+}
+
+function nextChar(c) {
+    return String.fromCharCode(c.charCodeAt(0) + 1);
 }
 
 // for unit tesitng
@@ -126,6 +133,7 @@ function clearDatabase(databaseName) {
     }
 }
 
+module.exports.nextChar = nextChar;
 module.exports.insertDatabase = insertDatabase;
 module.exports.deleteFromDatabase = deleteFromDatabase;
 module.exports.writeMessageResponse = writeMessageResponse;

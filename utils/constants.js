@@ -1,4 +1,5 @@
 var GENERIC_ERROR = 'Generic error, please contact us for assistance.';
+var TEACHER_DATA_NOT_REQUESTED = 'There were no teacher data requested, please try again!';
 var EMAIL_ALREADY_EXISTS = 'This email address has already been registered!';
 var EMAIL_SUCCESSFULLY_CREATED = 'This email address has been successfully created!';
 var INVALID_TEACHER_TO_STUDENT_DATA = 'Invalid student to teacher value, please check your input.';
@@ -13,6 +14,7 @@ var EMPTY_BODY = 'There was no data sent.';
 // sql state
 var DUPLICATE_ENTRY = 1062;
 var FOREIGN_KEY_CONSTRAINT = 1452; // does not exist
+var FOREIGN_KEY_CONSTRAINT = 1065; // does not exist
 
 // Databases
 var MOCK_SCHOOL = 'mock_school';
@@ -29,6 +31,7 @@ var RETRIEVE_LIST_OF_STUDENTS_API_URL = '/api/commonstudents';
 var SUSPEND_STUDENT_API_URL = '/api/suspend';
 
 module.exports.EMPTY_BODY = EMPTY_BODY;
+module.exports.TEACHER_DATA_NOT_REQUESTED = TEACHER_DATA_NOT_REQUESTED;
 module.exports.SCHOOL_INFORMATION = SCHOOL_INFORMATION;
 module.exports.STUDENT_TO_TEACHER_REGISTRATION = STUDENT_TO_TEACHER_REGISTRATION;
 module.exports.GENERIC_ERROR = GENERIC_ERROR;
