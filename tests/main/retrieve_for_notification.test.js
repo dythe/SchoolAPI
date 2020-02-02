@@ -54,9 +54,9 @@ describe("Retrieve list of students for notification", () => {
             })
     });
 
-    afterAll(async (done) => {
-        con.pool.end();
-        con.end();
-        done();
-    });
+    // afterAll(async (done) => {
+    //     con.pool.end();
+    //     con.end();
+    //     done();
+    // });
 });

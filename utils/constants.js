@@ -13,6 +13,7 @@ const EMPTY_BODY = 'There was no data sent.';
 
 // sql state
 const DUPLICATE_ENTRY = 1062;
+const EMPTY_QUERY = 1065;
 const FOREIGN_KEY_CONSTRAINT = 1452; // does not exist
 
 // Databases
@@ -49,6 +50,7 @@ module.exports.NORMAL_SCHOOL = NORMAL_SCHOOL;
 
 module.exports.DUPLICATE_ENTRY = DUPLICATE_ENTRY;
 module.exports.FOREIGN_KEY_CONSTRAINT = FOREIGN_KEY_CONSTRAINT;
+module.exports.EMPTY_QUERY = EMPTY_QUERY;
 
 module.exports.QUICK_REGISTRATION_API_URL = QUICK_REGISTRATION_API_URL;
 module.exports.REGISTER_STUDENT_TO_TEACHER_API_URL = REGISTER_STUDENT_TO_TEACHER_API_URL;

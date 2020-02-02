@@ -110,20 +110,20 @@ describe("Registration of Student to Teacher", () => {
         })
     });
 
-    // it('It should return an error as student/teacher does not exist - one student to many teachers', async (done) => {
-    //     const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID;
-    //     const resp = helper.createJSON(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
-    //     axios.get.mockResolvedValue(resp);
-    //     return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
-    //     .then(data => {
-    //         expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
-    //         done();
-    //     })
-    // });
-
-    afterAll(async (done) => {
-        con.pool.end();
-        con.end();
-        done();
+    it('It should return an error as student/teacher does not exist - one student to many teachers', async (done) => {
+        const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID;
+        const resp = helper.createJSON(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+        axios.get.mockResolvedValue(resp);
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
+        .then(data => {
+            expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+            done();
+        })
     });
+
+    // afterAll(async (done) => {
+    //     con.pool.end();
+    //     con.end();
+    //     done();
+    // });
 });

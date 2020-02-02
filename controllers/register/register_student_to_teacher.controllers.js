@@ -55,11 +55,11 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                     // console.log(err);
                     let errMessage = helper.errorCodeResolver(err.errno);
                     returnValue = errMessage;
-                    return returnValue;
+                    // return returnValue;
                 }
                 else {
                     returnValue = constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS
-                    return returnValue;
+                    // return returnValue;
                 }
             });
         }
@@ -78,12 +78,12 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                     // console.log(err);
                     let errMessage = helper.errorCodeResolver(err.errno);
                     returnValue = errMessage;
-                    return returnValue;
+                    // return returnValue;
                 }
                 else {
                     console.log("success registration %s", constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
                     returnValue = constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS
-                    return returnValue;
+                    // return returnValue;
                 }
             });
         }

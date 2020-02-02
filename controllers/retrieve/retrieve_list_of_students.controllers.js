@@ -3,16 +3,26 @@ const helper = require('../../utils/helper.js');
 const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
 
-function retrieveListofStudents(request, response) {
+async function retrieveListofStudents(request, response) {
 
-    const requestQuery = request.query.teacher;
+    const requestParameters = request.query.teacher;
+    const teacherType = typeof (request.query.teacher);
 
-    if (requestQuery == undefined) {
-        helper.errorCodeResolver(response.errno, response);
+    const message = await validateResponse(requestParameters, teacherType, response, request);
+    helper.writeJSONResponse(message, response);
+};
 
+async function validateResponse(requestParameters, teacherType, response, request) {
+
+    let returnValue = "";
+
+    console.log('requestParameters value is %s', requestParameters);
+
+    if (Object.keys(requestParameters).length === 0) {
+        // console.log("empty body");
+        returnValue = constants.EMPTY_BODY
+        return returnValue;
     } else {
-        console.log(request.query.teacher);
-        const teacherType = typeof (request.query.teacher);
         let RETRIEVE_LIST_OF_STUDENTS_SQL;
         let RETRIEVE_LIST_OF_STUDENTS_VALUE;
 
@@ -23,7 +33,7 @@ function retrieveListofStudents(request, response) {
         // single parameter
         if (teacherType === "string") {
             console.log('string param');
-            RETRIEVE_LIST_OF_STUDENTS_VALUE = [requestQuery];
+            RETRIEVE_LIST_OF_STUDENTS_VALUE = [requestParameters];
             RETRIEVE_LIST_OF_STUDENTS_SQL = queries.RETRIEVE_LIST_OF_STUDENTS_SINGLE;
         }
         // multiple parameters
@@ -31,8 +41,8 @@ function retrieveListofStudents(request, response) {
             RETRIEVE_LIST_OF_STUDENTS_SQL = `SELECT DISTINCT ${currentLetter}.student_email FROM `;
             console.log('object param');
 
-            Object.keys(requestQuery).forEach(function (key) {
-                let teacherEmail = requestQuery[key];
+            Object.keys(requestParameters).forEach(function (key) {
+                let teacherEmail = requestParameters[key];
                 console.log('teacherEmail %s', teacherEmail);
                 
                 if (i == 0) {
@@ -66,10 +76,16 @@ function retrieveListofStudents(request, response) {
                 });
 
                 console.log(retrieveValues);
-                helper.writeJSONResponse(retrieveValues, response);
+                returnValue = retrieveValues;
             }
         });
     }
-};
 
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(returnValue), 1000)
+    });
+
+    return promise;
+}
 module.exports.retrieveListofStudents = retrieveListofStudents;
+module.exports.validateResponse = validateResponse;
