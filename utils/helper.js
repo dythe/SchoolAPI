@@ -76,6 +76,10 @@ function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
 }
 
+function generateSQLQueryForRetrieveListofStudents(i, previousLetter, currentLetter) {
+    return String.fromCharCode(c.charCodeAt(0) + 1);
+}
+
 // for unit tesitng
 function setDatabase() {
     con.CURRENT_DATABASE = constants.MOCK_SCHOOL;

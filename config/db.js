@@ -7,7 +7,7 @@ var user = 'root';
 var password = '';
 
 // Set database to normal db
-var CURRENT_DATABASE = constants.NORMAL_SCHOOL;
+var CURRENT_DATABASE = constants.MOCK_SCHOOL;
 
 var con = mysql.createConnection({
   host: host,

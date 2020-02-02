@@ -1,6 +1,6 @@
 const db = require('../config/db');
   
-// console.log("Current db: " + db.CURRENT_DATABASE);
+console.log("Current db: " + db.CURRENT_DATABASE);
 var SCHOOL_DATABASE = `${db.CURRENT_DATABASE}.school_information`;
 var STUDENT_TO_TEACHER_DATABASE = `${db.CURRENT_DATABASE}.student_to_teacher_registration`;
 

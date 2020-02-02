@@ -2,7 +2,6 @@ const con = require('../../config/db.js');
 const helper = require('../../utils/helper.js');
 const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
-const db = require('../../config/db');
 
 function retrieveListofStudents(request, response) {
 
@@ -33,13 +32,14 @@ function retrieveListofStudents(request, response) {
             console.log('object param');
 
             Object.keys(requestQuery).forEach(function (key) {
-                var row = requestQuery[key];
-                console.log('row.teacher %s', row);
+                var teacherEmail = requestQuery[key];
+                console.log('teacherEmail %s', teacherEmail);
+                
                 if (i == 0) {
-                    RETRIEVE_LIST_OF_STUDENTS_SQL += `(SELECT DISTINCT ${currentLetter}.student_email FROM ${db.CURRENT_DATABASE}.student_to_teacher_registration ${currentLetter} WHERE teacher_email IN ('${row}')) ${currentLetter}`;
+                    RETRIEVE_LIST_OF_STUDENTS_SQL += `(SELECT DISTINCT ${currentLetter}.student_email FROM ${con.CURRENT_DATABASE}.student_to_teacher_registration ${currentLetter} WHERE teacher_email IN ('${teacherEmail}')) ${currentLetter}`;
                 }
                 else {
-                    RETRIEVE_LIST_OF_STUDENTS_SQL += ` INNER JOIN (SELECT DISTINCT ${currentLetter}.student_email FROM ${db.CURRENT_DATABASE}.student_to_teacher_registration ${currentLetter} WHERE ${currentLetter}.teacher_email IN ('${row}')) ${currentLetter} ON ${previousLetter}.student_email = ${currentLetter}.student_email`;
+                    RETRIEVE_LIST_OF_STUDENTS_SQL += ` INNER JOIN (SELECT DISTINCT ${currentLetter}.student_email FROM ${con.CURRENT_DATABASE}.student_to_teacher_registration ${currentLetter} WHERE ${currentLetter}.teacher_email IN ('${teacherEmail}')) ${currentLetter} ON ${previousLetter}.student_email = ${currentLetter}.student_email`;
                 }
 
                 previousLetter = currentLetter;
@@ -65,7 +65,7 @@ function retrieveListofStudents(request, response) {
                     helper.addStudents(row.student_email, retrieveValues);
                 });
 
-                // console.log(retrieveValues);
+                console.log(retrieveValues);
                 helper.writeJSONResponse(retrieveValues, response);
             }
         });

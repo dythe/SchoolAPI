@@ -7,18 +7,19 @@ function registerStudentToTeacher(request, response) {
 
     var requestBody = request.body;
 
+
+    const teacher = requestBody.teacher;
+    const students = requestBody.students;
+
+    var teacherType = typeof (teacher);
+    var studentType = typeof (students);
+    // console.log("teacherType: %s", teacherType);
+    // console.log("studentType: %s", studentType);
+
     if (Object.keys(request.body).length === 0) {
         helper.writeMessageResponse(constants.EMPTY_BODY, response);
     }
     else {
-        const teacher = requestBody.teacher;
-        const students = requestBody.students;
-
-        var teacherType = typeof (teacher);
-        var studentType = typeof (students);
-        // console.log("teacherType: %s", teacherType);
-        // console.log("studentType: %s", studentType);
-
         // Check if it is teacher registering to a bunch of students
         // OR student registering to a bunch of teachers
         if (teacherType === "string" && studentType === "string") {
@@ -38,6 +39,7 @@ function registerStudentToTeacher(request, response) {
 
             con.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
                 if (err) {
+                    console.log(err);
                     helper.errorCodeResolver(err.errno, response);
                 }
                 else {
