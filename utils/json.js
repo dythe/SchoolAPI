@@ -1,29 +1,29 @@
-var EMPTY_BODY = {};
+const EMPTY_BODY = {};
 
 // retrieve_for_notification.test.js (It should return the students to be notified that meets the criteria when there are students that are mentioned)
-var EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
+const EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
     'studentagnes@gmail.com',
     'studentmiche@gmail.com',
     'studentbob@gmail.com'
 ];
 
-var EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
+const EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
     'studentbob@gmail.com'
 ];
 
-var EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = [
+const EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = [
     "studentamy@gmail.com",
     "studenthon@gmail.com"
 ];
 
-var QUICK_REGISTRATION_GIGA = {
+const QUICK_REGISTRATION_GIGA = {
     email: "studentgiga@gmail.com",
     name: "Giga Ma",
     user_type: 0,
     user_status: 0
 }
 
-var QUICK_REGISTRATION_BOB = {
+const QUICK_REGISTRATION_BOB = {
     email: "studentbob@gmail.com",
     name: "Bob Poon",
     user_type: 0,
@@ -34,23 +34,23 @@ var QUICK_REGISTRATION_BOB = {
 //    studentmiche@gmail.com - mentioned but not registered with teacherken@gmail.com
 //    studentbob@gmail.com   - not mentioned but registered with teacherken@gmail.com
 //    studentshawn@gmail.com - mentioned but suspended                                       **/
-var INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS = {
+const INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS = {
     teacher: "teacherken@gmail.com",
     notification: "Hello students! @studentagnes@gmail.com @studentmiche@gmail.com @studentshawn@gmail.com"
 };
 
 // studentbose@gmail.com - is not registered in school database
-var INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS_WITH_INVALID_STUDENT = {
+const INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS_WITH_INVALID_STUDENT = {
     teacher: "teacherken@gmail.com",
     notification: "Hello students! @studentbose@gmail.com @studentagnes@gmail.com @studentmiche@gmail.com @studentshawn@gmail.com"
 };
 
-var INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_NO_MENTIONS = {
+const INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_NO_MENTIONS = {
     teacher: "teacherken@gmail.com",
     notification: "Hey everybody"
 };
 
-var REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID = {
+const REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID = {
     students: "studentabc@gmail.com",
     teacher:
         [

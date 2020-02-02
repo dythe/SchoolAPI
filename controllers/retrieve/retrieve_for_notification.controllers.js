@@ -10,7 +10,7 @@ async function retrieveForNotification(request, response) {
     const message = await validateResponse(requestBody, teacher, notification);
 
     // console.log(recipientsList);
-    var p2 = Promise.resolve(message);
+    const p2 = Promise.resolve(message);
     p2.then(function (v) {
         helper.writeJSONResponse(v, response);
     }, function (e) {
@@ -36,7 +36,7 @@ async function validateResponse(requestBody, teacher, notification) {
         let recipientsList;
 
         if (findEmails.length > 0) {
-            for (var i = 0; i < findEmails.length; i++) {
+            for (let i = 0; i < findEmails.length; i++) {
                 recipientsList = await processEmails(teacher, findEmails[i], retrieveValues);
             }
             recipientsList = await checkTeacherStudents(teacher, retrieveValues);
@@ -74,14 +74,14 @@ async function processEmails(teacher, emails, retrieveValues) {
     // check whether student is valid in the school
     con.pool.query(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, async function (err0, result0) {
         if (err0) throw err0;
-        var res0 = await helper.getResult(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE)
+        const res0 = await helper.getResult(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE)
 
         if (res0[0].count_value0 > 0) {
             // check for whether student is suspended
             con.pool.query(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, async function (err1, result1) {
                 // console.log("checking for suspended %s", CHECK_FOR_SUSPENDED_STUDENT_VALUE[0]);
                 if (err1) throw err1;
-                var res1 = await helper.getResult(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE)
+                const res1 = await helper.getResult(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE)
 
                 // console.log("suspended (res1) count_value: %s", res1[0].count_value);
                 if (res1[0].count_value != 1) {
@@ -90,7 +90,7 @@ async function processEmails(teacher, emails, retrieveValues) {
                     con.pool.query(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, async function (err2, result2) {
                         // console.log("registered pair (res2) is %s", CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE[1]);
                         if (err2) throw err2;
-                        var res2 = await helper.getResult(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE)
+                        const res2 = await helper.getResult(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE)
 
                         // console.log("registered pair (res2) count_value: %s", res2[0].count_value);
 
