@@ -129,7 +129,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/commonstudents?teacher=teacherken@gmail.com&teacher=teacherjoe@gmail.com",
+					"raw": "http://localhost:8081/api/commonstudents?teacher=teacherken@gmail.com&teacher=teacherjoe@gmail.com&teacher=teacherpauline@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -147,6 +147,10 @@
 						{
 							"key": "teacher",
 							"value": "teacherjoe@gmail.com"
+						},
+						{
+							"key": "teacher",
+							"value": "teacherpauline@gmail.com"
 						}
 					]
 				}
@@ -167,7 +171,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"student\" : \"studentagnes@gmail.com\"\r\n}",
+					"raw": "{\r\n  \"student\" : \"studentmas@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
