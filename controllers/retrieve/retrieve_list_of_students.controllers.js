@@ -13,7 +13,7 @@ async function retrieveListofStudents(request, response) {
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
     
-    const message = await validateResponse(requestParameters, teacherType, response, request, dbConnection);
+    const message = await validateResponse(requestParameters, teacherType, response, dbConnection);
     helper.writeJSONResponse(message, response);
 };
 
@@ -56,14 +56,15 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
                 else {
                     RETRIEVE_LIST_OF_STUDENTS_SQL += ` INNER JOIN (SELECT DISTINCT ${currentLetter}.student_email FROM student_to_teacher_registration ${currentLetter} WHERE ${currentLetter}.teacher_email IN ('${teacherEmail}')) ${currentLetter} ON ${previousLetter}.student_email = ${currentLetter}.student_email`;
                 }
-
+                
+                // console.log(RETRIEVE_LIST_OF_STUDENTS_SQL);
                 previousLetter = currentLetter;
                 currentLetter = helper.nextChar(currentLetter);
                 i = i + 1;
             });
         }
 
-        // console.log(RETRIEVE_LIST_OF_STUDENTS_SQL);
+        console.log(RETRIEVE_LIST_OF_STUDENTS_SQL);
         dbConnection.query(RETRIEVE_LIST_OF_STUDENTS_SQL, RETRIEVE_LIST_OF_STUDENTS_VALUE, function (err, result, fields) {
             if (err) {
                 console.log(err);
@@ -77,6 +78,7 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
 
                 Object.keys(result).forEach(function (key) {
                     let row = result[key];
+                    console.log('row values is: %s', row);
                     helper.addStudents(row.student_email, retrieveValues);
                 });
 

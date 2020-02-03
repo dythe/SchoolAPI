@@ -6,81 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Register students to specified teacher 1",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"students\": \"studentjon@gmail.com\",\r\n  \"teacher\": [\r\n  \t\"teacherken@gmail.com\",\r\n  \t\"teacherpeter@gmail.com\"\r\n  ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/register/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"register",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Register students to specified teacher 2",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"teacher\": \"teacherken@gmail.com\",\r\n  \"students\":\r\n    [\r\n      \"studentjon@gmail.com\",\r\n      \"studenthon@gmail.com\"\r\n    ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/register/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"register",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Quick Registration",
+			"name": "(0) Quick Registration",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -117,7 +43,81 @@
 			"response": []
 		},
 		{
-			"name": "Retrieve all students who are registered to teacher",
+			"name": "(1) Register student to specified teachers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"students\": \"studentjon@gmail.com\",\r\n  \"teacher\": [\r\n  \t\"teacherken@gmail.com\",\r\n  \t\"teacherpeter@gmail.com\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/register/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(1) Register teacher to specified students",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"teacher\": \"teacherjoe@gmail.com\",\r\n  \"students\":\r\n    [\r\n      \"studentlami@gmail.com\",\r\n      \"studentmiche@gmail.com\",\r\n      \"studentjon@gmail.com\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/register/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "(2) Retrieve list of common students for teachers",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -129,7 +129,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/commonstudents?teacher=teacherken@gmail.com&teacher=teacherjoe@gmail.com&teacher=teacherpauline@gmail.com",
+					"raw": "http://localhost:8081/api/commonstudents?teacher=teacherjoe@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -142,7 +142,8 @@
 					"query": [
 						{
 							"key": "teacher",
-							"value": "teacherken@gmail.com"
+							"value": "teacherken@gmail.com",
+							"disabled": true
 						},
 						{
 							"key": "teacher",
@@ -150,7 +151,8 @@
 						},
 						{
 							"key": "teacher",
-							"value": "teacherpauline@gmail.com"
+							"value": "teacherpeter@gmail.com",
+							"disabled": true
 						}
 					]
 				}
@@ -158,7 +160,7 @@
 			"response": []
 		},
 		{
-			"name": "Suspend student",
+			"name": "(3) Suspend a specified student",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -194,7 +196,7 @@
 			"response": []
 		},
 		{
-			"name": "Send notification to students 1",
+			"name": "(4) Retrieve list of students to receive a notification with mentions",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -230,7 +232,7 @@
 			"response": []
 		},
 		{
-			"name": "Send notification to students 2",
+			"name": "(4) Retrieve list of students to receive a notification with no mentions",
 			"request": {
 				"method": "POST",
 				"header": [
