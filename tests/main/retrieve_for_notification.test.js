@@ -58,8 +58,8 @@ describe("Retrieve list of students for notification", () => {
             })
     });
 
-    // afterAll(async (done) => {
-    //     dbConnection.end();
-    //     done();
-    // });
+    afterAll(async (done) => {
+        dbConnection.end();
+        done();
+    });
 });

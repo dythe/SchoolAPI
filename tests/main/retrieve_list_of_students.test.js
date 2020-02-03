@@ -75,9 +75,9 @@ describe("Retrieve list of students for under teacher", () => {
                 done();
             })
     });
-    // afterAll(async (done) => {
-    //     dbConnection.end();
-    //     dbConnection.close();
-    //     done();
-    // });
+
+    afterAll(async (done) => {
+        dbConnection.end();
+        done();
+    });
 });

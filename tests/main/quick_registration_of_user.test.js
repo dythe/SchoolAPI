@@ -21,42 +21,40 @@ describe("Quick Registration of User", () => {
         const req = jsonvalues.EMPTY_BODY;
         const resp = helper.createJSON(constants.EMPTY_BODY);
         axios.get.mockResolvedValue(resp);
-        
+
         return quick_registration_of_user.validateResponse(req, dbConnection)
-        .then(data => {
-            expect(data).toBe(constants.EMPTY_BODY);
-            done();
-        })
+            .then(data => {
+                expect(data).toBe(constants.EMPTY_BODY);
+                done();
+            })
     });
 
     it("Email should be created successfully", function (done) {
         const req = jsonvalues.REQUEST_VALUE_2_FOR_TEST_CASE_QUICK_REGISTRATION;
         const resp = helper.createJSON(constants.EMAIL_SUCCESSFULLY_CREATED);
         axios.get.mockResolvedValue(resp);
-        
+
         return quick_registration_of_user.validateResponse(req, dbConnection)
-        .then(data => {
-            expect(data).toBe(constants.EMAIL_SUCCESSFULLY_CREATED);
-            done();
-        })
+            .then(data => {
+                expect(data).toBe(constants.EMAIL_SUCCESSFULLY_CREATED);
+                done();
+            })
     });
 
     it("Email should not be created as it already exists", function (done) {
         const req = jsonvalues.REQUEST_VALUE_3_FOR_TEST_CASE_QUICK_REGISTRATION;
         const resp = helper.createJSON(constants.EMAIL_ALREADY_EXISTS);
         axios.get.mockResolvedValue(resp);
-        
-        return quick_registration_of_user.validateResponse(req, dbConnection)
-        .then(data => {
-            expect(data).toBe(constants.EMAIL_ALREADY_EXISTS);
-            done();
-        })
-    });
-    
-    // afterAll((done) => {
-    //     con.con.end();
-    //     con.pool.end();
-    //     done();
-    // });
 
+        return quick_registration_of_user.validateResponse(req, dbConnection)
+            .then(data => {
+                expect(data).toBe(constants.EMAIL_ALREADY_EXISTS);
+                done();
+            })
+    });
+
+    afterAll(async (done) => {
+        dbConnection.end();
+        done();
+    });
 });
