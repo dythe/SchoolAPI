@@ -12,7 +12,9 @@ function writeJSONResponse(responseMessage, response) {
     response.end();
 }
 
-function findEmailAddresses(StrObj) {
+async function findEmailAddresses(StrObj) {
+
+    console.log(StrObj);
     const separateEmailsBy = " ";
     let email = "<none>"; // if no match, use this
     const emailsArray = StrObj.match(/(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/gi);
@@ -24,7 +26,12 @@ function findEmailAddresses(StrObj) {
             emailsList.push(emailsArray[i]);
         }
     }
-    return emailsList;
+    // return emailsList;
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(emailsList), 1000)
+    });
+
+    return promise;
 }
 
 function addRecipients(currentValue, retrieveValues) {
@@ -41,10 +48,10 @@ function addStudents(currentValue, retrieveValues) {
     }
 }
 
-function getResult(sql, sqlvalues) {
+function getResult(sql, sqlvalues, dbConnection) {
     // console.log("getResult SQL Query: %s", sql);
     return new Promise(function (resolve, reject) {
-        con.pool.query(sql, sqlvalues, function (err, result) {
+        dbConnection.query(sql, sqlvalues, function (err, result) {
             if (err) {
                 reject(err)
             } else {
@@ -59,20 +66,12 @@ function errorCodeResolver(errno) {
     switch (errno) {
         case constants.FOREIGN_KEY_CONSTRAINT:
             return constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST;
-            // writeMessageResponse(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST, response);
-            break;
         case constants.DUPLICATE_ENTRY:
             return constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS;
-            // writeMessageResponse(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, response);
-            break;
         case constants.QUERY_WAS_EMPTY:
             return constants.TEACHER_DATA_NOT_REQUESTED;
-            // writeMessageResponse(constants.TEACHER_DATA_NOT_REQUESTED, response);
-            break;
         default:
             return constants.GENERIC_ERROR;
-            // writeMessageResponse(constants.GENERIC_ERROR, response);
-            break;
     }
 }
 
@@ -110,36 +109,48 @@ function deleteFromDatabase(valuesToDelete) {
 
 
 // for unit tesitng
-function insertDatabase(valuesToInsert) {
+function insertDatabase(valuesToInsert, schemaName, dbConnection) {
     const SQL_QUERY = queries.REGISTER_STUDENT_TO_MANY_TEACHERS;
     const REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE = valuesToInsert;
 
-    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
-        con.pool.query(SQL_QUERY, REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE, function (err, result) {
+    if (schemaName == constants.MOCK_SCHOOL) {
+        dbConnection.query(SQL_QUERY, REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE, function (err, result) {
             if (err) throw err;
         })
     } else {
         console.log("Something went wrong. Please contact the administrator.");
     }
+
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(valuesToInsert), 1000)
+      });
+    
+    return promise;
 }
 
 // for unit tesitng
-function clearDatabase(databaseName) {
+function clearDatabase(tableName, schemaName, dbConnection) {
 
     let querytable;
 
-    if (databaseName == constants.SCHOOL_INFORMATION) {
+    if (tableName == constants.SCHOOL_INFORMATION) {
         querytable = queries.DELETE_ALL_RECORDS_STUDENT_INFORMATION;
     }
-    else if (databaseName == constants.STUDENT_TO_TEACHER_REGISTRATION) {
+    else if (tableName == constants.STUDENT_TO_TEACHER_REGISTRATION) {
         querytable = queries.DELETE_ALL_RECORDS_FROM_STUDENT_TO_TEACHER;
     }
 
-    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
+    if (schemaName == constants.MOCK_SCHOOL) {
         // console.log("Current DB: " + con.CURRENT_DATABASE)
-        con.pool.query(querytable, function (err, result) {
+        dbConnection.query(querytable, function (err, result) {
             if (err) throw err;
         })
+
+        let promise = new Promise((resolve, reject) => {
+            setTimeout(() => resolve(dbConnection), 1000)
+          });
+        
+        return promise;
     } else {
         console.log("Something went wrong. Please contact the administrator.");
     }

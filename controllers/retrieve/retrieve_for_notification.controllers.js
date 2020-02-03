@@ -7,7 +7,11 @@ async function retrieveForNotification(request, response) {
     const requestBody = request.body;
     const teacher = requestBody.teacher;
     const notification = requestBody.notification;
-    const message = await validateResponse(requestBody, teacher, notification);
+
+    // Initialize database connection
+    let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
+
+    const message = await validateResponse(requestBody, teacher, notification, dbConnection);
 
     // console.log(recipientsList);
     const p2 = Promise.resolve(message);
@@ -18,7 +22,7 @@ async function retrieveForNotification(request, response) {
     });
 }
 
-async function validateResponse(requestBody, teacher, notification) {
+async function validateResponse(requestBody, teacher, notification, dbConnection) {
 
     let returnValue = "";
 
@@ -31,18 +35,18 @@ async function validateResponse(requestBody, teacher, notification) {
             recipients: []
         };
 
-        let findEmails = helper.findEmailAddresses(notification);
+        let findEmails = await helper.findEmailAddresses(notification);
 
         let recipientsList;
 
         if (findEmails.length > 0) {
             for (let i = 0; i < findEmails.length; i++) {
-                recipientsList = await processEmails(teacher, findEmails[i], retrieveValues);
+                recipientsList = await processEmails(teacher, findEmails[i], retrieveValues, dbConnection);
             }
-            recipientsList = await checkTeacherStudents(teacher, retrieveValues);
+            recipientsList = await checkTeacherStudents(teacher, retrieveValues, dbConnection);
         }
         else {
-            recipientsList = await checkTeacherStudents(teacher, retrieveValues);
+            recipientsList = await checkTeacherStudents(teacher, retrieveValues, dbConnection);
             // console.log(recipientsList);
         }
 
@@ -57,7 +61,7 @@ async function validateResponse(requestBody, teacher, notification) {
 }
 
 // Process emails in notifications that were mentioned
-async function processEmails(teacher, emails, retrieveValues) {
+async function processEmails(teacher, emails, retrieveValues, dbConnection) {
     console.log("processing email: %s", emails);
 
     // res0 - check for valid student
@@ -72,25 +76,25 @@ async function processEmails(teacher, emails, retrieveValues) {
     const CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE = [teacher, emails];
 
     // check whether student is valid in the school
-    con.pool.query(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, async function (err0, result0) {
+    dbConnection.query(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, async function (err0, result0) {
         if (err0) throw err0;
-        const res0 = await helper.getResult(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE)
+        const res0 = await helper.getResult(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, dbConnection)
 
         if (res0[0].count_value0 > 0) {
             // check for whether student is suspended
-            con.pool.query(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, async function (err1, result1) {
+            dbConnection.query(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, async function (err1, result1) {
                 // console.log("checking for suspended %s", CHECK_FOR_SUSPENDED_STUDENT_VALUE[0]);
                 if (err1) throw err1;
-                const res1 = await helper.getResult(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE)
+                const res1 = await helper.getResult(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, dbConnection)
 
                 // console.log("suspended (res1) count_value: %s", res1[0].count_value);
                 if (res1[0].count_value != 1) {
 
                     // check whether teacher and student pair is registered
-                    con.pool.query(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, async function (err2, result2) {
+                    dbConnection.query(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, async function (err2, result2) {
                         // console.log("registered pair (res2) is %s", CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE[1]);
                         if (err2) throw err2;
-                        const res2 = await helper.getResult(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE)
+                        const res2 = await helper.getResult(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, dbConnection)
 
                         // console.log("registered pair (res2) count_value: %s", res2[0].count_value);
 
@@ -118,14 +122,14 @@ async function processEmails(teacher, emails, retrieveValues) {
 }
 
 // Check the students of a teacher
-async function checkTeacherStudents(teacher, retrieveValues) {
+async function checkTeacherStudents(teacher, retrieveValues, dbConnection) {
     let RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL = queries.RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED;
     let RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE = [teacher, 0];
 
     // check for teacher's registered students
-    con.pool.query(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE, async function (err4, result4) {
+    dbConnection.query(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE, async function (err4, result4) {
         if (err4) throw err4;
-        let res4 = await helper.getResult(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE)
+        let res4 = await helper.getResult(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE, dbConnection)
 
         console.log(res4);
 

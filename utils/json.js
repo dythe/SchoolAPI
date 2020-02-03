@@ -1,4 +1,4 @@
-const EMPTY_BODY = {};
+const EMPTY_BODY = '';
 
 // retrieve_for_notification.test.js (It should return the students to be notified that meets the criteria when there are students that are mentioned)
 const EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [

@@ -8,19 +8,24 @@ async function retrieveListofStudents(request, response) {
     const requestParameters = request.query.teacher;
     const teacherType = typeof (request.query.teacher);
 
-    const message = await validateResponse(requestParameters, teacherType, response, request);
+    console.log(requestParameters);
+
+    // Initialize database connection
+    let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
+    
+    const message = await validateResponse(requestParameters, teacherType, response, request, dbConnection);
     helper.writeJSONResponse(message, response);
 };
 
-async function validateResponse(requestParameters, teacherType, response, request) {
+async function validateResponse(requestParameters, teacherType, response, dbConnection) {
 
     let returnValue = "";
 
-    console.log('requestParameters value is %s', requestParameters);
+    // console.log('requestParameters value is %s', requestParameters);
 
     if (Object.keys(requestParameters).length === 0) {
         // console.log("empty body");
-        returnValue = constants.EMPTY_BODY
+        returnValue = constants.EMPTY_PARAMETERS
         return returnValue;
     } else {
         let RETRIEVE_LIST_OF_STUDENTS_SQL;
@@ -31,13 +36,13 @@ async function validateResponse(requestParameters, teacherType, response, reques
         let previousLetter = 'a';
 
         // single parameter
-        if (teacherType === "string") {
+        if (teacherType === constants.STR_VAL) {
             console.log('string param');
             RETRIEVE_LIST_OF_STUDENTS_VALUE = [requestParameters];
             RETRIEVE_LIST_OF_STUDENTS_SQL = queries.RETRIEVE_LIST_OF_STUDENTS_SINGLE;
         }
         // multiple parameters
-        else if (teacherType === "object") {
+        else if (teacherType === constants.OBJ_VAL) {
             RETRIEVE_LIST_OF_STUDENTS_SQL = `SELECT DISTINCT ${currentLetter}.student_email FROM `;
             console.log('object param');
 
@@ -46,10 +51,10 @@ async function validateResponse(requestParameters, teacherType, response, reques
                 console.log('teacherEmail %s', teacherEmail);
                 
                 if (i == 0) {
-                    RETRIEVE_LIST_OF_STUDENTS_SQL += `(SELECT DISTINCT ${currentLetter}.student_email FROM ${con.CURRENT_DATABASE}.student_to_teacher_registration ${currentLetter} WHERE teacher_email IN ('${teacherEmail}')) ${currentLetter}`;
+                    RETRIEVE_LIST_OF_STUDENTS_SQL += `(SELECT DISTINCT ${currentLetter}.student_email FROM student_to_teacher_registration ${currentLetter} WHERE teacher_email IN ('${teacherEmail}')) ${currentLetter}`;
                 }
                 else {
-                    RETRIEVE_LIST_OF_STUDENTS_SQL += ` INNER JOIN (SELECT DISTINCT ${currentLetter}.student_email FROM ${con.CURRENT_DATABASE}.student_to_teacher_registration ${currentLetter} WHERE ${currentLetter}.teacher_email IN ('${teacherEmail}')) ${currentLetter} ON ${previousLetter}.student_email = ${currentLetter}.student_email`;
+                    RETRIEVE_LIST_OF_STUDENTS_SQL += ` INNER JOIN (SELECT DISTINCT ${currentLetter}.student_email FROM student_to_teacher_registration ${currentLetter} WHERE ${currentLetter}.teacher_email IN ('${teacherEmail}')) ${currentLetter} ON ${previousLetter}.student_email = ${currentLetter}.student_email`;
                 }
 
                 previousLetter = currentLetter;
@@ -58,8 +63,8 @@ async function validateResponse(requestParameters, teacherType, response, reques
             });
         }
 
-        console.log(RETRIEVE_LIST_OF_STUDENTS_SQL);
-        con.query(RETRIEVE_LIST_OF_STUDENTS_SQL, RETRIEVE_LIST_OF_STUDENTS_VALUE, function (err, result, fields) {
+        // console.log(RETRIEVE_LIST_OF_STUDENTS_SQL);
+        dbConnection.query(RETRIEVE_LIST_OF_STUDENTS_SQL, RETRIEVE_LIST_OF_STUDENTS_VALUE, function (err, result, fields) {
             if (err) {
                 console.log(err);
                 helper.errorCodeResolver(err.errno, response);

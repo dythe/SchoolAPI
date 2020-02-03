@@ -8,10 +8,14 @@ const retrieve_list_of_students = require('../../controllers/retrieve/retrieve_l
 jest.mock('axios');
 jest.setTimeout(100000);
 
+let dbConnection = "";
+
 describe("Retrieve list of students for under teacher", () => {
     beforeAll(async (done) => {
-        helper.setDatabase();
-        helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION);
+        
+        dbConnection = await con.createNewDBConnection(constants.MOCK_SCHOOL);
+        await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION, constants.MOCK_SCHOOL, dbConnection);
+
         var REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
         REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherken@gmail.com', 'studentagnes@gmail.com']);
         REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherken@gmail.com', 'studenthon@gmail.com']);
@@ -19,7 +23,8 @@ describe("Retrieve list of students for under teacher", () => {
         REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherpauline@gmail.com', 'studentamy@gmail.com']);
         REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherjoe@gmail.com', 'studentamy@gmail.com']);
         REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherjoe@gmail.com', 'studenthon@gmail.com']);
-        helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
+        await helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], constants.MOCK_SCHOOL, dbConnection);
+
         done();
     });
 
@@ -28,30 +33,51 @@ describe("Retrieve list of students for under teacher", () => {
         const resp = helper.createJSON(constants.EMPTY_BODY);
         axios.get.mockResolvedValue(resp);
 
-        return retrieve_list_of_students.validateResponse(req, null, null, resp, req)
+        return retrieve_list_of_students.validateResponse(req, null, null, resp, req, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMPTY_BODY);
+                expect(data).toBe(constants.EMPTY_PARAMETERS);
                 done();
             })
     });
 
-    //place holder
-    // it('It should return the students that are registered in school database to be notified that meets the criteria when there are students that are mentioned', async (done) => {
-    //     // 
-    //     const req = jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS;
-    //     const resp = jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
-    //     axios.get.mockResolvedValue(resp);
+    it('It should retrieve students that the teachers have in common', async (done) => {
+        const req = ['teacherken@gmail.com', 'teacherpauline@gmail.com', 'teacherjoe@gmail.com'];
+        const resp = { students: ['studentamy@gmail.com'] };
+        axios.get.mockResolvedValue(resp);
 
-    //     return retrieve_for_notification.validateResponse(req, req.teacher, req.notification)
-    //         .then(data => {
-    //             expect(data.recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
-    //             done();
-    //         })
-    // });
+        return retrieve_list_of_students.validateResponse(req, constants.OBJ_VAL, resp, dbConnection)
+            .then(data => {
+                expect(data).toStrictEqual(resp);
+                done();
+            })
+    });
 
+    it('It should retrieve students that a teacher have', async (done) => {
+        const req = 'teacherken@gmail.com';
+        const resp = { students: ['studentagnes@gmail.com', 'studentamy@gmail.com', 'studenthon@gmail.com'] };
+        axios.get.mockResolvedValue(resp);
+
+        return retrieve_list_of_students.validateResponse(req, constants.STR_VAL, resp, dbConnection)
+            .then(data => {
+                expect(data).toStrictEqual(resp);
+                done();
+            })
+    });
+
+    it('It should not have retrieved any students as there are no students in commmon', async (done) => {
+        const req = ['teacherken@gmail.com', 'teacherpauline@gmail.com', 'teacherjoe@gmail.com', 'teacherannie@gmail.com'];
+        const resp = { students: [] };
+        axios.get.mockResolvedValue(resp);
+
+        return retrieve_list_of_students.validateResponse(req, constants.OBJ_VAL, resp, dbConnection)
+            .then(data => {
+                expect(data).toStrictEqual(resp);
+                done();
+            })
+    });
     // afterAll(async (done) => {
-    //     con.pool.end();
-    //     con.end();
+    //     dbConnection.end();
+    //     dbConnection.close();
     //     done();
     // });
 });

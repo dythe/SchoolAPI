@@ -7,15 +7,15 @@ const register_student_to_teacher = require('../../controllers/register/register
 
 jest.mock('axios');
 
+let dbConnection = "";
+
 describe("Registration of Student to Teacher", () => {
 
     beforeAll(async (done) => {
-        helper.setDatabase();
-        helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION);
-        // var REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
-        // REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentshawn@gmail.com']);
-        // REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherannie@gmail.com', 'studentmas@gmail.com']);
-        // helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
+        // helper.setDatabase();
+
+        dbConnection = await con.createNewDBConnection(constants.MOCK_SCHOOL);
+        await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION, constants.MOCK_SCHOOL, dbConnection);
         done();
     });
 
@@ -24,7 +24,7 @@ describe("Registration of Student to Teacher", () => {
         const resp = helper.createJSON(constants.EMPTY_BODY);
         axios.get.mockResolvedValue(resp);
         
-        return register_student_to_teacher.validateResponse(req, null, null, "string", "string")
+        return register_student_to_teacher.validateResponse(req, null, null, constants.STR_VAL, constants.STR_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.EMPTY_BODY);
             done();
@@ -36,7 +36,7 @@ describe("Registration of Student to Teacher", () => {
         const resp = helper.createJSON(constants.INVALID_TEACHER_TO_STUDENT_DATA);
         axios.get.mockResolvedValue(resp);
         
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "object")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.OBJ_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
             done();
@@ -48,7 +48,7 @@ describe("Registration of Student to Teacher", () => {
         const resp = helper.createJSON(constants.INVALID_TEACHER_TO_STUDENT_DATA);
         axios.get.mockResolvedValue(resp);
         
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "string")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.STR_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
             done();
@@ -59,7 +59,7 @@ describe("Registration of Student to Teacher", () => {
         const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS;
         const resp = helper.createJSON(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
         axios.get.mockResolvedValue(resp);
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "object")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.OBJ_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
             done();
@@ -70,7 +70,7 @@ describe("Registration of Student to Teacher", () => {
         const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENTS;
         const resp = helper.createJSON(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
         axios.get.mockResolvedValue(resp);
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "object")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.OBJ_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
             done();
@@ -81,7 +81,7 @@ describe("Registration of Student to Teacher", () => {
         const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS;
         const resp = helper.createJSON(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
         axios.get.mockResolvedValue(resp);
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.STR_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
             done();
@@ -92,7 +92,7 @@ describe("Registration of Student to Teacher", () => {
         const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHERS;
         const resp = helper.createJSON(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
         axios.get.mockResolvedValue(resp);
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.STR_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
             done();
@@ -103,7 +103,7 @@ describe("Registration of Student to Teacher", () => {
         const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_TEACHER_MANY_STUDENT_INVALID;
         const resp = helper.createJSON(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
         axios.get.mockResolvedValue(resp);
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "string", "object")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.OBJ_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
             done();
@@ -114,7 +114,7 @@ describe("Registration of Student to Teacher", () => {
         const req = jsonvalues.REGISTER_STUDENT_TO_TEACHER_ONE_STUDENT_MANY_TEACHER_INVALID;
         const resp = helper.createJSON(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
         axios.get.mockResolvedValue(resp);
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, "object", "string")
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.STR_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
             done();
@@ -122,8 +122,7 @@ describe("Registration of Student to Teacher", () => {
     });
 
     // afterAll(async (done) => {
-    //     con.pool.end();
-    //     con.end();
+    //     dbConnection.end();
     //     done();
     // });
 });

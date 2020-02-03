@@ -1,8 +1,8 @@
 const db = require('../config/db');
   
-console.log("Current db: " + db.CURRENT_DATABASE);
-const SCHOOL_DATABASE = `${db.CURRENT_DATABASE}.school_information`;
-const STUDENT_TO_TEACHER_DATABASE = `${db.CURRENT_DATABASE}.student_to_teacher_registration`;
+// console.log("Current db: " + db.CURRENT_DATABASE);
+const SCHOOL_DATABASE = `school_information`;
+const STUDENT_TO_TEACHER_DATABASE = `student_to_teacher_registration`;
 
 // quick_registration_of_user.js
 const QUICK_REGISTRATION_OF_USERS = `INSERT INTO ${SCHOOL_DATABASE} (email, name, user_type, user_status) VALUES (?, ?, ?, ?)`;

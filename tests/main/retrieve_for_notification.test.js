@@ -8,13 +8,16 @@ const retrieve_for_notification = require('../../controllers/retrieve/retrieve_f
 jest.mock('axios');
 jest.setTimeout(100000);
 
+let dbConnection = "";
+
 describe("Retrieve list of students for notification", () => {
     beforeAll(async (done) => {
-        helper.setDatabase();
-        helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION);
+        // helper.setDatabase();
+        dbConnection = await con.createNewDBConnection(constants.MOCK_SCHOOL);
+        await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION, constants.MOCK_SCHOOL, dbConnection);
         const REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
         REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherken@gmail.com', 'studentbob@gmail.com']);
-        helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE]);
+        await helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], constants.MOCK_SCHOOL, dbConnection);
         done();
     });
 
@@ -23,7 +26,7 @@ describe("Retrieve list of students for notification", () => {
         const resp = helper.createJSON(constants.EMPTY_BODY);
         axios.get.mockResolvedValue(resp);
 
-        return retrieve_for_notification.validateResponse(req, null, null)
+        return retrieve_for_notification.validateResponse(req, null, null, dbConnection)
             .then(data => {
                 expect(data).toBe(constants.EMPTY_BODY);
                 done();
@@ -35,7 +38,7 @@ describe("Retrieve list of students for notification", () => {
         const resp = jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
         axios.get.mockResolvedValue(resp);
 
-        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification)
+        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
             .then(data => {
                 expect(data.recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
                 done();
@@ -47,7 +50,7 @@ describe("Retrieve list of students for notification", () => {
         const resp = jsonvalues.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
         axios.get.mockResolvedValue(resp);
 
-        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification)
+        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
             .then(data => {
                 expect(data.recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
                 done();
@@ -55,8 +58,7 @@ describe("Retrieve list of students for notification", () => {
     });
 
     // afterAll(async (done) => {
-    //     con.pool.end();
-    //     con.end();
+    //     dbConnection.end();
     //     done();
     // });
 });

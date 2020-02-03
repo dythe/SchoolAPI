@@ -10,6 +10,7 @@ const STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
 const EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST = 'Either the student or teacher does not exist!';
 
 const EMPTY_BODY = 'There was no data sent.';
+const EMPTY_PARAMETERS = 'There were no parameters sent.';
 
 // sql state
 const DUPLICATE_ENTRY = 1062;
@@ -19,6 +20,10 @@ const FOREIGN_KEY_CONSTRAINT = 1452; // does not exist
 // Databases
 const MOCK_SCHOOL = 'mock_school';
 const NORMAL_SCHOOL = 'school';
+
+// const/let/var type
+const STR_VAL = 'string';
+const OBJ_VAL = 'object';
 
 const SCHOOL_INFORMATION = 'school_information';
 const STUDENT_TO_TEACHER_REGISTRATION = 'student_to_teacher_registration';
@@ -30,7 +35,11 @@ const RETRIEVE_FOR_NOTIFICATION_API_URL = '/api/retrievefornotifications';
 const RETRIEVE_LIST_OF_STUDENTS_API_URL = '/api/commonstudents';
 const SUSPEND_STUDENT_API_URL = '/api/suspend';
 
+module.exports.STR_VAL = STR_VAL;
+module.exports.OBJ_VAL = OBJ_VAL;
+
 module.exports.EMPTY_BODY = EMPTY_BODY;
+module.exports.EMPTY_PARAMETERS = EMPTY_PARAMETERS;
 module.exports.TEACHER_DATA_NOT_REQUESTED = TEACHER_DATA_NOT_REQUESTED;
 module.exports.SCHOOL_INFORMATION = SCHOOL_INFORMATION;
 module.exports.STUDENT_TO_TEACHER_REGISTRATION = STUDENT_TO_TEACHER_REGISTRATION;

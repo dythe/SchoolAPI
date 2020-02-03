@@ -14,14 +14,17 @@ async function registerStudentToTeacher(request, response) {
     const teacherType = typeof (teacher);
     const studentType = typeof (students);
 
-    const message = await validateResponse(requestBody, teacher, students, teacherType, studentType);
+    // Initialize database connection
+    let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
+
+    const message = await validateResponse(requestBody, teacher, students, teacherType, studentType, dbConnection);
     // console.log("teacherType: %s", teacherType);
     // console.log("studentType: %s", studentType);
     console.log("message is %s", message);
     helper.writeMessageResponse(message, response);
 }
 
-async function validateResponse(requestBody, teacher, students, teacherType, studentType) {
+async function validateResponse(requestBody, teacher, students, teacherType, studentType, dbConnection) {
     
     let returnValue = "";
 
@@ -33,15 +36,15 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
     else {
         // Check if it is teacher registering to a bunch of students
         // OR student registering to a bunch of teachers
-        if (teacherType === "string" && studentType === "string") {
+        if (teacherType === constants.STR_VAL && studentType === constants.STR_VAL) {
             returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
             return returnValue;
         }
-        else if (teacherType === "object" && studentType === "object") {
+        else if (teacherType === constants.OBJ_VAL && studentType === constants.OBJ_VAL) {
             returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
             return returnValue;
         }
-        else if (teacherType === "object" && studentType === "string") {
+        else if (teacherType === constants.OBJ_VAL && studentType === constants.STR_VAL) {
 
             const REGISTER_STUDENT_TO_MANY_TEACHERS_SQL = queries.REGISTER_STUDENT_TO_MANY_TEACHERS;
             const REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
@@ -50,7 +53,7 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                 REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push([element, students]);
             });
 
-            con.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
+            dbConnection.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
                 if (err) {
                     // console.log(err);
                     let errMessage = helper.errorCodeResolver(err.errno);
@@ -63,7 +66,7 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                 }
             });
         }
-        else if (teacherType === "string" && studentType === "object") {
+        else if (teacherType === constants.STR_VAL && studentType === constants.OBJ_VAL) {
 
             const REGISTER_TEACHER_TO_MANY_STUDENTS_SQL = queries.REGISTER_TEACHER_TO_MANY_STUDENTS;
             const REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE = [];
@@ -73,7 +76,7 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
             });
 
             // console.log(REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE);
-            con.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE], function (err) {
+            dbConnection.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE], function (err) {
                 if (err) {
                     // console.log(err);
                     let errMessage = helper.errorCodeResolver(err.errno);
