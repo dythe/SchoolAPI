@@ -35,7 +35,7 @@ Explanation of the database schema
    * Database configuration file is located at **SchoolAPI/config/db.js**
 
 
-2. Once this are all setup, run the database scripts located at **SchoolAPI/scripts** in **MySQL** to create the initial schema and tables
+2. Once Step 1 is is all set up, execute the database scripts located at **SchoolAPI/scripts** in **MySQL** to create the initial schema, tables and test data required.
 
 ### **Node**
 
