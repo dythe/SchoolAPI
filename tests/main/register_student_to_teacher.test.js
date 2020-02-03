@@ -36,7 +36,7 @@ describe("Registration of Student to Teacher", () => {
         const resp = helper.createJSON(constants.INVALID_TEACHER_TO_STUDENT_DATA);
         axios.get.mockResolvedValue(resp);
         
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.OBJ_VAL, dbConnection)
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.STR_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
             done();
@@ -48,7 +48,7 @@ describe("Registration of Student to Teacher", () => {
         const resp = helper.createJSON(constants.INVALID_TEACHER_TO_STUDENT_DATA);
         axios.get.mockResolvedValue(resp);
         
-        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.STR_VAL, dbConnection)
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.OBJ_VAL, dbConnection)
         .then(data => {
             expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
             done();

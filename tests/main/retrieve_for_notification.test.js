@@ -1,6 +1,7 @@
 const constants = require('../../utils/constants.js');
 const jsonvalues = require('../../utils/json.js');
 const helper = require('../../utils/helper.js');
+const queries = require('../../utils/queries.js');
 const con = require('../../config/db.js');
 const axios = require('axios');
 const retrieve_for_notification = require('../../controllers/retrieve/retrieve_for_notification.controllers');
@@ -17,7 +18,7 @@ describe("Retrieve list of students for notification", () => {
         await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION, constants.MOCK_SCHOOL, dbConnection);
         const REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];
         REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE.push(['teacherken@gmail.com', 'studentbob@gmail.com']);
-        await helper.insertDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], constants.MOCK_SCHOOL, dbConnection);
+        await helper.executeQueryToDatabase([REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], constants.MOCK_SCHOOL, queries.REGISTER_STUDENT_TO_MANY_TEACHERS, dbConnection);
         done();
     });
 

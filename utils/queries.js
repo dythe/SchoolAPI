@@ -1,6 +1,3 @@
-const db = require('../config/db');
-  
-// console.log("Current db: " + db.CURRENT_DATABASE);
 const SCHOOL_DATABASE = `school_information`;
 const STUDENT_TO_TEACHER_DATABASE = `student_to_teacher_registration`;
 
@@ -18,6 +15,7 @@ const RETRIEVE_LIST_OF_STUDENTS_MULTIPLE_2 = `SELECT student_email FROM ${STUDEN
 
 // suspend_student.js
 const SUSPEND_STUDENT = `UPDATE ${SCHOOL_DATABASE} SET user_status = (?) WHERE email IN (?) AND user_type = (SELECT user_status FROM ${SCHOOL_DATABASE} WHERE email = (?) AND user_type = ?)`;
+const UPDATE_STUDENT_TO_UNSUSPENDED = `UPDATE ${SCHOOL_DATABASE} SET user_status = (?) WHERE email IN (?)`;
 
 // retrieve_for_notification.js
 const CHECK_FOR_SUSPENDED_STUDENT = `SELECT COUNT(*) as count_value FROM ${SCHOOL_DATABASE} WHERE email = ? AND user_status = ?`;
@@ -37,6 +35,7 @@ module.exports.REGISTER_TEACHER_TO_MANY_STUDENTS = REGISTER_TEACHER_TO_MANY_STUD
 module.exports.RETRIEVE_LIST_OF_STUDENTS_SINGLE = RETRIEVE_LIST_OF_STUDENTS_SINGLE;
 module.exports.CHECK_FOR_VALID_STUDENT = CHECK_FOR_VALID_STUDENT;
 module.exports.SUSPEND_STUDENT = SUSPEND_STUDENT;
+module.exports.UPDATE_STUDENT_TO_UNSUSPENDED = UPDATE_STUDENT_TO_UNSUSPENDED;
 module.exports.CHECK_FOR_SUSPENDED_STUDENT = CHECK_FOR_SUSPENDED_STUDENT;
 module.exports.CHECK_TEACHER_STUDENT_REGISTRATION_PAIR = CHECK_TEACHER_STUDENT_REGISTRATION_PAIR;
 module.exports.RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED = RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED;

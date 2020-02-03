@@ -1,5 +1,7 @@
 const EMPTY_BODY = '';
 
+const EMPTY_ARRAY = [];
+
 // retrieve_for_notification.test.js (It should return the students to be notified that meets the criteria when there are students that are mentioned)
 const EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
     'studentagnes@gmail.com',
@@ -11,9 +13,45 @@ const EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
     'studentbob@gmail.com'
 ];
 
+// retrieve_list_of_students.test.js
+const REQUEST_VALUE_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = [
+    'teacherken@gmail.com', 
+    'teacherpauline@gmail.com', 
+    'teacherjoe@gmail.com'
+];
+
+// quick_registration_of_user.test.js
+const REQUEST_VALUE_2_FOR_TEST_CASE_QUICK_REGISTRATION = {
+    email: "studentgiga@gmail.com",
+    name: "Giga Ma",
+    user_type: 0,
+    user_status: 0
+}
+
+const REQUEST_VALUE_3_FOR_TEST_CASE_QUICK_REGISTRATION= {
+    email: "studentjon@gmail.com",
+    name: "Jon Goh",
+    user_type: 0,
+    user_status: 0
+};
+
 const EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = [
+    'studentamy@gmail.com'
+];
+
+const REQUEST_VALUE_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = 'teacherken@gmail.com';
+
+const EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = [
+    "studentagnes@gmail.com",
     "studentamy@gmail.com",
     "studenthon@gmail.com"
+];
+
+const REQUEST_VALUE_4_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = [
+    'teacherken@gmail.com', 
+    'teacherpauline@gmail.com', 
+    'teacherjoe@gmail.com', 
+    'teacherannie@gmail.com'
 ];
 
 const QUICK_REGISTRATION_GIGA = {
@@ -111,9 +149,20 @@ const REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING = {
 };
 
 module.exports.EMPTY_BODY = EMPTY_BODY;
+module.exports.EMPTY_ARRAY = EMPTY_ARRAY;
+
+module.exports.REQUEST_VALUE_2_FOR_TEST_CASE_QUICK_REGISTRATION = REQUEST_VALUE_2_FOR_TEST_CASE_QUICK_REGISTRATION;
+module.exports.REQUEST_VALUE_3_FOR_TEST_CASE_QUICK_REGISTRATION = REQUEST_VALUE_3_FOR_TEST_CASE_QUICK_REGISTRATION;
+
+module.exports.REQUEST_VALUE_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = REQUEST_VALUE_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT;
+module.exports.REQUEST_VALUE_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = REQUEST_VALUE_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT;
+module.exports.REQUEST_VALUE_4_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = REQUEST_VALUE_4_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT;
+
 module.exports.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
 module.exports.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
+
 module.exports.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT;
+module.exports.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT = EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT;
 
 module.exports.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS = INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS;
 module.exports.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_NO_MENTIONS = INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_NO_MENTIONS;

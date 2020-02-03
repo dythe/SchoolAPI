@@ -3,31 +3,46 @@ const helper = require('../../utils/helper.js');
 const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
 
-function quickRegistrationofUser(request, response) {
+async function quickRegistrationofUser(request, response) {
     const requestBody = request.body;
+    // Initialize database connection
+    let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
 
-    if (Object.keys(request.body).length === 0) {
-        helper.writeMessageResponse(constants.EMPTY_BODY, response);
+    const message = await validateResponse(requestBody, dbConnection);
+    console.log("message is %s", message);
+    helper.writeMessageResponse(message, response);
+}
+
+async function validateResponse(requestBody, dbConnection) {
+    if (Object.keys(requestBody).length === 0) {
+        returnValue = constants.EMPTY_BODY
+        return returnValue;
     }
     else {
         const email = requestBody.email;
         const name = requestBody.name;
         const user_type = requestBody.user_type;
         const user_status = requestBody.user_status;
-        // console.log(requestBody);
 
         const QUICK_REGISTRATION_OF_USERS_SQL = queries.QUICK_REGISTRATION_OF_USERS;
         const QUICK_REGISTRATION_OF_USERS_VALUE = [email, name, user_type, user_status];
-        con.query(QUICK_REGISTRATION_OF_USERS_SQL, QUICK_REGISTRATION_OF_USERS_VALUE, function (err) {
+        dbConnection.query(QUICK_REGISTRATION_OF_USERS_SQL, QUICK_REGISTRATION_OF_USERS_VALUE, function (err) {
             if (err) {
                 // console.log(err);
-                helper.writeMessageResponse(constants.EMAIL_ALREADY_EXISTS, response);
+                returnValue = constants.EMAIL_ALREADY_EXISTS;
             }
             else {
-                helper.writeMessageResponse(constants.EMAIL_SUCCESSFULLY_CREATED, response);
+                returnValue = constants.EMAIL_SUCCESSFULLY_CREATED;
             }
         });
     }
+
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(returnValue), 1000)
+    });
+
+    return promise;
 }
 
 module.exports.quickRegistrationofUser = quickRegistrationofUser;
+module.exports.validateResponse = validateResponse;

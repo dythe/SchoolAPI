@@ -5,7 +5,7 @@ const EMAIL_SUCCESSFULLY_CREATED = 'This email address has been successfully cre
 const INVALID_TEACHER_TO_STUDENT_DATA = 'Invalid student to teacher value, please check your input.';
 const ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS = 'One or more student-teacher registration pair already exists.';
 const STUDENT_TO_TEACHER_REGISTRATION_SUCCESS = 'The student and teacher registration is successful!';
-const STUDENT_DOES_NOT_EXISTS = 'The student does not exists, he/she is not a student or is already suspended!';
+const STUDENT_DOES_NOT_EXISTS = 'The student is not a student or is already suspended!';
 const STUDENT_IS_NOW_SUSPENDED = 'The student is now suspended!';
 const EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST = 'Either the student or teacher does not exist!';
 

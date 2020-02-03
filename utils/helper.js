@@ -48,19 +48,6 @@ function addStudents(currentValue, retrieveValues) {
     }
 }
 
-function getResult(sql, sqlvalues, dbConnection) {
-    // console.log("getResult SQL Query: %s", sql);
-    return new Promise(function (resolve, reject) {
-        dbConnection.query(sql, sqlvalues, function (err, result) {
-            if (err) {
-                reject(err)
-            } else {
-                resolve(result)
-            }
-        })
-    })
-}
-
 // SQL error code resolver
 function errorCodeResolver(errno) {
     switch (errno) {
@@ -84,37 +71,28 @@ function nextChar(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
 }
 
-// function generateSQLQueryForRetrieveListofStudents(i, previousLetter, currentLetter) {
-//     return String.fromCharCode(c.charCodeAt(0) + 1);
-// }
-
-// for unit tesitng
-function setDatabase() {
-    con.CURRENT_DATABASE = constants.MOCK_SCHOOL;
-}
-
-// for unit tesitng
-function deleteFromDatabase(valuesToDelete) {
-    const SQL_QUERY = queries.DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS;
-    const DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE = valuesToDelete;
-
-    if (con.CURRENT_DATABASE == constants.MOCK_SCHOOL) {
-        con.pool.query(SQL_QUERY, DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE, function (err, result) {
-            if (err) throw err;
+function getResult(sql, sqlvalues, dbConnection) {
+    // console.log("getResult SQL Query: %s", sql);
+    return new Promise(function (resolve, reject) {
+        dbConnection.query(sql, sqlvalues, function (err, result) {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result)
+            }
         })
-    } else {
-        console.log("Something went wrong. Please contact the administrator.");
-    }
+    })
 }
 
-
-// for unit tesitng
-function insertDatabase(valuesToInsert, schemaName, dbConnection) {
-    const SQL_QUERY = queries.REGISTER_STUDENT_TO_MANY_TEACHERS;
-    const REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE = valuesToInsert;
+// for unit testing 
+async function executeQueryToDatabase(values, schemaName, query, dbConnection) {
+    const SQL_QUERY = query;
+    const SQL_VALUES = values;
 
     if (schemaName == constants.MOCK_SCHOOL) {
-        dbConnection.query(SQL_QUERY, REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE, function (err, result) {
+        dbConnection.query(SQL_QUERY, SQL_VALUES, function (err, result) {
+            console.log(SQL_QUERY);
+            console.log(SQL_VALUES);
             if (err) throw err;
         })
     } else {
@@ -122,14 +100,14 @@ function insertDatabase(valuesToInsert, schemaName, dbConnection) {
     }
 
     let promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve(valuesToInsert), 1000)
-      });
-    
+        setTimeout(() => resolve(dbConnection), 1000)
+    });
+
     return promise;
 }
 
-// for unit tesitng
-function clearDatabase(tableName, schemaName, dbConnection) {
+// for unit testing
+async function clearDatabase(tableName, schemaName, dbConnection) {
 
     let querytable;
 
@@ -148,24 +126,42 @@ function clearDatabase(tableName, schemaName, dbConnection) {
 
         let promise = new Promise((resolve, reject) => {
             setTimeout(() => resolve(dbConnection), 1000)
-          });
-        
+        });
+
         return promise;
     } else {
         console.log("Something went wrong. Please contact the administrator.");
     }
 }
 
+// for unit tesitng
+async function deleteFromDatabase(valuesToDelete, schemaName, dbConnection) {
+    const SQL_QUERY = queries.DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS;
+    const DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE = valuesToDelete;
+
+    if (schemaName == constants.MOCK_SCHOOL) {
+        dbConnection.query(SQL_QUERY, DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE, function (err, result) {
+            if (err) throw err;
+            let promise = new Promise((resolve, reject) => {
+                setTimeout(() => resolve(dbConnection), 1000)
+            });
+    
+            return promise;
+        })
+    } else {
+        console.log("Something went wrong. Please contact the administrator.");
+    }
+}
+module.exports.executeQueryToDatabase = executeQueryToDatabase;
+module.exports.clearDatabase = clearDatabase;
+module.exports.deleteFromDatabase = deleteFromDatabase;
+
 module.exports.createJSON = createJSON;
 module.exports.nextChar = nextChar;
-module.exports.insertDatabase = insertDatabase;
-module.exports.deleteFromDatabase = deleteFromDatabase;
 module.exports.writeMessageResponse = writeMessageResponse;
 module.exports.writeJSONResponse = writeJSONResponse;
 module.exports.findEmailAddresses = findEmailAddresses;
 module.exports.addRecipients = addRecipients;
 module.exports.addStudents = addStudents;
 module.exports.getResult = getResult;
-module.exports.clearDatabase = clearDatabase;
-module.exports.setDatabase = setDatabase;
 module.exports.errorCodeResolver = errorCodeResolver;
