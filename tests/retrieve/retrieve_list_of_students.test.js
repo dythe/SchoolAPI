@@ -11,7 +11,7 @@ jest.setTimeout(100000);
 
 let dbConnection = "";
 
-describe("Retrieve list of students for under teacher", () => {
+describe("Retrieve list of common students from a list of teacher", () => {
     beforeAll(async (done) => {
         dbConnection = await con.createNewDBConnection(constants.MOCK_SCHOOL);
         await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION, constants.MOCK_SCHOOL, dbConnection);
