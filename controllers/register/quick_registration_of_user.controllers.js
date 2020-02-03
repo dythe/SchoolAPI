@@ -8,14 +8,21 @@ async function quickRegistrationofUser(request, response) {
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
 
+    // message[0] - response message, message[1] - error code
     const message = await validateResponse(requestBody, dbConnection);
-    console.log("message is %s", message);
-    helper.writeMessageResponse(message, response);
+    console.log("message is %s", message[0]);
+    console.log("errorcode is %s", message[1]);
+    helper.writeMessageResponse(message[0], response, message[1]);
 }
 
 async function validateResponse(requestBody, dbConnection) {
+
+    let returnValue = [];
+
     if (Object.keys(requestBody).length === 0) {
-        returnValue = constants.EMPTY_BODY
+        // returnValue = constants.EMPTY_BODY
+        // return returnValue;
+        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
         return returnValue;
     }
     else {
@@ -29,10 +36,12 @@ async function validateResponse(requestBody, dbConnection) {
         dbConnection.query(QUICK_REGISTRATION_OF_USERS_SQL, QUICK_REGISTRATION_OF_USERS_VALUE, function (err) {
             if (err) {
                 // console.log(err);
-                returnValue = constants.EMAIL_ALREADY_EXISTS;
+                returnValue = helper.statusCodeResolver(constants.EMAIL_ALREADY_EXISTS);
+                // returnValue = constants.EMAIL_ALREADY_EXISTS;
             }
             else {
-                returnValue = constants.EMAIL_SUCCESSFULLY_CREATED;
+                returnValue = helper.statusCodeResolver(constants.EMAIL_SUCCESSFULLY_CREATED);
+                // returnValue = constants.EMAIL_SUCCESSFULLY_CREATED;
             }
         });
     }

@@ -13,16 +13,16 @@ async function suspendStudent(request, response) {
 
     const message = await validateResponse(requestBody, studentToSuspend, response, dbConnection);
     console.log("message is %s", message);
-    helper.writeMessageResponse(message, response);
+    helper.writeMessageResponse(message[0], response, message[1]);
 }
 
 async function validateResponse(requestBody, studentToSuspend, response, dbConnection) {
 
-    let returnValue = "";
+    let returnValue = [];
 
     if (Object.keys(requestBody).length === 0) {
         // console.log("empty body");
-        returnValue = constants.EMPTY_BODY
+        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
         return returnValue;
     }
     else {
@@ -36,10 +36,10 @@ async function validateResponse(requestBody, studentToSuspend, response, dbConne
 
             if (err || numRows == 0) {
                 console.log('err value is %s', err);
-                returnValue = constants.STUDENT_DOES_NOT_EXISTS;
+                returnValue = helper.statusCodeResolver(constants.STUDENT_DOES_NOT_EXISTS);
             }
             else {
-                returnValue = constants.STUDENT_IS_NOW_SUSPENDED;
+                returnValue = helper.statusCodeResolver(constants.STUDENT_IS_NOW_SUSPENDED);
             }
         });
     }

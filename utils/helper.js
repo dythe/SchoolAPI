@@ -2,12 +2,14 @@ const con = require('../config/db.js');
 const queries = require('./queries.js');
 const constants = require('./constants.js');
 
-function writeMessageResponse(responseMessage, response) {
-    response.json({ message: responseMessage }, null, 3);
+function writeMessageResponse(responseMessage, response, statusCode) {
+    response.status(statusCode);
+    response.json(createJSON(responseMessage), null, 3);
     response.end();
 }
 
-function writeJSONResponse(responseMessage, response) {
+function writeJSONResponse(responseMessage, response, statusCode) {
+    response.status(statusCode);
     response.json(responseMessage, null, 3);
     response.end();
 }
@@ -52,13 +54,46 @@ function addStudents(currentValue, retrieveValues) {
 function errorCodeResolver(errno) {
     switch (errno) {
         case constants.FOREIGN_KEY_CONSTRAINT:
-            return constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST;
+            return [constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST, constants.CODE_NOT_FOUND];
         case constants.DUPLICATE_ENTRY:
-            return constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS;
+            return [constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, constants.CODE_ALREADY_EXISTS];
         case constants.QUERY_WAS_EMPTY:
-            return constants.TEACHER_DATA_NOT_REQUESTED;
+            return [constants.TEACHER_DATA_NOT_REQUESTED, constants.CODE_BAD_REQUEST];
         default:
-            return constants.GENERIC_ERROR;
+            return [constants.GENERIC_ERROR, constants.CODE_INTERNAL_SERVER_ERROR];
+    }
+}
+
+// API calls status code resolver
+function statusCodeResolver(statusCode) {
+    switch (statusCode) {
+
+        // success
+        case constants.EMAIL_SUCCESSFULLY_CREATED:
+            return [constants.EMAIL_SUCCESSFULLY_CREATED, constants.CODE_SUCCESS];
+        case constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS:
+            return [constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS, constants.CODE_SUCCESS];
+        case constants.STUDENT_IS_NOW_SUSPENDED:
+            return [constants.STUDENT_IS_NOW_SUSPENDED, constants.CODE_SUCCESS];
+
+        // exists and does not exist
+        case constants.EMAIL_ALREADY_EXISTS:
+            return [constants.EMAIL_ALREADY_EXISTS, constants.CODE_ALREADY_EXISTS];
+        case constants.STUDENT_DOES_NOT_EXISTS:
+            return [constants.STUDENT_DOES_NOT_EXISTS, constants.CODE_NOT_FOUND];
+
+        // invalid / does not exist
+        case constants.INVALID_TEACHER_TO_STUDENT_DATA:
+            return [constants.INVALID_TEACHER_TO_STUDENT_DATA, constants.CODE_BAD_REQUEST];
+
+        // others
+        case constants.EMPTY_BODY:
+            return [constants.EMPTY_BODY, constants.CODE_BAD_REQUEST];
+        case constants.EMPTY_PARAMETERS:
+            return [constants.EMPTY_PARAMETERS, constants.CODE_BAD_REQUEST];
+
+        default:
+            return [constants.GENERIC_ERROR, constants.CODE_INTERNAL_SERVER_ERROR];
     }
 }
 
@@ -145,7 +180,7 @@ async function deleteFromDatabase(valuesToDelete, schemaName, dbConnection) {
             let promise = new Promise((resolve, reject) => {
                 setTimeout(() => resolve(dbConnection), 1000)
             });
-    
+
             return promise;
         })
     } else {
@@ -155,6 +190,7 @@ async function deleteFromDatabase(valuesToDelete, schemaName, dbConnection) {
 module.exports.executeQueryToDatabase = executeQueryToDatabase;
 module.exports.clearDatabase = clearDatabase;
 module.exports.deleteFromDatabase = deleteFromDatabase;
+module.exports.statusCodeResolver = statusCodeResolver;
 
 module.exports.createJSON = createJSON;
 module.exports.nextChar = nextChar;

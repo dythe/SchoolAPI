@@ -33,9 +33,9 @@ describe("Retrieve list of students for under teacher", () => {
         const resp = helper.createJSON(constants.EMPTY_PARAMETERS);
         axios.get.mockResolvedValue(resp);
 
-        return retrieve_list_of_students.validateResponse(req, null, null, resp, req, dbConnection)
+        return retrieve_list_of_students.validateResponse(undefined, undefined, undefined, resp, req, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMPTY_PARAMETERS);
+                expect(data).toStrictEqual([constants.EMPTY_PARAMETERS, constants.CODE_BAD_REQUEST]);
                 done();
             })
     });
@@ -47,7 +47,8 @@ describe("Retrieve list of students for under teacher", () => {
 
         return retrieve_list_of_students.validateResponse(req, constants.OBJ_VAL, resp, dbConnection)
             .then(data => {
-                expect(data.students).toStrictEqual(jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT);
+                expect(data[0].students).toStrictEqual(jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT);
+                expect(data[1]).toStrictEqual(constants.CODE_SUCCESS);
                 done();
             })
     });
@@ -59,7 +60,8 @@ describe("Retrieve list of students for under teacher", () => {
 
         return retrieve_list_of_students.validateResponse(req, constants.STR_VAL, resp, dbConnection)
             .then(data => {
-                expect(data.students).toStrictEqual(jsonvalues.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT);
+                expect(data[0].students).toStrictEqual(jsonvalues.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_LIST_OF_STUDENT);
+                expect(data[1]).toStrictEqual(constants.CODE_SUCCESS);
                 done();
             })
     });
@@ -71,7 +73,8 @@ describe("Retrieve list of students for under teacher", () => {
 
         return retrieve_list_of_students.validateResponse(req, constants.OBJ_VAL, resp, dbConnection)
             .then(data => {
-                expect(data.students).toStrictEqual(jsonvalues.EMPTY_ARRAY);
+                expect(data[0].students).toStrictEqual(jsonvalues.EMPTY_ARRAY);
+                expect(data[1]).toStrictEqual(constants.CODE_SUCCESS);
                 done();
             })
     });

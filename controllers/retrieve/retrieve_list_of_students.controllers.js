@@ -12,20 +12,27 @@ async function retrieveListofStudents(request, response) {
 
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
-    
+
     const message = await validateResponse(requestParameters, teacherType, response, dbConnection);
-    helper.writeJSONResponse(message, response);
+
+    if (message[0] == constants.EMPTY_PARAMETERS) {
+        helper.writeMessageResponse(message[0], response, message[1]);
+    }
+    else {
+        helper.writeJSONResponse(message[0], response, message[1]);
+    }
 };
 
 async function validateResponse(requestParameters, teacherType, response, dbConnection) {
 
-    let returnValue = "";
+    let returnValue = [];
+    let retrieveValues = {
+        students: []
+    };
+    console.log('requestParameters value is %s', requestParameters);
 
-    // console.log('requestParameters value is %s', requestParameters);
-
-    if (Object.keys(requestParameters).length === 0) {
-        // console.log("empty body");
-        returnValue = constants.EMPTY_PARAMETERS
+    if (requestParameters === undefined) {
+        returnValue = helper.statusCodeResolver(constants.EMPTY_PARAMETERS);
         return returnValue;
     } else {
         let RETRIEVE_LIST_OF_STUDENTS_SQL;
@@ -49,14 +56,14 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
             Object.keys(requestParameters).forEach(function (key) {
                 let teacherEmail = requestParameters[key];
                 console.log('teacherEmail %s', teacherEmail);
-                
+
                 if (i == 0) {
                     RETRIEVE_LIST_OF_STUDENTS_SQL += `(SELECT DISTINCT ${currentLetter}.student_email FROM student_to_teacher_registration ${currentLetter} WHERE teacher_email IN ('${teacherEmail}')) ${currentLetter}`;
                 }
                 else {
                     RETRIEVE_LIST_OF_STUDENTS_SQL += ` INNER JOIN (SELECT DISTINCT ${currentLetter}.student_email FROM student_to_teacher_registration ${currentLetter} WHERE ${currentLetter}.teacher_email IN ('${teacherEmail}')) ${currentLetter} ON ${previousLetter}.student_email = ${currentLetter}.student_email`;
                 }
-                
+
                 // console.log(RETRIEVE_LIST_OF_STUDENTS_SQL);
                 previousLetter = currentLetter;
                 currentLetter = helper.nextChar(currentLetter);
@@ -72,10 +79,6 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
             }
             else {
                 // Declaring an array and pushing the values in from the result
-                let retrieveValues = {
-                    students: []
-                };
-
                 Object.keys(result).forEach(function (key) {
                     let row = result[key];
                     console.log('row values is: %s', row);
@@ -83,9 +86,17 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
                 });
 
                 console.log(retrieveValues);
-                returnValue = retrieveValues;
+                // returnValue = retrieveValues;
             }
         });
+    }
+
+    console.log(retrieveValues.students);
+    if (Object.keys(retrieveValues).length > 0) {
+        returnValue = [retrieveValues, constants.CODE_SUCCESS];
+    }
+    else {
+        returnValue = [retrieveValues, constants.CODE_NOT_FOUND];
     }
 
     let promise = new Promise((resolve, reject) => {

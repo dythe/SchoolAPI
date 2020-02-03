@@ -18,31 +18,32 @@ async function registerStudentToTeacher(request, response) {
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
 
     const message = await validateResponse(requestBody, teacher, students, teacherType, studentType, dbConnection);
-    // console.log("teacherType: %s", teacherType);
-    // console.log("studentType: %s", studentType);
-    console.log("message is %s", message);
-    helper.writeMessageResponse(message, response);
+    console.log("message is %s", message[0]);
+    console.log("errorcode is %s", message[1]);
+    helper.writeMessageResponse(message[0], response, message[1]);
 }
 
 async function validateResponse(requestBody, teacher, students, teacherType, studentType, dbConnection) {
     
-    let returnValue = "";
+    let returnValue = [];
 
     if (Object.keys(requestBody).length === 0) {
         // console.log("empty body");
-        returnValue = constants.EMPTY_BODY
+        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
         return returnValue;
     }
     else {
         // Check if it is teacher registering to a bunch of students
         // OR student registering to a bunch of teachers
         if (teacherType === constants.STR_VAL && studentType === constants.STR_VAL) {
-            returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
-            return returnValue;
+            // returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
+            // return returnValue;
+            returnValue = helper.statusCodeResolver(constants.INVALID_TEACHER_TO_STUDENT_DATA);
         }
         else if (teacherType === constants.OBJ_VAL && studentType === constants.OBJ_VAL) {
-            returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
-            return returnValue;
+            // returnValue = constants.INVALID_TEACHER_TO_STUDENT_DATA
+            // return returnValue;
+            returnValue = helper.statusCodeResolver(constants.INVALID_TEACHER_TO_STUDENT_DATA);
         }
         else if (teacherType === constants.OBJ_VAL && studentType === constants.STR_VAL) {
 
@@ -61,7 +62,9 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                     // return returnValue;
                 }
                 else {
-                    returnValue = constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS
+                    returnValue = helper.statusCodeResolver(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+
+                    // returnValue = constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS
                     // return returnValue;
                 }
             });
@@ -84,19 +87,18 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                     // return returnValue;
                 }
                 else {
-                    console.log("success registration %s", constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
-                    returnValue = constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS
+                    // console.log("success registration %s", constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+                    returnValue = helper.statusCodeResolver(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
                     // return returnValue;
                 }
             });
         }
-
-        let promise = new Promise((resolve, reject) => {
-            setTimeout(() => resolve(returnValue), 1000)
-        });
-
-        return promise;
     }
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(returnValue), 1000)
+    });
+
+    return promise;
 
 }
 

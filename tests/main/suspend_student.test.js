@@ -24,7 +24,7 @@ describe("Suspending of student", () => {
 
         return suspend_student.validateResponse(req, req.student, resp, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMPTY_BODY);
+                expect(data).toStrictEqual([constants.EMPTY_BODY, constants.CODE_BAD_REQUEST]);
                 done();
             })
     });
@@ -36,7 +36,7 @@ describe("Suspending of student", () => {
 
         return suspend_student.validateResponse(req, req.student, resp, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.STUDENT_DOES_NOT_EXISTS);
+                expect(data).toStrictEqual([constants.STUDENT_DOES_NOT_EXISTS, constants.CODE_NOT_FOUND]);
                 done();
             })
     });
@@ -48,7 +48,7 @@ describe("Suspending of student", () => {
 
         return suspend_student.validateResponse(req, req.student, resp, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.STUDENT_IS_NOW_SUSPENDED);
+                expect(data).toStrictEqual([constants.STUDENT_IS_NOW_SUSPENDED, constants.CODE_SUCCESS]);
                 done();
             })
     });

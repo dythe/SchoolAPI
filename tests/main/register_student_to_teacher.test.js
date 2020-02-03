@@ -22,9 +22,9 @@ describe("Registration of Student to Teacher", () => {
         const resp = helper.createJSON(constants.EMPTY_BODY);
         axios.get.mockResolvedValue(resp);
 
-        return register_student_to_teacher.validateResponse(req, null, null, constants.STR_VAL, constants.STR_VAL, dbConnection)
+        return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.STR_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMPTY_BODY);
+                expect(data).toStrictEqual([constants.EMPTY_BODY, constants.CODE_BAD_REQUEST]);
                 done();
             })
     });
@@ -36,7 +36,7 @@ describe("Registration of Student to Teacher", () => {
 
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.STR_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
+                expect(data).toStrictEqual([constants.INVALID_TEACHER_TO_STUDENT_DATA, constants.CODE_BAD_REQUEST]);
                 done();
             })
     });
@@ -48,7 +48,7 @@ describe("Registration of Student to Teacher", () => {
 
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.OBJ_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.INVALID_TEACHER_TO_STUDENT_DATA);
+                expect(data).toStrictEqual([constants.INVALID_TEACHER_TO_STUDENT_DATA, constants.CODE_BAD_REQUEST]);
                 done();
             })
     });
@@ -59,7 +59,7 @@ describe("Registration of Student to Teacher", () => {
         axios.get.mockResolvedValue(resp);
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.OBJ_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+                expect(data).toStrictEqual([constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS, constants.CODE_SUCCESS]);
                 done();
             })
     });
@@ -70,7 +70,7 @@ describe("Registration of Student to Teacher", () => {
         axios.get.mockResolvedValue(resp);
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.OBJ_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
+                expect(data).toStrictEqual([constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, constants.CODE_ALREADY_EXISTS]);
                 done();
             })
     });
@@ -81,7 +81,7 @@ describe("Registration of Student to Teacher", () => {
         axios.get.mockResolvedValue(resp);
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.STR_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
+                expect(data).toStrictEqual([constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS, constants.CODE_SUCCESS]);
                 done();
             })
     });
@@ -92,7 +92,7 @@ describe("Registration of Student to Teacher", () => {
         axios.get.mockResolvedValue(resp);
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.STR_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS);
+                expect(data).toStrictEqual([constants.ONE_OR_MORE_STUDENT_TEACHER_REGISTRATION_PAIR_EXISTS, constants.CODE_ALREADY_EXISTS]);
                 done();
             })
     });
@@ -103,7 +103,7 @@ describe("Registration of Student to Teacher", () => {
         axios.get.mockResolvedValue(resp);
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.STR_VAL, constants.OBJ_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+                expect(data).toStrictEqual([constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST, constants.CODE_NOT_FOUND]);
                 done();
             })
     });
@@ -114,7 +114,7 @@ describe("Registration of Student to Teacher", () => {
         axios.get.mockResolvedValue(resp);
         return register_student_to_teacher.validateResponse(req, req.teacher, req.students, constants.OBJ_VAL, constants.STR_VAL, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST);
+                expect(data).toStrictEqual([constants.EITHER_STUDENT_OR_TEACHER_DOES_NOT_EXIST, constants.CODE_NOT_FOUND]);
                 done();
             })
     });

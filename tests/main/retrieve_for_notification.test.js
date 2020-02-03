@@ -26,9 +26,9 @@ describe("Retrieve list of students for notification", () => {
         const resp = helper.createJSON(constants.EMPTY_BODY);
         axios.get.mockResolvedValue(resp);
 
-        return retrieve_for_notification.validateResponse(req, null, null, dbConnection)
+        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMPTY_BODY);
+                expect(data).toStrictEqual([constants.EMPTY_BODY, constants.CODE_BAD_REQUEST]);
                 done();
             })
     });
@@ -40,7 +40,8 @@ describe("Retrieve list of students for notification", () => {
 
         return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
             .then(data => {
-                expect(data.recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
+                expect(data[0].recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
+                expect(data[1]).toStrictEqual(constants.CODE_SUCCESS);
                 done();
             })
     });
@@ -52,7 +53,8 @@ describe("Retrieve list of students for notification", () => {
 
         return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
             .then(data => {
-                expect(data.recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
+                expect(data[0].recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_3_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
+                expect(data[1]).toStrictEqual(constants.CODE_SUCCESS);
                 done();
             })
     });

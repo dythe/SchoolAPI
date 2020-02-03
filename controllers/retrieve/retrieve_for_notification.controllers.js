@@ -16,7 +16,18 @@ async function retrieveForNotification(request, response) {
     // console.log(recipientsList);
     const p2 = Promise.resolve(message);
     p2.then(function (v) {
-        helper.writeJSONResponse(v, response);
+        console.log("v[0]: %s", v[0]);
+        console.log("v[1]: %s", v[1]);
+
+        if (v[0] == constants.EMPTY_BODY) {
+            helper.writeMessageResponse(v[0], response, v[1]);
+        }
+        else {
+            helper.writeJSONResponse(v[0], response, v[1]);
+        }
+
+        // console.log('v.recipients.length %s', Object.keys(v.recipients).length);
+
     }, function (e) {
         console.error(e); // TypeError: Throwing
     });
@@ -24,20 +35,21 @@ async function retrieveForNotification(request, response) {
 
 async function validateResponse(requestBody, teacher, notification, dbConnection) {
 
-    let returnValue = "";
-
+    let returnValue = [];
+    let retrieveValues = {
+        recipients: []
+    };
+    let recipientsList;
+    
     if (Object.keys(requestBody).length === 0) {
-        returnValue = constants.EMPTY_BODY
+        // returnValue = constants.EMPTY_BODY
+        // return returnValue;
+        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
         return returnValue;
     }
     else {
-        let retrieveValues = {
-            recipients: []
-        };
 
         let findEmails = await helper.findEmailAddresses(notification);
-
-        let recipientsList;
 
         if (findEmails.length > 0) {
             for (let i = 0; i < findEmails.length; i++) {
@@ -50,7 +62,14 @@ async function validateResponse(requestBody, teacher, notification, dbConnection
             // console.log(recipientsList);
         }
 
-        returnValue = recipientsList;
+    }
+
+    // returnValue = recipientsList;
+    if (Object.keys(recipientsList.recipients).length > 0) {
+        returnValue = [recipientsList, constants.CODE_SUCCESS];
+    }
+    else {
+        returnValue = [recipientsList, constants.CODE_NOT_FOUND];
     }
 
     let promise = new Promise((resolve, reject) => {

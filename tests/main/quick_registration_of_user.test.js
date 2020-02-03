@@ -24,7 +24,7 @@ describe("Quick Registration of User", () => {
 
         return quick_registration_of_user.validateResponse(req, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMPTY_BODY);
+                expect(data).toStrictEqual([constants.EMPTY_BODY, constants.CODE_BAD_REQUEST]);
                 done();
             })
     });
@@ -36,7 +36,7 @@ describe("Quick Registration of User", () => {
 
         return quick_registration_of_user.validateResponse(req, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMAIL_SUCCESSFULLY_CREATED);
+                expect(data).toStrictEqual([constants.EMAIL_SUCCESSFULLY_CREATED, constants.CODE_SUCCESS]);
                 done();
             })
     });
@@ -48,7 +48,7 @@ describe("Quick Registration of User", () => {
 
         return quick_registration_of_user.validateResponse(req, dbConnection)
             .then(data => {
-                expect(data).toBe(constants.EMAIL_ALREADY_EXISTS);
+                expect(data).toStrictEqual([constants.EMAIL_ALREADY_EXISTS, constants.CODE_ALREADY_EXISTS]);
                 done();
             })
     });
