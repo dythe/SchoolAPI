@@ -5,6 +5,7 @@ const constants = require('../../utils/constants.js');
 
 async function quickRegistrationofUser(request, response) {
     const requestBody = request.body;
+    
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
 
@@ -20,8 +21,6 @@ async function validateResponse(requestBody, dbConnection) {
     let returnValue = [];
 
     if (Object.keys(requestBody).length === 0) {
-        // returnValue = constants.EMPTY_BODY
-        // return returnValue;
         returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
         return returnValue;
     }
@@ -37,11 +36,9 @@ async function validateResponse(requestBody, dbConnection) {
             if (err) {
                 // console.log(err);
                 returnValue = helper.statusCodeResolver(constants.EMAIL_ALREADY_EXISTS);
-                // returnValue = constants.EMAIL_ALREADY_EXISTS;
             }
             else {
                 returnValue = helper.statusCodeResolver(constants.EMAIL_SUCCESSFULLY_CREATED);
-                // returnValue = constants.EMAIL_SUCCESSFULLY_CREATED;
             }
         });
     }

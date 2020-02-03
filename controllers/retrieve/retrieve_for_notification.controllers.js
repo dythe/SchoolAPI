@@ -13,7 +13,6 @@ async function retrieveForNotification(request, response) {
 
     const message = await validateResponse(requestBody, teacher, notification, dbConnection);
 
-    // console.log(recipientsList);
     const p2 = Promise.resolve(message);
     p2.then(function (v) {
         console.log("v[0]: %s", v[0]);
@@ -25,9 +24,6 @@ async function retrieveForNotification(request, response) {
         else {
             helper.writeJSONResponse(v[0], response, v[1]);
         }
-
-        // console.log('v.recipients.length %s', Object.keys(v.recipients).length);
-
     }, function (e) {
         console.error(e); // TypeError: Throwing
     });
@@ -42,8 +38,6 @@ async function validateResponse(requestBody, teacher, notification, dbConnection
     let recipientsList;
     
     if (Object.keys(requestBody).length === 0) {
-        // returnValue = constants.EMPTY_BODY
-        // return returnValue;
         returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
         return returnValue;
     }
@@ -59,12 +53,10 @@ async function validateResponse(requestBody, teacher, notification, dbConnection
         }
         else {
             recipientsList = await checkTeacherStudents(teacher, retrieveValues, dbConnection);
-            // console.log(recipientsList);
         }
 
     }
 
-    // returnValue = recipientsList;
     if (Object.keys(recipientsList.recipients).length > 0) {
         returnValue = [recipientsList, constants.CODE_SUCCESS];
     }

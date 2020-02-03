@@ -23,7 +23,5 @@ async function createNewDBConnection(databaseName) {
   return promise;
 }
 
-// module.exports = con;
 module.exports.pool = pool;
 module.exports.createNewDBConnection = createNewDBConnection;
-// module.exports.CURRENT_DATABASE = CURRENT_DATABASE;

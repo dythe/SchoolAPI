@@ -86,7 +86,6 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
                 });
 
                 console.log(retrieveValues);
-                // returnValue = retrieveValues;
             }
         });
     }
