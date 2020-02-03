@@ -13,7 +13,6 @@ let dbConnection = "";
 
 describe("Retrieve list of students for notification", () => {
     beforeAll(async (done) => {
-        // helper.setDatabase();
         dbConnection = await con.createNewDBConnection(constants.MOCK_SCHOOL);
         await helper.clearDatabase(constants.STUDENT_TO_TEACHER_REGISTRATION, constants.MOCK_SCHOOL, dbConnection);
         const REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE = [];

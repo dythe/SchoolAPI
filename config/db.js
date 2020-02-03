@@ -5,22 +5,6 @@ const host = 'localhost';
 const user = 'root';
 const password = '';
 let pool = '';
-// Set database to normal db
-// var CURRENT_DATABASE = constants.MOCK_SCHOOL;
-
-// const con = mysql.createConnection({
-//   host: host,
-//   user: user,
-//   password: password,
-//   multipleStatements: true
-// });
-
-// const pool = mysql.createPool({ 
-//   host: host, 
-//   user: user, 
-//   password: password, 
-//   connectionLimit: 100 
-// });
 
 async function createNewDBConnection(databaseName) {
   pool = mysql.createPool({
