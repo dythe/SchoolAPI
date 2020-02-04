@@ -13,6 +13,7 @@ async function retrieveListofStudents(request, response) {
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
 
+    // message[0] - response message, message[1] - error code
     const message = await validateResponse(requestParameters, teacherType, response, dbConnection);
 
     if (message[0] == constants.EMPTY_PARAMETERS) {

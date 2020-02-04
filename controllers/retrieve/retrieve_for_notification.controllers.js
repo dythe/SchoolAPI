@@ -38,8 +38,12 @@ async function validateResponse(requestBody, teacher, notification, dbConnection
         let findEmails = await helper.findEmailAddresses(notification);
 
         if (findEmails.length > 0) {
-            recipientsList = await processEmails(teacher, findEmails, retrieveValues, dbConnection);
             recipientsList = await checkTeacherStudents(teacher, retrieveValues, dbConnection);
+
+            console.log('recipientsList.recipients.length', recipientsList.recipients.length);
+            if (recipientsList.recipients.length > 0) {
+                recipientsList = await processEmails(teacher, findEmails, retrieveValues, dbConnection);
+            }
         }
         else {
             recipientsList = await checkTeacherStudents(teacher, retrieveValues, dbConnection);

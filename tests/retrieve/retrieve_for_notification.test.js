@@ -59,6 +59,45 @@ describe("Retrieve list of students for notification", () => {
             })
     });
 
+    it('It should return no recipients found in an empty array as it is a invalid teacher with no students mentioned in notification', async (done) => {
+        const req = jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_NO_MENTIONS_INVALID_TEACHER;
+        const resp = jsonvalues.EMPTY_ARRAY;
+        axios.get.mockResolvedValue(resp);
+
+        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
+            .then(data => {
+                expect(data[0].recipients).toStrictEqual(jsonvalues.EMPTY_ARRAY);
+                expect(data[1]).toStrictEqual(constants.CODE_NOT_FOUND);
+                done();
+            })
+    });
+
+    it('It should return no recipients found in an empty array as it is a invalid teacher with students mentioned in notification', async (done) => {
+        const req = jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS_WITH_INVALID_TEACHER;
+        const resp = jsonvalues.EMPTY_ARRAY;
+        axios.get.mockResolvedValue(resp);
+
+        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
+            .then(data => {
+                expect(data[0].recipients).toStrictEqual(jsonvalues.EMPTY_ARRAY);
+                expect(data[1]).toStrictEqual(constants.CODE_NOT_FOUND);
+                done();
+            })
+    });
+
+    it('It should return the students that are registered in school database to be notified which are mentioned but not the invalid student', async (done) => {
+        const req = jsonvalues.INSERT_STUDENT_TO_TEACHER_FOR_NOTIFICATION_RETRIEVAL_WITH_MENTIONS_WITH_INVALID_STUDENT;
+        const resp = jsonvalues.EXPECTED_RESULT_6_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION;
+        axios.get.mockResolvedValue(resp);
+
+        return retrieve_for_notification.validateResponse(req, req.teacher, req.notification, dbConnection)
+            .then(data => {
+                expect(data[0].recipients).toStrictEqual(jsonvalues.EXPECTED_RESULT_6_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION);
+                expect(data[1]).toStrictEqual(constants.CODE_SUCCESS);
+                done();
+            })
+    });
+
     afterAll(async (done) => {
         dbConnection.end();
         done();
