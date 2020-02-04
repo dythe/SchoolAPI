@@ -1,6 +1,11 @@
 const queries = require('./queries.js');
 const constants = require('./constants.js');
 
+function writeIncorrectFormattedBody(responseMessage, response, statusCode) {
+    console.log(response);
+    response.status(statusCode).send(createJSON(responseMessage));
+}
+
 function writeMessageResponse(responseMessage, response, statusCode) {
     response.status(statusCode);
     response.json(createJSON(responseMessage), null, 3);
@@ -197,6 +202,7 @@ module.exports = {
 
     writeMessageResponse,
     writeJSONResponse,
+    writeIncorrectFormattedBody,
 
     createJSON,
     nextChar,
