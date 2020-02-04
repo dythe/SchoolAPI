@@ -11,6 +11,7 @@ async function suspendStudent(request, response) {
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
 
+    // message[0] - response message, message[1] - error code
     const message = await validateResponse(requestBody, studentToSuspend, response, dbConnection);
     console.log("message is %s", message);
     helper.writeMessageResponse(message[0], response, message[1]);

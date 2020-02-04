@@ -10,6 +10,7 @@ async function retrieveForNotification(request, response) {
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
 
+    // message[0] - response message, message[1] - error code
     const message = await validateResponse(requestBody, teacher, notification, dbConnection);
 
     if (message[0] == constants.EMPTY_BODY) {
@@ -64,9 +65,8 @@ async function validateResponse(requestBody, teacher, notification, dbConnection
 async function processEmails(teacher, emails, retrieveValues, dbConnection) {
     console.log("processing email: %s", emails);
 
-    // res0 - check for valid student
-    // res1 - check for suspended and whether he/she is a student in the school
-    // res2 - check whether teacher and student pair is registered
+    // res0 - check whether student is valid in school
+    // res1 - check whether student is suspended
     const { CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_SQL } = queries;
     const CHECK_FOR_VALID_STUDENT_VALUE = [emails];
     const CHECK_FOR_SUSPENDED_STUDENT_VALUE = [emails, 0];
@@ -117,7 +117,7 @@ async function processEmails(teacher, emails, retrieveValues, dbConnection) {
     return promise;
 }
 
-// Check the students of a teacher
+// Check the list of students for the teacher
 async function checkTeacherStudents(teacher, retrieveValues, dbConnection) {
     let RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL = queries.RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED;
     let RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE = [teacher, 0];

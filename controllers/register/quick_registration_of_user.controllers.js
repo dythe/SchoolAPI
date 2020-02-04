@@ -25,11 +25,6 @@ async function validateResponse(requestBody, dbConnection) {
         return returnValue;
     }
     else {
-        // const email = requestBody.email;
-        // const name = requestBody.name;
-        // const user_type = requestBody.user_type;
-        // const user_status = requestBody.user_status;
-
         const { email, name, user_type, user_status } = requestBody;
 
         const QUICK_REGISTRATION_OF_USERS_SQL = queries.QUICK_REGISTRATION_OF_USERS;
