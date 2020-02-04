@@ -30,7 +30,7 @@ describe("Suspending of student", () => {
     });
 
     it('It should not be be able to suspend a student successfully', async (done) => {
-        const req = { student: "studentshawn@gmail.com" };
+        const req = jsonvalues.REQUEST_VALUE_2_FOR_TEST_CASE_SUSPEND_STUDENT;
         const resp = helper.createJSON(constants.STUDENT_DOES_NOT_EXISTS);
         axios.get.mockResolvedValue(resp);
 
@@ -42,7 +42,7 @@ describe("Suspending of student", () => {
     });
 
     it('It should be able to suspend a student successfully', async (done) => {
-        const req = { student: "studentmas@gmail.com" };
+        const req = jsonvalues.REQUEST_VALUE_3_FOR_TEST_CASE_SUSPEND_STUDENT;
         const resp = helper.createJSON(constants.STUDENT_IS_NOW_SUSPENDED);
         axios.get.mockResolvedValue(resp);
 

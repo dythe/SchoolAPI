@@ -2,6 +2,15 @@ const EMPTY_BODY = '';
 
 const EMPTY_ARRAY = [];
 
+// suspend_student.test.js
+const REQUEST_VALUE_2_FOR_TEST_CASE_SUSPEND_STUDENT = { 
+    student: "studentshawn@gmail.com" 
+};
+
+const REQUEST_VALUE_3_FOR_TEST_CASE_SUSPEND_STUDENT = { 
+    student: "studentmas@gmail.com"
+};
+
 // retrieve_for_notification.test.js (It should return the students to be notified that meets the criteria when there are students that are mentioned)
 const EXPECTED_RESULT_2_FOR_TEST_CASE_RETRIEVE_FOR_NOTIFICATION = [
     'studentbob@gmail.com',
@@ -167,6 +176,9 @@ const REGISTER_STUDENT_TO_TEACHER_STRING_AND_STRING = {
 module.exports = {
     EMPTY_BODY,
     EMPTY_ARRAY,
+
+    REQUEST_VALUE_2_FOR_TEST_CASE_SUSPEND_STUDENT,
+    REQUEST_VALUE_3_FOR_TEST_CASE_SUSPEND_STUDENT,
 
     REQUEST_VALUE_2_FOR_TEST_CASE_QUICK_REGISTRATION,
     REQUEST_VALUE_3_FOR_TEST_CASE_QUICK_REGISTRATION,
