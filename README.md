@@ -57,8 +57,8 @@ It contains the two schemas `school` for normal usage and `mock_school` for unit
         * `user_type` - 0 = student, 1 = teacher
         * `user_status` - 0 = not suspended, 1 = suspended
   
-    * `student_to_teacher_registration`
-        * Description: Information of the teacher-to-student registration/relationship are stored in this table
-        * Misc Information: teacher_email and student email are both primary keys (composite key), teacher_email is a foreign key to school_information.email, student_email is a foreign key to school_information.email
-            * `teacher_email` - email address of the teacher
-            * `student email` - email address of the student
+* `student_to_teacher_registration`
+    * Description: Information of the teacher-to-student registration/relationship are stored in this table
+    * Misc Information: teacher_email and student email are both primary keys (composite key), teacher_email is a foreign key to school_information.email, student_email is a foreign key to school_information.email
+        * `teacher_email` - email address of the teacher
+        * `student email` - email address of the student
