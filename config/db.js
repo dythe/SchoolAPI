@@ -17,11 +17,14 @@ async function createNewDBConnection(databaseName) {
   console.log("Currently using database %s", databaseName);
 
   let promise = new Promise((resolve, reject) => {
-    setTimeout(() => resolve(pool), 1000)
+    // setTimeout(() => resolve(pool), 1000)
+    resolve(pool)
   });
 
   return promise;
 }
 
-module.exports.pool = pool;
-module.exports.createNewDBConnection = createNewDBConnection;
+module.exports = {
+  pool,
+  createNewDBConnection
+}

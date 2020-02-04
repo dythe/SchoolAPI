@@ -51,5 +51,7 @@ async function validateResponse(requestBody, studentToSuspend, response, dbConne
     return promise;
 }
 
-module.exports.suspendStudent = suspendStudent;
-module.exports.validateResponse = validateResponse;
+module.exports = {
+    suspendStudent,
+    validateResponse
+};

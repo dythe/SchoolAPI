@@ -104,5 +104,8 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
 
     return promise;
 }
-module.exports.retrieveListofStudents = retrieveListofStudents;
-module.exports.validateResponse = validateResponse;
+
+module.exports = {
+    retrieveListofStudents,
+    validateResponse
+};

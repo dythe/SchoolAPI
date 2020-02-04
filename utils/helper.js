@@ -154,7 +154,6 @@ async function clearDatabase(tableName, schemaName, dbConnection) {
     }
 
     if (schemaName == constants.MOCK_SCHOOL) {
-        // console.log("Current DB: " + con.CURRENT_DATABASE)
         dbConnection.query(querytable, function (err, result) {
             if (err) throw err;
         })
@@ -187,17 +186,23 @@ async function deleteFromDatabase(valuesToDelete, schemaName, dbConnection) {
         console.log("Something went wrong. Please contact the administrator.");
     }
 }
-module.exports.executeQueryToDatabase = executeQueryToDatabase;
-module.exports.clearDatabase = clearDatabase;
-module.exports.deleteFromDatabase = deleteFromDatabase;
-module.exports.statusCodeResolver = statusCodeResolver;
 
-module.exports.createJSON = createJSON;
-module.exports.nextChar = nextChar;
-module.exports.writeMessageResponse = writeMessageResponse;
-module.exports.writeJSONResponse = writeJSONResponse;
-module.exports.findEmailAddresses = findEmailAddresses;
-module.exports.addRecipients = addRecipients;
-module.exports.addStudents = addStudents;
-module.exports.getResult = getResult;
-module.exports.errorCodeResolver = errorCodeResolver;
+module.exports = {
+    executeQueryToDatabase,
+    clearDatabase,
+    deleteFromDatabase,
+    getResult,
+
+    statusCodeResolver,
+    errorCodeResolver,
+
+    writeMessageResponse,
+    writeJSONResponse,
+
+    createJSON,
+    nextChar,
+    findEmailAddresses,
+
+    addRecipients,
+    addStudents,
+};

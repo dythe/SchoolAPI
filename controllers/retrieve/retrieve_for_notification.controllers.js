@@ -5,8 +5,7 @@ const constants = require('../../utils/constants.js');
 
 async function retrieveForNotification(request, response) {
     const requestBody = request.body;
-    const teacher = requestBody.teacher;
-    const notification = requestBody.notification;
+    const { teacher, notification } = requestBody;
 
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
@@ -68,15 +67,11 @@ async function processEmails(teacher, emails, retrieveValues, dbConnection) {
     // res0 - check for valid student
     // res1 - check for suspended and whether he/she is a student in the school
     // res2 - check whether teacher and student pair is registered
-    const CHECK_FOR_VALID_STUDENT_SQL = queries.CHECK_FOR_VALID_STUDENT_SQL;
-    const CHECK_FOR_SUSPENDED_STUDENT_SQL = queries.CHECK_FOR_SUSPENDED_STUDENT_SQL;
-    // const CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL = queries.CHECK_TEACHER_STUDENT_REGISTRATION_PAIR;
-    // const CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE = [teacher, emails];
+    const { CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_SQL } = queries;
     const CHECK_FOR_VALID_STUDENT_VALUE = [emails];
     const CHECK_FOR_SUSPENDED_STUDENT_VALUE = [emails, 0];
 
     let res0Result = [];
-    // let res1Result = [];
 
     // check whether student is valid in the school
     dbConnection.query(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, async function (err0, result0) {
@@ -109,70 +104,10 @@ async function processEmails(teacher, emails, retrieveValues, dbConnection) {
 
                     // only push students who are not suspended into res1Result
                     if (row1.count_value != undefined)
-                        // res1Result.push(row1.email);
                         helper.addRecipients(row1.email, retrieveValues);
                 });
-
-                // console.log('res1Result %s', res1Result);
-                // console.log('res1Result.length %s', res1Result.length);
-
-                // if there are at least 1 student continue with next query
-                // if (res1Result.length > 0) {
-
-                    // check teacher and student registration pair
-                    // dbConnection.query(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, async function (err2, result2) {
-                    //     if (err2) throw err2;
-                    //     const res2 = await helper.getResult(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, dbConnection)
-
-                    //     Object.keys(res2).forEach(function (key) {
-                    //         let row2 = res2[key];
-                    //         console.log('(res2) email: %s | row2 count: %s', row2.email, row2.count_value);
-
-                    //         // only push students who are a registered pair
-                    //         if (row2.count_value != undefined)
-                    //             res2Result.push(row2.email);
-                    //     });
-
-                    // });
-                // }
-
             });
         }
-        // if (res0.length > 0) {
-        //     console.log('more');
-        // }
-        // if (res0[0].count_value0 > 0) {
-        //     // check for whether student is suspended
-        //     dbConnection.query(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, async function (err1, result1) {
-        //         // console.log("checking for suspended %s", CHECK_FOR_SUSPENDED_STUDENT_VALUE[0]);
-        //         if (err1) throw err1;
-        //         const res1 = await helper.getResult(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, dbConnection)
-
-        //         // console.log("suspended (res1) count_value: %s", res1[0].count_value);
-        //         if (res1[0].count_value != 1) {
-
-        //             // check whether teacher and student pair is registered
-        //             dbConnection.query(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, async function (err2, result2) {
-        //                 // console.log("registered pair (res2) is %s", CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE[1]);
-        //                 if (err2) throw err2;
-        //                 const res2 = await helper.getResult(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_SQL, CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE, dbConnection)
-
-        //                 // console.log("registered pair (res2) count_value: %s", res2[0].count_value);
-
-        //                 // teacher and student pair is not registered pair
-        //                 if (res2 == 0) {
-        //                     // console.log("test4 loop");
-        //                     helper.addRecipients(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE[0], retrieveValues);
-        //                 }
-        //                 // teacher and student is a registered pair
-        //                 else {
-        //                     // console.log("test5 loop");
-        //                     helper.addRecipients(CHECK_TEACHER_STUDENT_REGISTRATION_PAIR_VALUE[1], retrieveValues);
-        //                 }
-        //             });
-        //         }
-        //     });
-        // }
     });
 
     let promise = new Promise((resolve, reject) => {
@@ -207,5 +142,8 @@ async function checkTeacherStudents(teacher, retrieveValues, dbConnection) {
 
     return promise;
 }
-module.exports.retrieveForNotification = retrieveForNotification;
-module.exports.validateResponse = validateResponse;
+
+module.exports = {
+    retrieveForNotification,
+    validateResponse
+};

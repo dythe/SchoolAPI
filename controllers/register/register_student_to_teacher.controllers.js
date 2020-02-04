@@ -5,8 +5,8 @@ const constants = require('../../utils/constants.js');
 
 async function registerStudentToTeacher(request, response) {
     const requestBody = request.body;
-    const teacher = requestBody.teacher;
-    const students = requestBody.students;
+
+    const { teacher, students } = requestBody;
 
     const teacherType = typeof (teacher);
     const studentType = typeof (students);
@@ -67,7 +67,6 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
                 REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE.push([teacher, element]);
             });
 
-            // console.log(REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE);
             dbConnection.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE], function (err) {
                 if (err) {
                     // console.log(err);
@@ -89,5 +88,7 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
 
 }
 
-module.exports.registerStudentToTeacher = registerStudentToTeacher;
-module.exports.validateResponse = validateResponse;
+module.exports = {
+    registerStudentToTeacher,
+    validateResponse
+};
