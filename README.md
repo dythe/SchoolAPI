@@ -52,6 +52,8 @@ $ cd SchoolAPI
 $ npm test
 ```
 
+**Note:** The project will switch between the normal API database schema `(school)` and unit testing schema `(mock_school)` automatically
+
 ### **Postman**
 
 - `/postman/School API.postman_collection.json` - contains a list of API calls that can be used
