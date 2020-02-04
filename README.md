@@ -33,8 +33,6 @@ const password = '';
 
 2. Once Step 1 is is all set up, execute the database scripts located at `SchoolAPI/scripts` in **MySQL** to create the initial schema, tables and test data required.
 
-3. Using postman/web browser you can access `http://localhost:8081`/api/*{api name here}* which is the default api address
-
 ### **Node**
 
 To run this project, install it locally using npm:
@@ -51,6 +49,8 @@ To run unit test, do the following:
 $ cd SchoolAPI
 $ npm test
 ```
+
+* Using postman/web browser you can access `http://localhost:8081`/api/*{api name here}* which is the default api address
 
 **Note:** The project will switch between the normal API database schema `(school)` and unit testing schema `(mock_school)` automatically
 
