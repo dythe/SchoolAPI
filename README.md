@@ -5,18 +5,35 @@ This is an API that allows the teachers to utilize the school system to retrieve
 ## Technologies/Prerequisities
 
 Project is created with:
-* NodeJS version: 10.15.1
-* MySQL version: 10.4.11
-* MySQL Workbench version: 8.0
+* NodeJS 10.15.1
+  * Libraries:
+    * jest 25.1.0
+    * eslint 6.8.0
+    * axios 0.19.2
+    * body-parser 1.19.0
+    * express 4.17.1
+    * mysql 2.18.1
+* MySQL 10.4.11
+* MySQL Workbench 8.0
 
 ## Setup
 
 ### **MySQL**
 
-1. MySQL has already been installed, and ensure database settings is configured.
+1. Ensure that MySQL has already been installed and database settings is configured according to your settings.
    * Database configuration file is located at `SchoolAPI/config/db.js`
 
+Default database settings are:
+
+```javascript
+const host = 'localhost';
+const user = 'root';
+const password = '';
+```
+
 2. Once Step 1 is is all set up, execute the database scripts located at `SchoolAPI/scripts` in **MySQL** to create the initial schema, tables and test data required.
+
+3. Using postman/web browser you can access `http://localhost:8081`/api/*{api name here}* which is the default api address
 
 ### **Node**
 
