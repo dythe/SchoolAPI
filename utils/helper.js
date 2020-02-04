@@ -30,7 +30,7 @@ async function findEmailAddresses(StrObj) {
     }
     // return emailsList;
     let promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve(emailsList), 1000)
+        setTimeout(() => resolve(emailsList), 500)
     });
 
     return promise;
