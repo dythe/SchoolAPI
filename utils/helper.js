@@ -16,14 +16,14 @@ function writeJSONResponse(responseMessage, response, statusCode) {
 async function findEmailAddresses(StrObj) {
 
     console.log(StrObj);
-    const separateEmailsBy = " ";
-    let email = "<none>"; // if no match, use this
+    // const separateEmailsBy = " ";
+    // let email = "<none>"; // if no match, use this
     const emailsArray = StrObj.match(/(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/gi);
     let emailsList = [];
     if (emailsArray) {
         email = "";
         for (var i = 0; i < emailsArray.length; i++) {
-            if (i != 0) email += separateEmailsBy;
+            // if (i != 0) email += separateEmailsBy;
             emailsList.push(emailsArray[i]);
         }
     }
