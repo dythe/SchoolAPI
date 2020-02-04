@@ -1,4 +1,3 @@
-const con = require('../config/db.js');
 const queries = require('./queries.js');
 const constants = require('./constants.js');
 
@@ -28,8 +27,8 @@ async function findEmailAddresses(StrObj) {
             emailsList.push(emailsArray[i]);
         }
     }
-    // return emailsList;
-    let promise = new Promise((resolve, reject) => {
+
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(emailsList), 500)
     });
 
@@ -125,7 +124,7 @@ async function executeQueryToDatabase(values, schemaName, query, dbConnection) {
     const SQL_VALUES = values;
 
     if (schemaName == constants.MOCK_SCHOOL) {
-        dbConnection.query(SQL_QUERY, SQL_VALUES, function (err, result) {
+        dbConnection.query(SQL_QUERY, SQL_VALUES, function (err) {
             console.log(SQL_QUERY);
             console.log(SQL_VALUES);
             if (err) throw err;
@@ -134,7 +133,7 @@ async function executeQueryToDatabase(values, schemaName, query, dbConnection) {
         console.log("Something went wrong. Please contact the administrator.");
     }
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(dbConnection), 1000)
     });
 
@@ -154,11 +153,11 @@ async function clearDatabase(tableName, schemaName, dbConnection) {
     }
 
     if (schemaName == constants.MOCK_SCHOOL) {
-        dbConnection.query(querytable, function (err, result) {
+        dbConnection.query(querytable, function (err) {
             if (err) throw err;
         })
 
-        let promise = new Promise((resolve, reject) => {
+        let promise = new Promise((resolve) => {
             setTimeout(() => resolve(dbConnection), 1000)
         });
 
@@ -174,9 +173,9 @@ async function deleteFromDatabase(valuesToDelete, schemaName, dbConnection) {
     const DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE = valuesToDelete;
 
     if (schemaName == constants.MOCK_SCHOOL) {
-        dbConnection.query(SQL_QUERY, DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE, function (err, result) {
+        dbConnection.query(SQL_QUERY, DELETE_FROM_SCHOOL_DATABASE_WHERE_USER_IS_VALUE, function (err) {
             if (err) throw err;
-            let promise = new Promise((resolve, reject) => {
+            let promise = new Promise((resolve) => {
                 setTimeout(() => resolve(dbConnection), 1000)
             });
 

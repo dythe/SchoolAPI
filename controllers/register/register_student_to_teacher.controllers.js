@@ -13,7 +13,7 @@ async function registerStudentToTeacher(request, response) {
 
     // Initialize database connection
     let dbConnection = await con.createNewDBConnection(constants.NORMAL_SCHOOL);
-    
+
     // message[0] - response message, message[1] - error code
     const message = await validateResponse(requestBody, teacher, students, teacherType, studentType, dbConnection);
     console.log("message is %s", message[0]);
@@ -22,12 +22,11 @@ async function registerStudentToTeacher(request, response) {
 }
 
 async function validateResponse(requestBody, teacher, students, teacherType, studentType, dbConnection) {
-    
+
     let returnValue = [];
 
     if (Object.keys(requestBody).length === 0) {
-        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
-        return returnValue;
+        return helper.statusCodeResolver(constants.EMPTY_BODY);
     }
     else {
         // Check if it is teacher registering to a bunch of students
@@ -48,14 +47,7 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
             });
 
             dbConnection.query(REGISTER_STUDENT_TO_MANY_TEACHERS_SQL, [REGISTER_STUDENT_TO_MANY_TEACHERS_VALUE], function (err) {
-                if (err) {
-                    // console.log(err);
-                    let errMessage = helper.errorCodeResolver(err.errno);
-                    returnValue = errMessage;
-                }
-                else {
-                    returnValue = helper.statusCodeResolver(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
-                }
+                returnValue = err ? helper.errorCodeResolver(err.errno) : helper.statusCodeResolver(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
             });
         }
         else if (teacherType === constants.STR_VAL && studentType === constants.OBJ_VAL) {
@@ -68,24 +60,15 @@ async function validateResponse(requestBody, teacher, students, teacherType, stu
             });
 
             dbConnection.query(REGISTER_TEACHER_TO_MANY_STUDENTS_SQL, [REGISTER_TEACHER_TO_MANY_STUDENTS_VALUE], function (err) {
-                if (err) {
-                    // console.log(err);
-                    let errMessage = helper.errorCodeResolver(err.errno);
-                    returnValue = errMessage;
-                }
-                else {
-                    // console.log("success registration %s", constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
-                    returnValue = helper.statusCodeResolver(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
-                }
+                returnValue = err ? helper.errorCodeResolver(err.errno) : helper.statusCodeResolver(constants.STUDENT_TO_TEACHER_REGISTRATION_SUCCESS);
             });
         }
     }
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(returnValue), 1000)
     });
 
     return promise;
-
 }
 
 module.exports = {

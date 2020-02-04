@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-const constants = require('../utils/constants');
 
 const host = 'localhost';
 const user = 'root';
@@ -16,8 +15,7 @@ async function createNewDBConnection(databaseName) {
   });
   console.log("Currently using database %s", databaseName);
 
-  let promise = new Promise((resolve, reject) => {
-    // setTimeout(() => resolve(pool), 1000)
+  let promise = new Promise((resolve) => {
     resolve(pool)
   });
 

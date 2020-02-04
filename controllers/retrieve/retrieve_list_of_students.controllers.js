@@ -22,7 +22,7 @@ async function retrieveListofStudents(request, response) {
     else {
         helper.writeJSONResponse(message[0], response, message[1]);
     }
-};
+}
 
 async function validateResponse(requestParameters, teacherType, response, dbConnection) {
 
@@ -33,8 +33,7 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
     console.log('requestParameters value is %s', requestParameters);
 
     if (requestParameters === undefined) {
-        returnValue = helper.statusCodeResolver(constants.EMPTY_PARAMETERS);
-        return returnValue;
+        return helper.statusCodeResolver(constants.EMPTY_PARAMETERS);
     } else {
         let RETRIEVE_LIST_OF_STUDENTS_SQL;
         let RETRIEVE_LIST_OF_STUDENTS_VALUE;
@@ -73,7 +72,7 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
         }
 
         console.log(RETRIEVE_LIST_OF_STUDENTS_SQL);
-        dbConnection.query(RETRIEVE_LIST_OF_STUDENTS_SQL, RETRIEVE_LIST_OF_STUDENTS_VALUE, function (err, result, fields) {
+        dbConnection.query(RETRIEVE_LIST_OF_STUDENTS_SQL, RETRIEVE_LIST_OF_STUDENTS_VALUE, function (err, result) {
             if (err) {
                 console.log(err);
                 helper.errorCodeResolver(err.errno, response);
@@ -92,14 +91,10 @@ async function validateResponse(requestParameters, teacherType, response, dbConn
     }
 
     console.log(retrieveValues.students);
-    if (Object.keys(retrieveValues).length > 0) {
-        returnValue = [retrieveValues, constants.CODE_SUCCESS];
-    }
-    else {
-        returnValue = [retrieveValues, constants.CODE_NOT_FOUND];
-    }
 
-    let promise = new Promise((resolve, reject) => {
+    returnValue = Object.keys(retrieveValues).length > 0 ? [retrieveValues, constants.CODE_SUCCESS] : [retrieveValues, constants.CODE_NOT_FOUND];
+
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(returnValue), 1000)
     });
 

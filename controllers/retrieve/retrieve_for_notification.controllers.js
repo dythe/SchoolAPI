@@ -30,8 +30,7 @@ async function validateResponse(requestBody, teacher, notification, dbConnection
     let recipientsList;
 
     if (Object.keys(requestBody).length === 0) {
-        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
-        return returnValue;
+        return helper.statusCodeResolver(constants.EMPTY_BODY);
     }
     else {
 
@@ -51,14 +50,11 @@ async function validateResponse(requestBody, teacher, notification, dbConnection
 
     }
 
-    let promise = new Promise((resolve, reject) => {
-        console.log(recipientsList);    
-        if (recipientsList.recipients.length > 0) {
-            returnValue = [recipientsList, constants.CODE_SUCCESS];
-        }
-        else {
-            returnValue = [recipientsList, constants.CODE_NOT_FOUND];
-        }
+    let promise = new Promise((resolve) => {
+        console.log(recipientsList);
+
+        returnValue = recipientsList.recipients.length > 0 ? [recipientsList, constants.CODE_SUCCESS] : [recipientsList, constants.CODE_NOT_FOUND];
+
         setTimeout(() => resolve(returnValue), 500);
     });
 
@@ -78,7 +74,7 @@ async function processEmails(teacher, emails, retrieveValues, dbConnection) {
     let res0Result = [];
 
     // check whether student is valid in the school
-    dbConnection.query(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, async function (err0, result0) {
+    dbConnection.query(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, async function (err0) {
         if (err0) throw err0;
         const res0 = await helper.getResult(CHECK_FOR_VALID_STUDENT_SQL, CHECK_FOR_VALID_STUDENT_VALUE, dbConnection)
 
@@ -98,7 +94,7 @@ async function processEmails(teacher, emails, retrieveValues, dbConnection) {
         if (res0Result.length > 0) {
 
             // check for suspended student
-            dbConnection.query(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, async function (err1, result1) {
+            dbConnection.query(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, async function (err1) {
                 if (err1) throw err1;
                 const res1 = await helper.getResult(CHECK_FOR_SUSPENDED_STUDENT_SQL, CHECK_FOR_SUSPENDED_STUDENT_VALUE, dbConnection)
 
@@ -114,7 +110,7 @@ async function processEmails(teacher, emails, retrieveValues, dbConnection) {
         }
     });
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(retrieveValues), 500);
     });
 
@@ -127,7 +123,7 @@ async function checkTeacherStudents(teacher, retrieveValues, dbConnection) {
     let RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE = [teacher, 0];
 
     // check for teacher's registered students
-    dbConnection.query(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE, async function (err4, result4) {
+    dbConnection.query(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE, async function (err4) {
         if (err4) throw err4;
         let res4 = await helper.getResult(RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_SQL, RETRIEVE_STUDENTS_FOR_TEACHER_THAT_IS_NOT_SUSPENDED_VALUE, dbConnection)
 
@@ -140,7 +136,7 @@ async function checkTeacherStudents(teacher, retrieveValues, dbConnection) {
         });
     });
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(retrieveValues), 500);
     });
 

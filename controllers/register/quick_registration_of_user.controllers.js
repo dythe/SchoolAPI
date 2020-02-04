@@ -21,8 +21,7 @@ async function validateResponse(requestBody, dbConnection) {
     let returnValue = [];
 
     if (Object.keys(requestBody).length === 0) {
-        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
-        return returnValue;
+        return helper.statusCodeResolver(constants.EMPTY_BODY);
     }
     else {
         const { email, name, user_type, user_status } = requestBody;
@@ -30,17 +29,11 @@ async function validateResponse(requestBody, dbConnection) {
         const QUICK_REGISTRATION_OF_USERS_SQL = queries.QUICK_REGISTRATION_OF_USERS;
         const QUICK_REGISTRATION_OF_USERS_VALUE = [email, name, user_type, user_status];
         dbConnection.query(QUICK_REGISTRATION_OF_USERS_SQL, QUICK_REGISTRATION_OF_USERS_VALUE, function (err) {
-            if (err) {
-                // console.log(err);
-                returnValue = helper.statusCodeResolver(constants.EMAIL_ALREADY_EXISTS);
-            }
-            else {
-                returnValue = helper.statusCodeResolver(constants.EMAIL_SUCCESSFULLY_CREATED);
-            }
+            returnValue = err ? helper.statusCodeResolver(constants.EMAIL_ALREADY_EXISTS) : helper.statusCodeResolver(constants.EMAIL_SUCCESSFULLY_CREATED);
         });
     }
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(returnValue), 1000)
     });
 

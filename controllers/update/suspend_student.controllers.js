@@ -22,30 +22,22 @@ async function validateResponse(requestBody, studentToSuspend, response, dbConne
     let returnValue = [];
 
     if (Object.keys(requestBody).length === 0) {
-        // console.log("empty body");
-        returnValue = helper.statusCodeResolver(constants.EMPTY_BODY);
-        return returnValue;
+        return helper.statusCodeResolver(constants.EMPTY_BODY);
     }
     else {
         const SUSPEND_STUDENT_SQL = queries.SUSPEND_STUDENT;
         const SUSPEND_STUDENT_VALUE = [1, studentToSuspend, studentToSuspend, 0];
     
         dbConnection.query(SUSPEND_STUDENT_SQL, SUSPEND_STUDENT_VALUE, function (err, result) {
-            numRows = result.affectedRows;
+            let numRows = result.affectedRows;
     
             console.log('numRows value is %s', numRows);
 
-            if (err || numRows == 0) {
-                console.log('err value is %s', err);
-                returnValue = helper.statusCodeResolver(constants.STUDENT_DOES_NOT_EXISTS);
-            }
-            else {
-                returnValue = helper.statusCodeResolver(constants.STUDENT_IS_NOW_SUSPENDED);
-            }
+            returnValue = err || numRows == 0 ? helper.statusCodeResolver(constants.STUDENT_DOES_NOT_EXISTS) : helper.statusCodeResolver(constants.STUDENT_IS_NOW_SUSPENDED);
         });
     }
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve) => {
         setTimeout(() => resolve(returnValue), 1000)
     });
 
