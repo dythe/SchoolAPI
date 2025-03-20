@@ -3,6 +3,7 @@ const helper = require('../../utils/helper.js');
 const queries = require('../../utils/queries.js');
 const constants = require('../../utils/constants.js');
 
+// test
 async function quickRegistrationofUser(request, response) {
     const requestBody = request.body;
     
